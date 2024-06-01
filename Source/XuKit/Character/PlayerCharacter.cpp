@@ -27,6 +27,10 @@ APlayerCharacter::APlayerCharacter()
 	spring_arm_component = CreateDefaultSubobject<USpringArmComponent>(TEXT("spring_arm_component"));
 	spring_arm_component->SetupAttachment(RootComponent);
 	spring_arm_component->bDoCollisionTest = false;
+	spring_arm_component->bUsePawnControlRotation=false;
+	spring_arm_component->bInheritYaw = false;
+	spring_arm_component->bInheritPitch = false;
+	spring_arm_component->bInheritRoll = false;
 	
 	camera_component = CreateDefaultSubobject<UCameraComponent>(TEXT("camera_component"));
 	camera_component->SetupAttachment(spring_arm_component, USpringArmComponent::SocketName);
