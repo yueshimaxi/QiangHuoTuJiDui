@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "QHPlayerController.generated.h"
 
+struct FInputActionValue;
 class UInputAction;
 class UInputMappingContext;
 /**
@@ -33,4 +34,13 @@ private:
 
 	UFUNCTION()
 	void OnMove(const FInputActionValue& input_action_value);
+
+public:
+	float horInputValue;
+	float verInputValue;
+
+	FHitResult CurorHitResult;
+
+	void TraceMouseCuror();
+
 };

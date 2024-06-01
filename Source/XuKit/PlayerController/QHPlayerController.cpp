@@ -35,11 +35,15 @@ void AQHPlayerController::SetupInputComponent()
 void AQHPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+
 }
 
 void AQHPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
+
+	TraceMouseCuror();
+
 }
 
 void AQHPlayerController::OnMove(const FInputActionValue& input_action_value)
@@ -54,7 +58,15 @@ void AQHPlayerController::OnMove(const FInputActionValue& input_action_value)
 
 	if (APawn* pawn = GetPawn())
 	{
+		horInputValue = moveValue.Y;
+		verInputValue = moveValue.X;
 		pawn->AddMovementInput(forwardDir, moveValue.X);
 		pawn->AddMovementInput(rightDir, moveValue.Y);
 	}
+}
+
+void AQHPlayerController::TraceMouseCuror()
+{
+	GetHitResultUnderCursor(ECC_Visibility, true, CurorHitResult);
+
 }

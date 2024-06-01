@@ -16,7 +16,10 @@ class XUKIT_API APlayerCharacter : public AQHCharacterBase
 {
 	GENERATED_BODY()
 
+public:
 	APlayerCharacter();
+
+	virtual void Tick(float DeltaSeconds) override;
 protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* camera_component;
@@ -24,4 +27,6 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* spring_arm_component;
 
+
+	void SetPawnRotatorToMouseCursor();
 };
