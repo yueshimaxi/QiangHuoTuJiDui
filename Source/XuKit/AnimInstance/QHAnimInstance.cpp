@@ -32,19 +32,20 @@ void UQHAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 		FVector inputForward = FVector(qh_playercontroller->verInputValue, 0, 0);
 		FVector inputRight = FVector(0, qh_playercontroller->horInputValue, 0);
+		float blenderSpaceMaxSpeed = 100;
 		HorSpeed = FVector::DotProduct(RightVector, inputForward) + FVector::DotProduct(RightVector, inputRight);
-		HorSpeed = FMath::Clamp(HorSpeed *= 100, -100, 100);
+		HorSpeed = FMath::Clamp(HorSpeed *= blenderSpaceMaxSpeed, -blenderSpaceMaxSpeed, blenderSpaceMaxSpeed);
 		VerSpeed = FVector::DotProduct(ForwardVector, inputForward) + FVector::DotProduct(ForwardVector, inputRight);
-		VerSpeed = FMath::Clamp(VerSpeed *= 100, -100, 100);
-		
-		XuPRINT(FString::Printf(TEXT("horInputValue: %f,verInputValue: %f"), qh_playercontroller->horInputValue, qh_playercontroller->verInputValue));
+		VerSpeed = FMath::Clamp(VerSpeed *= blenderSpaceMaxSpeed, -blenderSpaceMaxSpeed, blenderSpaceMaxSpeed);
+
+		//XuPRINT(FString::Printf(TEXT("horInputValue: %f,verInputValue: %f"), qh_playercontroller->horInputValue, qh_playercontroller->verInputValue));
 
 		qh_playercontroller->horInputValue = 0;
 		qh_playercontroller->verInputValue = 0;
-		XuPRINT(FString::Printf(TEXT("ForwardVector: %s,RightVector: %s,HorSpeed: %f,VerSpeed: %f, MovementComponent->Velocity: %s"), *ForwardVector.ToString(), *RightVector.ToString(), HorSpeed, VerSpeed, *MovementComponent->Velocity.ToString()));
+		//XuPRINT(FString::Printf(TEXT("ForwardVector: %s,RightVector: %s,HorSpeed: %f,VerSpeed: %f, MovementComponent->Velocity: %s"), *ForwardVector.ToString(), *RightVector.ToString(), HorSpeed, VerSpeed, *MovementComponent->Velocity.ToString()));
 		//将向前向量和向右向量画出
-		DrawDebugLine(GetWorld(), qh_character->GetActorLocation(), qh_character->GetActorLocation() + ForwardVector * 100, FColor::Red, false, 0.1f, 0, 1);
-		DrawDebugLine(GetWorld(), qh_character->GetActorLocation(), qh_character->GetActorLocation() + RightVector * 100, FColor::Green, false, 0.1f, 0, 1);
+		//DrawDebugLine(GetWorld(), qh_character->GetActorLocation(), qh_character->GetActorLocation() + ForwardVector * 100, FColor::Red, false, 0.1f, 0, 1);
+		//DrawDebugLine(GetWorld(), qh_character->GetActorLocation(), qh_character->GetActorLocation() + RightVector * 100, FColor::Green, false, 0.1f, 0, 1);
 
 		FVector2D MovementInput = FVector2D(HorSpeed, VerSpeed);
 		ShouldIdle = MovementInput.Size() <= 3.f;
