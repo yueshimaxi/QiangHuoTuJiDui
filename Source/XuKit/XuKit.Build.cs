@@ -20,6 +20,9 @@ public class XuKit : ModuleRules
 			"Slate",
 			"SlateCore",
 			"EnhancedInput",
+			"GameplayAbilities",
+			"GameplayTags",
+			"GameplayTasks",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem","OnlineSubsystemSteam" });
