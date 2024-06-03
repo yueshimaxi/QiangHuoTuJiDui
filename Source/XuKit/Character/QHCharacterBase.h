@@ -31,7 +31,7 @@ protected:
 
 
 public:	
-	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category="InitInfo")
 	USkeletalMeshComponent* WeaponMesh;
 
 	UPROPERTY(EditAnywhere)
@@ -40,6 +40,15 @@ public:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAttributeSet> qh_attribute_set;
 
-	UPROPERTY(EditAnywhere, Category="Ability")
+	UPROPERTY(EditAnywhere, Category="InitInfo")
 	TArray<TSubclassOf<UGameplayAbility>> DefaultAbilities;
+
+	UPROPERTY(EditAnywhere, Category="InitInfo")
+	FName WeaponAttackSocket;
+	UPROPERTY(EditAnywhere, Category="InitInfo")
+	FName LeftHandAttackSocket;
+	UPROPERTY(EditAnywhere, Category="InitInfo")
+	FName RightHandAttackSocket;
+	UPROPERTY(EditAnywhere, Category="InitInfo")
+	FName TailAttackSocket;
 };
