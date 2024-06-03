@@ -3,6 +3,8 @@
 
 #include "QHAttributeSet.h"
 
+#include "Net/UnrealNetwork.h"
+
 UQHAttributeSet::UQHAttributeSet()
 {
 }
@@ -10,6 +12,9 @@ UQHAttributeSet::UQHAttributeSet()
 void UQHAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, Health, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, MaxHealth, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
 }
 
 void UQHAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -23,6 +28,11 @@ void UQHAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 }
 
 void UQHAttributeSet::OnRep_Health(const FGameplayAttributeData& oldData) const
+{
+	
+}
+
+void UQHAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& oldData) const
 {
 	
 }

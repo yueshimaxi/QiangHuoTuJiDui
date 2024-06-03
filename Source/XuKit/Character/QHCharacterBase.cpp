@@ -9,7 +9,7 @@
 // Sets default values
 AQHCharacterBase::AQHCharacterBase()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
@@ -25,20 +25,30 @@ AQHCharacterBase::AQHCharacterBase()
 void AQHCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
 void AQHCharacterBase::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
 void AQHCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
+void AQHCharacterBase::InitAbilityActorInfo()
+{
+}
+
+UAbilitySystemComponent* AQHCharacterBase::GetAbilitySystemComponent() const
+{
+	return qh_ability_system_component;
+}
+
+UAttributeSet* AQHCharacterBase::GetAttributeSet()
+{
+	return qh_attribute_set;
+}

@@ -3,11 +3,13 @@
 
 #include "PlayerCharacter.h"
 
+#include "AbilitySystemComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
+#include "XuKit/PlayerState/QHPlayerState.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -40,6 +42,11 @@ APlayerCharacter::APlayerCharacter()
 	
 }
 
+void APlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 void APlayerCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -49,6 +56,22 @@ void APlayerCharacter::Tick(float DeltaSeconds)
 	{
 		SetPawnRotatorToMouseCursor();
 	}
+}
+
+
+
+void APlayerCharacter::InitAbilityActorInfo()
+{
+	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
+	qh_ability_system_component = player_state->GetAbilitySystemComponent();
+	qh_attribute_set = player_state->GetAttributeSet();
+	qh_ability_system_component->InitAbilityActorInfo(player_state, this);
+}
+
+void APlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	InitAbilityActorInfo();
 }
 
 void APlayerCharacter::SetPawnRotatorToMouseCursor()

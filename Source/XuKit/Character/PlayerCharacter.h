@@ -19,7 +19,12 @@ class XUKIT_API APlayerCharacter : public AQHCharacterBase
 public:
 	APlayerCharacter();
 
+	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void InitAbilityActorInfo() override;
+	virtual void PossessedBy(AController* NewController) override;
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* camera_component;

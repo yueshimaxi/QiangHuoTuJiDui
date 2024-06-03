@@ -13,5 +13,11 @@ UCLASS()
 class XUKIT_API AEnemyCharacter : public AQHCharacterBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	AEnemyCharacter();
+
+	virtual void BeginPlay() override;
+
+	virtual void InitAbilityActorInfo() override;
 };
