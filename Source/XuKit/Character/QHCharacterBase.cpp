@@ -5,6 +5,7 @@
 
 #include "Components/CapsuleComponent.h"
 #include "XuKit/XuKit.h"
+#include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
 
 // Sets default values
 AQHCharacterBase::AQHCharacterBase()
@@ -51,4 +52,11 @@ UAbilitySystemComponent* AQHCharacterBase::GetAbilitySystemComponent() const
 UAttributeSet* AQHCharacterBase::GetAttributeSet()
 {
 	return qh_attribute_set;
+}
+
+void AQHCharacterBase::AddCharactorAbilities()
+{
+	UQHAbilitySystemComponent* ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
+	if (!HasAuthority())return;
+	ABS->AddCharactorAbilities(DefaultAbilities);
 }

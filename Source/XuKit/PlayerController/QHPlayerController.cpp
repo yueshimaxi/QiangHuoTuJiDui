@@ -5,6 +5,8 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "XuKit/Input/QHEnhancedInputComponent.h"
+#include "XuKit/PlayerState/QHPlayerState.h"
 
 AQHPlayerController::AQHPlayerController()
 {
@@ -28,8 +30,11 @@ void AQHPlayerController::SetupInputComponent()
 
 	UEnhancedInputLocalPlayerSubsystem* input_local_player_subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
 	input_local_player_subsystem->AddMappingContext(inputMap, 0);
-	UEnhancedInputComponent* input_component = CastChecked<UEnhancedInputComponent>(InputComponent);
+	UQHEnhancedInputComponent* input_component = CastChecked<UQHEnhancedInputComponent>(InputComponent);
 	input_component->BindAction(input_action_move, ETriggerEvent::Triggered, this, &AQHPlayerController::OnMove);
+
+	input_component->BindActions(inputConfigDataAsset,this, &AQHPlayerController::OnAbliityInputTagPressed, &AQHPlayerController::OnAbliityInputTagHeld, &AQHPlayerController::OnAbliityInputTagReleased);
+	
 }
 
 void AQHPlayerController::Tick(float DeltaSeconds)
@@ -63,6 +68,40 @@ void AQHPlayerController::OnMove(const FInputActionValue& input_action_value)
 		pawn->AddMovementInput(forwardDir, moveValue.X);
 		pawn->AddMovementInput(rightDir, moveValue.Y);
 	}
+}
+
+void AQHPlayerController::OnAbliityInputTagPressed(FGameplayTag inputActionTag)
+{
+	if (GetABS())
+	{
+		GetABS()->AbilityInputTagPressed(inputActionTag);
+	}
+}
+
+void AQHPlayerController::OnAbliityInputTagHeld(FGameplayTag inputActionTag)
+{
+	if (GetABS())
+	{
+		GetABS()->AbilityInputTagHeld(inputActionTag);
+	}
+}
+
+void AQHPlayerController::OnAbliityInputTagReleased(FGameplayTag inputActionTag)
+{
+	if (GetABS())
+	{
+		GetABS()->AbilityInputTagReleased(inputActionTag);
+	}
+}
+
+UQHAbilitySystemComponent* AQHPlayerController::GetABS()
+{
+	
+	if (abilitySystemComponent == nullptr)
+	{
+		abilitySystemComponent = Cast<UQHAbilitySystemComponent>(GetPlayerState<AQHPlayerState>()->GetAbilitySystemComponent());
+	}
+	return abilitySystemComponent;
 }
 
 void AQHPlayerController::TraceMouseCuror()

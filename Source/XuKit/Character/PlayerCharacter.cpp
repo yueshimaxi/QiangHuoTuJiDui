@@ -66,6 +66,8 @@ void APlayerCharacter::InitAbilityActorInfo()
 	qh_ability_system_component = player_state->GetAbilitySystemComponent();
 	qh_attribute_set = player_state->GetAttributeSet();
 	qh_ability_system_component->InitAbilityActorInfo(player_state, this);
+
+	AddCharactorAbilities();
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)

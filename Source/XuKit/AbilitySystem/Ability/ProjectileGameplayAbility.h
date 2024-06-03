@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AbilitySystemComponent.h"
-#include "QHAbilitySystemComponent.generated.h"
+#include "QHGameplayAbility.h"
+#include "ProjectileGameplayAbility.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class XUKIT_API UQHAbilitySystemComponent : public UAbilitySystemComponent
+class XUKIT_API UProjectileGameplayAbility : public UQHGameplayAbility
 {
 	GENERATED_BODY()
 	

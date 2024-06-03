@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
 #include "QHPlayerController.generated.h"
 
+class UInputConfigDataAsset;
 struct FInputActionValue;
 class UInputAction;
 class UInputMappingContext;
@@ -32,9 +34,20 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> input_action_move;
 
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputConfigDataAsset> inputConfigDataAsset;
+	
 	UFUNCTION()
 	void OnMove(const FInputActionValue& input_action_value);
 
+	UPROPERTY()
+	UQHAbilitySystemComponent* abilitySystemComponent;
+	
+	void OnAbliityInputTagPressed(FGameplayTag inputActionTag);
+	void OnAbliityInputTagHeld(FGameplayTag inputActionTag);
+	void OnAbliityInputTagReleased(FGameplayTag inputActionTag);
+	UQHAbilitySystemComponent* GetABS();
+	
 public:
 	float horInputValue;
 	float verInputValue;

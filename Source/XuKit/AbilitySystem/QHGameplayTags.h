@@ -21,7 +21,10 @@ public:
 
 
 	FGameplayTag MaxHealthTag;
-	
+
+	//input tags
+	FGameplayTag  InputTag_MouseLeftTag;
+	FGameplayTag  InputTag_MouseRightTag;
 	
 
 private:

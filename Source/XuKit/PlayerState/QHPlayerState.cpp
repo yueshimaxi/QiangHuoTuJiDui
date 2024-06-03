@@ -3,8 +3,8 @@
 
 #include "QHPlayerState.h"
 
-#include "XuKit/Ability/QHAbilitySystemComponent.h"
-#include "XuKit/Ability/QHAttributeSet.h"
+#include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
+#include "XuKit/AbilitySystem/QHAttributeSet.h"
 
 AQHPlayerState::AQHPlayerState()
 {

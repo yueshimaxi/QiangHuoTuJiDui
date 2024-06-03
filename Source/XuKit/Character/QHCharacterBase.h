@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "QHCharacterBase.generated.h"
 
+class UGameplayAbility;
 class UAttributeSet;
 
 UCLASS()
@@ -25,6 +26,9 @@ protected:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet();
 
+	void AddCharactorAbilities();
+
+
 
 public:	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly)
@@ -35,4 +39,7 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UAttributeSet> qh_attribute_set;
+
+	UPROPERTY(EditAnywhere, Category="Ability")
+	TArray<TSubclassOf<UGameplayAbility>> DefaultAbilities;
 };
