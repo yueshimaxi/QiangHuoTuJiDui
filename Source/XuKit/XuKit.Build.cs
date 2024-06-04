@@ -25,7 +25,7 @@ public class XuKit : ModuleRules
 			"GameplayTasks",
 		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem","OnlineSubsystemSteam" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem","OnlineSubsystemSteam", "Niagara" });
 
 
 		// Uncomment if you are using Slate UI

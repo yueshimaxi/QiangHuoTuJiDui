@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "QHCharacterBase.h"
+#include "XuKit/Interface/CombatInterface.h"
 #include "PlayerCharacter.generated.h"
 
 class USpringArmComponent;
@@ -24,6 +25,7 @@ public:
 
 	virtual void InitAbilityActorInfo() override;
 	virtual void PossessedBy(AController* NewController) override;
+
 
 protected:
 	UPROPERTY(VisibleAnywhere)

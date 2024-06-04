@@ -15,6 +15,6 @@ class XUKIT_API UQHGameplayAbility : public UGameplayAbility
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly,Category="InitInfo")
 	FGameplayTag start_up_input_ability_tag;
 };

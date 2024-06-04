@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "XuKit/XuKit.h"
 #include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
+#include "XuKit/AbilitySystem/QHGameplayTags.h"
 
 // Sets default values
 AQHCharacterBase::AQHCharacterBase()
@@ -43,6 +44,31 @@ void AQHCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 void AQHCharacterBase::InitAbilityActorInfo()
 {
+}
+
+FVector AQHCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& socketTag)
+{
+	if (socketTag == QHGameplayTags::Get().CombatSocket_WeaponTag)
+	{
+		FVector socketLocation = WeaponMesh->GetSocketLocation(WeaponAttackSocket);
+		return socketLocation;
+	}
+	if (socketTag == QHGameplayTags::Get().CombatSocket_LeftHandTag)
+	{
+		FVector socketLocation = GetMesh()->GetSocketLocation(LeftHandAttackSocket);
+		return socketLocation;
+	}
+	if (socketTag == QHGameplayTags::Get().CombatSocket_RightHandTag)
+	{
+		FVector socketLocation = GetMesh()->GetSocketLocation(RightHandAttackSocket);
+		return socketLocation;
+	}
+	if (socketTag == QHGameplayTags::Get().CombatSocket_TailTag)
+	{
+		FVector socketLocation = GetMesh()->GetSocketLocation(TailAttackSocket);
+		return socketLocation;
+	}
+	return FVector::ZeroVector;
 }
 
 UAbilitySystemComponent* AQHCharacterBase::GetAbilitySystemComponent() const

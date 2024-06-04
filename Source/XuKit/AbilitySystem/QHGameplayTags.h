@@ -25,8 +25,16 @@ public:
 	//input tags
 	FGameplayTag  InputTag_MouseLeftTag;
 	FGameplayTag  InputTag_MouseRightTag;
-	
 
+	//ability tags
+	FGameplayTag DamageTag;
+
+	//socket tags
+	FGameplayTag CombatSocket_WeaponTag;
+	FGameplayTag CombatSocket_LeftHandTag;
+	FGameplayTag CombatSocket_RightHandTag;
+	FGameplayTag CombatSocket_TailTag;
+	
 private:
 	static QHGameplayTags gameplayTags;
 };
