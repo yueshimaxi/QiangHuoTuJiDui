@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
@@ -28,22 +29,19 @@ APlayerCharacter::APlayerCharacter()
 	//CharactorClass = ECharactorClass::Elementalist;
 
 
-
 	spring_arm_component = CreateDefaultSubobject<USpringArmComponent>(TEXT("spring_arm_component"));
 	spring_arm_component->SetupAttachment(RootComponent);
 	spring_arm_component->bDoCollisionTest = false;
-	spring_arm_component->bUsePawnControlRotation=false;
+	spring_arm_component->bUsePawnControlRotation = false;
 	spring_arm_component->bInheritYaw = false;
 	spring_arm_component->bInheritPitch = false;
 	spring_arm_component->bInheritRoll = false;
-	
+
 	camera_component = CreateDefaultSubobject<UCameraComponent>(TEXT("camera_component"));
 	camera_component->SetupAttachment(spring_arm_component, USpringArmComponent::SocketName);
 
 	combat_component = CreateDefaultSubobject<UCombatComponent>(TEXT("combat_component"));
 	combat_component->SetIsReplicated(true);
-
-	
 }
 
 void APlayerCharacter::BeginPlay()
@@ -63,7 +61,6 @@ void APlayerCharacter::Tick(float DeltaSeconds)
 }
 
 
-
 void APlayerCharacter::InitAbilityActorInfo()
 {
 	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
@@ -78,11 +75,18 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	InitAbilityActorInfo();
+	InitDefaultProjectionWeapon();
 }
 
 AProjectionWeapon* APlayerCharacter::get_cur_projection_weapon_Implementation()
 {
-	return Super::get_cur_projection_weapon_Implementation();
+	return combat_component->GetCurProjectionWeapon();
+}
+
+void APlayerCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	combat_component->owner_character = this;
 }
 
 
@@ -100,4 +104,10 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 UCombatComponent* APlayerCharacter::getCombatCom()
 {
 	return combat_component;
+}
+
+void APlayerCharacter::InitDefaultProjectionWeapon()
+{
+	AProjectionWeapon* projection_weapon = GetWorld()->SpawnActor<AProjectionWeapon>(projection_weapon_class);
+	combat_component->EquipWeapon(projection_weapon);
 }

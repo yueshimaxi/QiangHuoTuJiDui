@@ -31,6 +31,7 @@ public:
 	UPROPERTY(ReplicatedUsing=OnRep_EquippedWeapon)
 	AProjectionWeapon* equipped_projection_weapon;
 
+	AProjectionWeapon* GetCurProjectionWeapon();
 	UFUNCTION()
 	void OnRep_EquippedWeapon();
 
@@ -44,4 +45,6 @@ public:
 	void DropWeapon();
 	UFUNCTION(Server, Reliable)
 	void Server_DropWeapon();
+
+	
 };

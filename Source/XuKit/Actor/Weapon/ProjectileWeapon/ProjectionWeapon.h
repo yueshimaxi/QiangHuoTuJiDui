@@ -16,7 +16,7 @@ class XUKIT_API AProjectionWeapon : public AWeapon
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"),Category="InitInfo")
 	TSubclassOf<AProjectile> projectionClass;
 
 

@@ -29,6 +29,8 @@ public:
 
 	virtual AProjectionWeapon* get_cur_projection_weapon_Implementation() override;
 
+	virtual void PostInitializeComponents() override;
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* camera_component;
@@ -44,6 +46,10 @@ protected:
 
 	UCombatComponent* getCombatCom();
 
+	UPROPERTY(EditDefaultsOnly,Category="InitInfo")
+	TSubclassOf<AProjectionWeapon>	projection_weapon_class;
 
+
+	void InitDefaultProjectionWeapon();
 
 };

@@ -36,6 +36,11 @@ void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 }
 
+AProjectionWeapon* UCombatComponent::GetCurProjectionWeapon()
+{
+	return equipped_projection_weapon;
+}
+
 void UCombatComponent::OnRep_EquippedWeapon()
 {
 	
@@ -43,7 +48,7 @@ void UCombatComponent::OnRep_EquippedWeapon()
 
 void UCombatComponent::EquipWeapon(AProjectionWeapon* weapon)
 {
-	Server_EquipWeapon_Implementation(weapon);
+	Server_EquipWeapon(weapon);
 }
 
 void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* weapon)
@@ -54,7 +59,7 @@ void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* weap
 	}
 	equipped_projection_weapon = weapon;
 	equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Equiped);
-	equipped_projection_weapon->AttachToComponent(owner_character->GetMesh(),FAttachmentTransformRules::SnapToTargetNotIncludingScale,TEXT("WeaponSocket"));
+	equipped_projection_weapon->AttachToComponent(owner_character->GetMesh(),FAttachmentTransformRules::SnapToTargetNotIncludingScale,owner_character->WeaponAttackSocket);
 	equipped_projection_weapon->SetOwner(owner_character);
 }
 

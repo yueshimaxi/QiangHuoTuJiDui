@@ -32,7 +32,7 @@ enum class EProjectileWeaponType
 
 USTRUCT()
 struct FWeaponInfo
-{
+{	
 	GENERATED_BODY()
 	
 };
