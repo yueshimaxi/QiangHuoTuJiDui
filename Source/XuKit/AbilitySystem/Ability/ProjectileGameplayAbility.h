@@ -24,5 +24,5 @@ public:
 	
 
 	UFUNCTION(BlueprintCallable, Category="InitInfo")
-	void SpawnProjectile(FVector targetLocation,FGameplayTag socketTag,bool overridePitch=false,float pitch=0.0f);
+	void SpawnProjectile(FGameplayTag socketTag,bool overridePitch=false,float pitch=0.0f);
 };

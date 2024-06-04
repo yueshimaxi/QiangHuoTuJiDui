@@ -54,6 +54,6 @@ public:
 	bool bHit;
 
 	UPROPERTY(EditDefaultsOnly)
-	float lifeSpan = 15;
+	float lifeSpan = 5;
 
 };
