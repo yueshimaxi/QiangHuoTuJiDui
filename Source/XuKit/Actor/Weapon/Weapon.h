@@ -21,13 +21,20 @@ enum class EWeaponState
 
 
 UENUM()
-enum class EWeaponType
+enum class EProjectileWeaponType
 {
 	pistol,
 	AssaultRifle,
 	shotGun,
 	SMG,
 	Rocket,
+};
+
+USTRUCT()
+struct FWeaponInfo
+{
+	GENERATED_BODY()
+	
 };
 
 UCLASS()
@@ -54,11 +61,18 @@ public:
 	UPROPERTY(EditAnywhere)
 	UWidgetComponent* widget_component;
 
-	UPROPERTY(ReplicatedUsing=OnWeaponStateReply)
+	UPROPERTY(ReplicatedUsing=OnRep_WeaponState)
 	EWeaponState weapon_state;
 
+	void SetWeaponState(EWeaponState state);
+	UFUNCTION(Server,Reliable)
+	void ServerSetWeaponState(EWeaponState state);
+	
 	UFUNCTION()
-	void OnWeaponStateReply(EWeaponState state);
+	void OnRep_WeaponState(EWeaponState old_state);
+
+	void OnWeaponStateSet();
+
 	
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
@@ -70,7 +84,8 @@ public:
 
 	virtual void Fire(const FHitResult& hit_result);
 
-	virtual void OnRep_Owner() override;	
+	virtual void OnRep_Owner() override;
+
 
 };
 

@@ -49,8 +49,47 @@ void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
 
-void AWeapon::OnWeaponStateReply(EWeaponState state)
+void AWeapon::SetWeaponState(EWeaponState state)
 {
+	ServerSetWeaponState(state);
+}
+
+void AWeapon::ServerSetWeaponState_Implementation(EWeaponState state)
+{
+	weapon_state = state;
+	OnWeaponStateSet();
+
+}
+
+
+void AWeapon::OnRep_WeaponState(EWeaponState old_state)
+{
+	OnWeaponStateSet();
+}
+
+void AWeapon::OnWeaponStateSet()
+{
+	switch (weapon_state)
+	{
+	case EWeaponState::EWS_Inital:
+		area_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		weapon_mesh_component->SetSimulatePhysics(true);
+		weapon_mesh_component->SetEnableGravity(true);
+		break;
+	case EWeaponState::EWS_Equiped:
+		area_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		break;
+	case EWeaponState::EWS_Dropped:
+		area_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		weapon_mesh_component->SetSimulatePhysics(true);
+		weapon_mesh_component->SetEnableGravity(true);
+		break;
+	case EWeaponState::Max:
+		break;
+	}	
 }
 
 void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -63,9 +102,12 @@ void AWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 
 void AWeapon::Fire(const FHitResult& hit_result)
 {
+	
 }
 
 void AWeapon::OnRep_Owner()
 {
 	Super::OnRep_Owner();
 }
+
+

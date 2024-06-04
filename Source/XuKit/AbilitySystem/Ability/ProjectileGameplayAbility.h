@@ -18,9 +18,6 @@ class XUKIT_API UProjectileGameplayAbility : public UDamageGameplayAbility
 
 
 public:
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<AProjectile> ProjectileClass;
-
 	
 
 	UFUNCTION(BlueprintCallable, Category="InitInfo")

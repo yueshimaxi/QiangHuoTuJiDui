@@ -7,6 +7,7 @@
 #include "XuKit/Interface/CombatInterface.h"
 #include "PlayerCharacter.generated.h"
 
+class UCombatComponent;
 class USpringArmComponent;
 class UCameraComponent;
 /**
@@ -26,6 +27,7 @@ public:
 	virtual void InitAbilityActorInfo() override;
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual AProjectionWeapon* get_cur_projection_weapon_Implementation() override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -34,8 +36,14 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* spring_arm_component;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UCombatComponent* combat_component;
+
 
 	void SetPawnRotatorToMouseCursor();
+
+	UCombatComponent* getCombatCom();
+
 
 
 };

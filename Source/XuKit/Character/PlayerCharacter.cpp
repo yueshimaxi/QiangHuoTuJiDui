@@ -8,6 +8,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 
@@ -38,6 +39,9 @@ APlayerCharacter::APlayerCharacter()
 	
 	camera_component = CreateDefaultSubobject<UCameraComponent>(TEXT("camera_component"));
 	camera_component->SetupAttachment(spring_arm_component, USpringArmComponent::SocketName);
+
+	combat_component = CreateDefaultSubobject<UCombatComponent>(TEXT("combat_component"));
+	combat_component->SetIsReplicated(true);
 
 	
 }
@@ -76,6 +80,10 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 	InitAbilityActorInfo();
 }
 
+AProjectionWeapon* APlayerCharacter::get_cur_projection_weapon_Implementation()
+{
+	return Super::get_cur_projection_weapon_Implementation();
+}
 
 
 void APlayerCharacter::SetPawnRotatorToMouseCursor()
@@ -87,4 +95,9 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 		FRotator new_rot = FRotator(0, look_at.Yaw, 0);
 		SetActorRotation(new_rot);
 	}
+}
+
+UCombatComponent* APlayerCharacter::getCombatCom()
+{
+	return combat_component;
 }

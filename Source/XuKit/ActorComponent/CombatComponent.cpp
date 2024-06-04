@@ -1,34 +1,70 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "CombatComponent.h"
 
-// Sets default values for this component's properties
+#include "Net/UnrealNetwork.h"
+#include "XuKit/Actor/Weapon/Weapon.h"
+#include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
+#include "XuKit/Character/PlayerCharacter.h"
+
 UCombatComponent::UCombatComponent()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
+	
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 
-// Called when the game starts
 void UCombatComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
 	
 }
 
 
-// Called every frame
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+}
+
+void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(UCombatComponent, equipped_projection_weapon);
+
+}
+
+void UCombatComponent::OnRep_EquippedWeapon()
+{
+	
+}
+
+void UCombatComponent::EquipWeapon(AProjectionWeapon* weapon)
+{
+	Server_EquipWeapon_Implementation(weapon);
+}
+
+void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* weapon)
+{
+	if (!owner_character || !weapon)
+	{
+		return;
+	}
+	equipped_projection_weapon = weapon;
+	equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Equiped);
+	equipped_projection_weapon->AttachToComponent(owner_character->GetMesh(),FAttachmentTransformRules::SnapToTargetNotIncludingScale,TEXT("WeaponSocket"));
+	equipped_projection_weapon->SetOwner(owner_character);
+}
+
+void UCombatComponent::DropWeapon()
+{
+	
+}
+
+void UCombatComponent::Server_DropWeapon_Implementation()
+{
+	
 }
 

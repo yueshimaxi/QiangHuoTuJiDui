@@ -7,22 +7,41 @@
 #include "CombatComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class AProjectionWeapon;
+class AWeapon;
+class APlayerCharacter;
+
+UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))
 class XUKIT_API UCombatComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
-	// Sets default values for this component's properties
+public:
 	UCombatComponent();
 
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-		
+public:
+	UPROPERTY()
+	APlayerCharacter* owner_character;
+
+	UPROPERTY(ReplicatedUsing=OnRep_EquippedWeapon)
+	AProjectionWeapon* equipped_projection_weapon;
+
+	UFUNCTION()
+	void OnRep_EquippedWeapon();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<TObjectPtr<AProjectionWeapon>> own_projection_weapons;
+
+	void EquipWeapon(AProjectionWeapon* weapon);
+	UFUNCTION(Server, Reliable)
+	void Server_EquipWeapon(AProjectionWeapon* weapon);
+
+	void DropWeapon();
+	UFUNCTION(Server, Reliable)
+	void Server_DropWeapon();
 };

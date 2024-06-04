@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
 #include "XuKit/Actor/Projectile/Projectile.h"
+#include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/Interface/CombatInterface.h"
 
 void UProjectileGameplayAbility::SpawnProjectile(FGameplayTag socketTag, bool overridePitch, float pitch)
@@ -15,7 +16,6 @@ void UProjectileGameplayAbility::SpawnProjectile(FGameplayTag socketTag, bool ov
 	//XuPRINT_ShowInScreen(TEXT("SpawnProjectile"));
 	if (!GetAvatarActorFromActorInfo()->HasAuthority())return;
 
-	check(ProjectileClass);
 	ICombatInterface* combat_interface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
 	if (!combat_interface)return;
 	FTransform spawn_transform;
@@ -26,9 +26,11 @@ void UProjectileGameplayAbility::SpawnProjectile(FGameplayTag socketTag, bool ov
 	//画球体
 	DrawDebugSphere(GetWorld(), weaponLocation, 10, 10, FColor::Red, false, 1);
 	spawn_transform.SetRotation(rotation.Quaternion());
-	AProjectile* projectile = GetWorld()->SpawnActorDeferred<AProjectile>
-	(ProjectileClass, spawn_transform, GetOwningActorFromActorInfo(),
-	 Cast<APawn>(GetAvatarActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+
+	AProjectionWeapon* projection_weapon = ICombatInterface::Execute_get_cur_projection_weapon(GetAvatarActorFromActorInfo());
+	AProjectile* projectile = GetWorld()->SpawnActorDeferred<AProjectile>(projection_weapon->projectionClass, spawn_transform, GetOwningActorFromActorInfo(),
+	                                                                      Cast<APawn>(GetAvatarActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
 	UAbilitySystemComponent* abs = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetOwningActorFromActorInfo());
 	FGameplayEffectContextHandle effect_context_handle = abs->MakeEffectContext();

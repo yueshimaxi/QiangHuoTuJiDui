@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "XuKit/Actor/Weapon/Weapon.h"
 #include "CombatInterface.generated.h"
 
+class AProjectionWeapon;
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UCombatInterface : public UInterface
@@ -37,5 +39,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	bool IsDead();
+
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	AProjectionWeapon* get_cur_projection_weapon();
+	
 	
 };

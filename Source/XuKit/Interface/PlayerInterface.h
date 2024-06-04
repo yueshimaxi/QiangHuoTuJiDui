@@ -20,4 +20,6 @@ class XUKIT_API IPlayerInterface
 	GENERATED_BODY()
 
 public:
+
+	
 };
