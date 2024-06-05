@@ -43,8 +43,20 @@ void AProjectile::BeginPlay()
 	Super::BeginPlay();
 
 	SetLifeSpan(lifeSpan);
-	LoopSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopSound, GetRootComponent());
-	SphereCom->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlapBegin);
+	if (HasAuthority())
+	{
+		SphereCom->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlapBegin);
+	}
+
+	if (tracerEffect)
+	{
+		tracer_component = UGameplayStatics::SpawnEmitterAttached(tracerEffect, SphereCom, FName(), GetActorLocation(), GetActorRotation(),
+		                                                          EAttachLocation::KeepWorldPosition);
+	}
+	if (LoopSound)
+	{
+		LoopSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopSound, GetRootComponent());
+	}
 }
 
 // Called every frame
@@ -56,6 +68,9 @@ void AProjectile::Tick(float DeltaTime)
 void AProjectile::Destroyed()
 {
 	Super::Destroyed();
+
+	if (LoopSoundComponent)LoopSoundComponent->Stop();
+
 }
 
 void AProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -74,24 +89,22 @@ void AProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	{
 		return;
 	}
-	if (!bHit)
+	if (UAbilitySystemComponent* targetABS = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 	{
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
-		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation());
-		if (LoopSoundComponent)LoopSoundComponent->Stop();
-		bHit = true;
+		targetABS->ApplyGameplayEffectSpecToSelf(*EffectHandle.Data.Get());
 	}
+	HitDestory();
+}
 
-	if (HasAuthority())
+void AProjectile::HitDestory_Implementation()
+{
+	if (ImpactEffect)
 	{
-		if (UAbilitySystemComponent* targetABS = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
-		{
-			targetABS->ApplyGameplayEffectSpecToSelf(*EffectHandle.Data.Get());
-		}
-		Destroy();
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, GetActorLocation(), GetActorRotation());
 	}
-	else
+	if (ImpactSound)
 	{
-		bHit = true;
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), ImpactSound, GetActorLocation());
 	}
+	Destroy();
 }

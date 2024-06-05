@@ -36,13 +36,20 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	UProjectileMovementComponent* ProjectileMovementCom;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Effects")
-	TObjectPtr<UNiagaraSystem> ImpactEffect;
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"))
+	class UParticleSystemComponent* tracer_component;
+	
 
-	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	UPROPERTY(EditAnywhere, Category = "InitInfo")
+	TObjectPtr<UParticleSystem> tracerEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category = "InitInfo")
+	TObjectPtr<UParticleSystem> ImpactEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category = "InitInfo")
 	TObjectPtr<USoundBase> ImpactSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	UPROPERTY(EditDefaultsOnly, Category = "InitInfo")
 	TObjectPtr<USoundBase> LoopSound;
 	
 	UPROPERTY(VisibleAnywhere)
@@ -55,5 +62,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 	float lifeSpan = 5;
+
+	UFUNCTION(NetMulticast,Reliable)
+	void HitDestory();
 
 };
