@@ -34,6 +34,9 @@ public:
 	FGameplayTag CombatSocket_LeftHandTag;
 	FGameplayTag CombatSocket_RightHandTag;
 	FGameplayTag CombatSocket_TailTag;
+
+	//ability tags
+	FGameplayTag FireTag;
 	
 private:
 	static QHGameplayTags gameplayTags;

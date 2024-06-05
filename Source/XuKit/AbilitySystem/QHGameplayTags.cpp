@@ -16,4 +16,6 @@ void QHGameplayTags::InitGameplayTags()
 	gameplayTags.CombatSocket_LeftHandTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Combat.Socket.LeftHand"),TEXT("Left Hand"));
 	gameplayTags.CombatSocket_RightHandTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Combat.Socket.RightHand"),TEXT("Right Hand"));
 	gameplayTags.CombatSocket_TailTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Combat.Socket.Tail"),TEXT("Tail"));
+
+	gameplayTags.FireTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Fire"),TEXT("Fire"));
 }
