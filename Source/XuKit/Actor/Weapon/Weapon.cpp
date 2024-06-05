@@ -77,8 +77,8 @@ void AWeapon::OnWeaponStateSet()
 	switch (weapon_state)
 	{
 	case EWeaponState::EWS_Inital:
-		area_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		area_component->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		weapon_mesh_component->SetSimulatePhysics(true);
 		weapon_mesh_component->SetEnableGravity(true);
 		break;
@@ -87,7 +87,7 @@ void AWeapon::OnWeaponStateSet()
 		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		break;
 	case EWeaponState::EWS_Dropped:
-		area_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		area_component->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		weapon_mesh_component->SetSimulatePhysics(true);
 		weapon_mesh_component->SetEnableGravity(true);
