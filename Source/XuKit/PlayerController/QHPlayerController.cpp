@@ -5,6 +5,8 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "XuKit/ActorComponent/CombatComponent.h"
+#include "XuKit/Character/PlayerCharacter.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 
@@ -34,7 +36,8 @@ void AQHPlayerController::SetupInputComponent()
 	input_component->BindAction(input_action_move, ETriggerEvent::Triggered, this, &AQHPlayerController::OnMove);
 
 	input_component->BindActions(inputConfigDataAsset,this, &AQHPlayerController::OnAbliityInputTagPressed, &AQHPlayerController::OnAbliityInputTagHeld, &AQHPlayerController::OnAbliityInputTagReleased);
-	
+
+
 }
 
 void AQHPlayerController::Tick(float DeltaSeconds)
@@ -109,3 +112,5 @@ void AQHPlayerController::TraceMouseCuror()
 	GetHitResultUnderCursor(ECC_Visibility, true, CurorHitResult);
 
 }
+
+

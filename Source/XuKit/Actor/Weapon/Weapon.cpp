@@ -5,7 +5,10 @@
 
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Net/UnrealNetwork.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/XuKit.h"
+#include "XuKit/Character/PlayerCharacter.h"
 
 // Sets default values
 AWeapon::AWeapon()
@@ -47,6 +50,8 @@ void AWeapon::Tick(float DeltaTime)
 void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AWeapon, weapon_state);
+
 }
 
 void AWeapon::SetWeaponState(EWeaponState state)
@@ -94,10 +99,22 @@ void AWeapon::OnWeaponStateSet()
 
 void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	XuPRINT("overlap begin");
+
+	if (APlayerCharacter* player_character = Cast<APlayerCharacter>(OtherActor))
+	{
+		player_character->Set_Overlap_Weapon(this);
+	}
 }
 
 void AWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	XuPRINT("overlap end");
+	
+	if (APlayerCharacter* player_character = Cast<APlayerCharacter>(OtherActor))
+	{
+		player_character->Set_Overlap_Weapon(nullptr);
+	}
 }
 
 void AWeapon::Fire(const FHitResult& hit_result)

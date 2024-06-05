@@ -23,13 +23,13 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-
+private:
+	UPROPERTY(ReplicatedUsing=OnRep_EquippedWeapon)
+	AProjectionWeapon* equipped_projection_weapon;
 public:
 	UPROPERTY()
 	APlayerCharacter* owner_character;
 
-	UPROPERTY(ReplicatedUsing=OnRep_EquippedWeapon)
-	AProjectionWeapon* equipped_projection_weapon;
 
 	AProjectionWeapon* GetCurProjectionWeapon();
 	UFUNCTION()

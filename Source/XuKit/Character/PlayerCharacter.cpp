@@ -4,12 +4,15 @@
 #include "PlayerCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Net/UnrealNetwork.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
+#include "XuKit/Input/QHEnhancedInputComponent.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 
@@ -89,6 +92,30 @@ void APlayerCharacter::PostInitializeComponents()
 	combat_component->owner_character = this;
 }
 
+void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	UQHEnhancedInputComponent* input_component = CastChecked<UQHEnhancedInputComponent>(InputComponent);
+
+	input_component->BindAction(input_action_equipWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnEquipWeaponPress);
+	input_component->BindAction(input_action_dropWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnDropWeaponPress);
+	input_component->BindAction(input_action_swapWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnSwapWeaponPress);
+}
+
+void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(APlayerCharacter, overlaping_weapon);
+
+}
+
+void APlayerCharacter::InitDefaultProjectionWeapon()
+{
+	AProjectionWeapon* projection_weapon = GetWorld()->SpawnActor<AProjectionWeapon>(default_projection_weapon_class);
+	getCombatCom()->EquipWeapon(projection_weapon);
+}
 
 void APlayerCharacter::SetPawnRotatorToMouseCursor()
 {
@@ -101,13 +128,37 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 	}
 }
 
+void APlayerCharacter::OnEquipWeaponPress()
+{
+	if (overlaping_weapon)
+	{
+		if (AProjectionWeapon* projection_weapon = Cast<AProjectionWeapon>(overlaping_weapon))
+		{
+			getCombatCom()->EquipWeapon(projection_weapon);
+		}
+	}
+}
+
+void APlayerCharacter::OnDropWeaponPress()
+{
+	getCombatCom()->DropWeapon();
+}
+
+void APlayerCharacter::OnSwapWeaponPress()
+{
+}
+
+void APlayerCharacter::Set_Overlap_Weapon(AWeapon* weapon)
+{
+	overlaping_weapon = weapon;
+
+}
+
+
+
 UCombatComponent* APlayerCharacter::getCombatCom()
 {
 	return combat_component;
 }
 
-void APlayerCharacter::InitDefaultProjectionWeapon()
-{
-	AProjectionWeapon* projection_weapon = GetWorld()->SpawnActor<AProjectionWeapon>(projection_weapon_class);
-	combat_component->EquipWeapon(projection_weapon);
-}
+

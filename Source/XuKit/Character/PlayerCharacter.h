@@ -7,6 +7,7 @@
 #include "XuKit/Interface/CombatInterface.h"
 #include "PlayerCharacter.generated.h"
 
+class UInputAction;
 class UCombatComponent;
 class USpringArmComponent;
 class UCameraComponent;
@@ -30,6 +31,8 @@ public:
 	virtual AProjectionWeapon* get_cur_projection_weapon_Implementation() override;
 
 	virtual void PostInitializeComponents() override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -44,12 +47,32 @@ protected:
 
 	void SetPawnRotatorToMouseCursor();
 
-	UCombatComponent* getCombatCom();
 
-	UPROPERTY(EditDefaultsOnly,Category="InitInfo")
-	TSubclassOf<AProjectionWeapon>	projection_weapon_class;
+	UPROPERTY(EditDefaultsOnly, Category="InitInfo")
+	TSubclassOf<AProjectionWeapon> default_projection_weapon_class;
 
 
 	void InitDefaultProjectionWeapon();
+
+	UPROPERTY(EditAnywhere, Category="InitInfo")
+	TObjectPtr<UInputAction> input_action_equipWeapon;
+
+	UPROPERTY(EditAnywhere, Category="InitInfo")
+	TObjectPtr<UInputAction> input_action_dropWeapon;
+
+	UPROPERTY(EditAnywhere, Category="InitInfo")
+	TObjectPtr<UInputAction> input_action_swapWeapon;
+
+	UPROPERTY(Replicated)
+	AWeapon* overlaping_weapon;
+
+
+
+public:
+	UCombatComponent* getCombatCom();
+	void OnEquipWeaponPress();
+	void OnDropWeaponPress();
+	void OnSwapWeaponPress();
+	void Set_Overlap_Weapon(AWeapon* weapon);
 
 };

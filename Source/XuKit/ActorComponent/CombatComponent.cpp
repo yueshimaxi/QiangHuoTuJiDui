@@ -65,11 +65,19 @@ void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* weap
 
 void UCombatComponent::DropWeapon()
 {
-	
+	if (equipped_projection_weapon)
+	{
+		Server_DropWeapon();
+	}
+
 }
 
 void UCombatComponent::Server_DropWeapon_Implementation()
 {
-	
+	equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Dropped);
+	equipped_projection_weapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+	equipped_projection_weapon->SetOwner(nullptr);
+	equipped_projection_weapon = nullptr;
+	//todo equip next weapon
 }
 

@@ -34,6 +34,8 @@ private:
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> input_action_move;
 
+
+
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputConfigDataAsset> inputConfigDataAsset;
 	
@@ -55,5 +57,8 @@ public:
 	FHitResult CurorHitResult;
 
 	void TraceMouseCuror();
+
+	
+
 
 };

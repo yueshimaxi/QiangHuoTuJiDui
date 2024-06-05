@@ -18,6 +18,10 @@ void UProjectileGameplayAbility::SpawnProjectile(FGameplayTag socketTag, bool ov
 
 	ICombatInterface* combat_interface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
 	if (!combat_interface)return;
+
+	AProjectionWeapon* projection_weapon = ICombatInterface::Execute_get_cur_projection_weapon(GetAvatarActorFromActorInfo());
+	if (!projection_weapon)return;
+	
 	FTransform spawn_transform;
 	FVector weaponLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), socketTag);
 
@@ -28,7 +32,6 @@ void UProjectileGameplayAbility::SpawnProjectile(FGameplayTag socketTag, bool ov
 	spawn_transform.SetRotation(rotation.Quaternion());
 
 
-	AProjectionWeapon* projection_weapon = ICombatInterface::Execute_get_cur_projection_weapon(GetAvatarActorFromActorInfo());
 	AProjectile* projectile = GetWorld()->SpawnActorDeferred<AProjectile>(projection_weapon->projectionClass, spawn_transform, GetOwningActorFromActorInfo(),
 	                                                                      Cast<APawn>(GetAvatarActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
