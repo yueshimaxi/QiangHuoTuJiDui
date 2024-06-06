@@ -22,7 +22,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
 	TObjectPtr<UParticleSystem> MuzzleFlashEffect;
-	
+
+	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
+	TObjectPtr<USoundBase> FireSound;
 	
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TSubclassOf<ACasing> casingClass;

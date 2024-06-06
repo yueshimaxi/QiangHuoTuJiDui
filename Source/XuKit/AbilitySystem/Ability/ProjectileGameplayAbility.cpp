@@ -31,7 +31,7 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 	spawn_transform.SetRotation(ammoRotation.Quaternion());
 
 	//画球体
-	DrawDebugSphere(GetWorld(), ammoLocation, 10, 10, FColor::Red, false, 1);
+	//DrawDebugSphere(GetWorld(), ammoLocation, 10, 10, FColor::Red, false, 1);
 
 	//生成子弹
 	AProjectile* projectile = GetWorld()->SpawnActorDeferred<AProjectile>(projection_weapon->projectionClass, spawn_transform, GetOwningActorFromActorInfo(),
@@ -56,4 +56,10 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 
 		ACasing* casing = GetWorld()->SpawnActor<ACasing>(projection_weapon->casingClass, casing_transform);
 	}
+
+	//播放音效
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), projection_weapon->FireSound, ammoLocation);
+
+	//生成MuzzleFlashEffect
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), projection_weapon->MuzzleFlashEffect, ammoLocation, ammoRotation);
 }
