@@ -26,6 +26,7 @@ public:
 	virtual void SetupInputComponent() override;
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void PlayerTick(float DeltaTime) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 private:
 	UPROPERTY(EditAnywhere, Category="Input")
@@ -54,8 +55,15 @@ public:
 	float horInputValue;
 	float verInputValue;
 
+	UPROPERTY(ReplicatedUsing=OnRep_CurorHitResult)
 	FHitResult CurorHitResult;
 
+	UFUNCTION()
+	void OnRep_CurorHitResult(FHitResult oldCurorHitResult);
+
+	UFUNCTION(Server,Reliable)
+	void ServerSetCurorHitResult(FHitResult hitResult);
+	
 	void TraceMouseCuror();
 
 	

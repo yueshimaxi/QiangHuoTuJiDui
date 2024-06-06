@@ -48,6 +48,7 @@ protected:
 	void SetPawnRotatorToMouseCursor();
 
 
+
 	UPROPERTY(EditDefaultsOnly, Category="InitInfo")
 	TSubclassOf<AProjectionWeapon> default_projection_weapon_class;
 

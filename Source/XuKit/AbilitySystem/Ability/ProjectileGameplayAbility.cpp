@@ -11,7 +11,7 @@
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/Interface/CombatInterface.h"
 
-void UProjectileGameplayAbility::SpawnProjectile(FGameplayTag socketTag, bool overridePitch, float pitch)
+void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGameplayTag socketTag, bool overridePitch, float pitch)
 {
 	//XuPRINT_ShowInScreen(TEXT("SpawnProjectile"));
 	if (!GetAvatarActorFromActorInfo()->HasAuthority())return;
@@ -21,11 +21,11 @@ void UProjectileGameplayAbility::SpawnProjectile(FGameplayTag socketTag, bool ov
 
 	AProjectionWeapon* projection_weapon = ICombatInterface::Execute_get_cur_projection_weapon(GetAvatarActorFromActorInfo());
 	if (!projection_weapon)return;
-	
+
 	FTransform spawn_transform;
 	FVector weaponLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), socketTag);
-
-	FRotator rotation = GetAvatarActorFromActorInfo()->GetActorRotation();
+	FRotator rotation = (targetLocation - weaponLocation).Rotation();
+	rotation.Pitch = 0;
 	spawn_transform.SetLocation(weaponLocation);
 	//画球体
 	DrawDebugSphere(GetWorld(), weaponLocation, 10, 10, FColor::Red, false, 1);

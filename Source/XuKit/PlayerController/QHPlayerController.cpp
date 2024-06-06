@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Net/UnrealNetwork.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/Character/PlayerCharacter.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
@@ -52,6 +53,13 @@ void AQHPlayerController::PlayerTick(float DeltaTime)
 
 	TraceMouseCuror();
 
+}
+
+void AQHPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AQHPlayerController, CurorHitResult);
 }
 
 void AQHPlayerController::OnMove(const FInputActionValue& input_action_value)
@@ -107,9 +115,22 @@ UQHAbilitySystemComponent* AQHPlayerController::GetABS()
 	return abilitySystemComponent;
 }
 
+void AQHPlayerController::OnRep_CurorHitResult(FHitResult oldCurorHitResult)
+{
+	
+}
+
+void AQHPlayerController::ServerSetCurorHitResult_Implementation(FHitResult hitResult)
+{
+	CurorHitResult = hitResult;
+}
+
 void AQHPlayerController::TraceMouseCuror()
 {
-	GetHitResultUnderCursor(ECC_Visibility, true, CurorHitResult);
+	FHitResult local_CurorHitResult;
+	GetHitResultUnderCursor(ECC_Visibility, true, local_CurorHitResult);
+	ServerSetCurorHitResult(local_CurorHitResult);
+	
 
 }
 

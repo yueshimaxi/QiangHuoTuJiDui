@@ -56,11 +56,8 @@ void APlayerCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	//让角色面朝鼠标的方向
-	if (IsLocallyControlled())
-	{
-		SetPawnRotatorToMouseCursor();
-	}
+
+	SetPawnRotatorToMouseCursor();
 }
 
 
@@ -127,6 +124,9 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 		SetActorRotation(new_rot);
 	}
 }
+
+
+
 
 void APlayerCharacter::OnEquipWeaponPress()
 {
