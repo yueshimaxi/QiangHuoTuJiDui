@@ -19,29 +19,27 @@ ACasing::ACasing()
 	
 	mesh_component->SetSimulatePhysics(true);
 	ShellEjectionImpulse=5.f;
+
+	
 }
 
 // Called when the game starts or when spawned
 void ACasing::BeginPlay()
 {
 	Super::BeginPlay();
-	mesh_component->OnComponentHit.AddDynamic(this, &ACasing::OnHit);
+	// mesh_component->OnComponentHit.AddDynamic(this, &ACasing::OnHit);
 	mesh_component->AddImpulse(GetActorRightVector() * ShellEjectionImpulse);
+	SetLifeSpan(lifeTime);
 }
 
-// Called every frame	
-void ACasing::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
-}
 
-void ACasing::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	FVector NormalImpulse, const FHitResult& Hit)
-{
-	if (fall_sound)
-	{
-		UGameplayStatics::PlaySoundAtLocation(GetWorld(), fall_sound, GetActorLocation());
-	}
-	Destroy();
-}
+// void ACasing::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+// 	FVector NormalImpulse, const FHitResult& Hit)
+// {
+// 	if (fall_sound)
+// 	{
+// 		UGameplayStatics::PlaySoundAtLocation(GetWorld(), fall_sound, GetActorLocation());
+// 	}
+// 	Destroy();
+// }
