@@ -20,6 +20,6 @@ class XUKIT_API UProjectileGameplayAbility : public UDamageGameplayAbility
 public:
 	
 
-	UFUNCTION(BlueprintCallable, Category="InitInfo")
+	UFUNCTION(BlueprintCallable, Category = "AInitInfo")
 	void SpawnProjectile(FVector targetLocation,FGameplayTag socketTag,bool overridePitch=false,float pitch=0.0f);
 };

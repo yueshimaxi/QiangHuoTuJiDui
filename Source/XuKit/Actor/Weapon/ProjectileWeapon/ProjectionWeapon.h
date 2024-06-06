@@ -6,6 +6,7 @@
 #include "XuKit/Actor/Weapon/Weapon.h"
 #include "ProjectionWeapon.generated.h"
 
+class ACasing;
 class AProjectile;
 /**
  * 
@@ -16,9 +17,20 @@ class XUKIT_API AProjectionWeapon : public AWeapon
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"),Category="InitInfo")
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"),Category = "AInitInfo")
 	TSubclassOf<AProjectile> projectionClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
+	TObjectPtr<UParticleSystem> MuzzleFlashEffect;
+	
+	
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
+	TSubclassOf<ACasing> casingClass;
 
+	//子弹生成位置
+	FVector GetProjectileSpawnLocation();
+
+	//弹壳生成位置
+	FVector	GetCasingSpawnLocation();
 	
 };

@@ -7,6 +7,7 @@
 #include "AbilitySystemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
+#include "XuKit/Actor/Casing/Casing.h"
 #include "XuKit/Actor/Projectile/Projectile.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/Interface/CombatInterface.h"
@@ -23,15 +24,16 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 	if (!projection_weapon)return;
 
 	FTransform spawn_transform;
-	FVector weaponLocation = ICombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), socketTag);
-	FRotator rotation = (targetLocation - weaponLocation).Rotation();
-	rotation.Pitch = 0;
-	spawn_transform.SetLocation(weaponLocation);
+	FVector ammoLocation = projection_weapon->GetProjectileSpawnLocation();
+	FRotator ammoRotation = (targetLocation - ammoLocation).Rotation();
+	ammoRotation.Pitch = 0;
+	spawn_transform.SetLocation(ammoLocation);
+	spawn_transform.SetRotation(ammoRotation.Quaternion());
+
 	//画球体
-	DrawDebugSphere(GetWorld(), weaponLocation, 10, 10, FColor::Red, false, 1);
-	spawn_transform.SetRotation(rotation.Quaternion());
+	DrawDebugSphere(GetWorld(), ammoLocation, 10, 10, FColor::Red, false, 1);
 
-
+	//生成子弹
 	AProjectile* projectile = GetWorld()->SpawnActorDeferred<AProjectile>(projection_weapon->projectionClass, spawn_transform, GetOwningActorFromActorInfo(),
 	                                                                      Cast<APawn>(GetAvatarActorFromActorInfo()), ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
@@ -43,5 +45,15 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(effect_spec_handle, QHGameplayTags::Get().DamageTag, damageValue);
 
 	projectile->FinishSpawning(spawn_transform);
-	//XuPRINT_ShowInScreen(TEXT("FinishSpawning"));
+
+	//生成弹壳
+	if (projection_weapon->casingClass)
+	{
+		FTransform casing_transform;
+		FVector casingLocation = projection_weapon->GetCasingSpawnLocation();
+		casing_transform.SetLocation(casingLocation);
+		casing_transform.SetRotation(ammoRotation.Quaternion());
+
+		ACasing* casing = GetWorld()->SpawnActor<ACasing>(projection_weapon->casingClass, casing_transform);
+	}
 }

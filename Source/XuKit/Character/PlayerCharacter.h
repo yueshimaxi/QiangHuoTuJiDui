@@ -48,26 +48,23 @@ protected:
 	void SetPawnRotatorToMouseCursor();
 
 
-
-	UPROPERTY(EditDefaultsOnly, Category="InitInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
 	TSubclassOf<AProjectionWeapon> default_projection_weapon_class;
 
 
 	void InitDefaultProjectionWeapon();
 
-	UPROPERTY(EditAnywhere, Category="InitInfo")
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UInputAction> input_action_equipWeapon;
 
-	UPROPERTY(EditAnywhere, Category="InitInfo")
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UInputAction> input_action_dropWeapon;
 
-	UPROPERTY(EditAnywhere, Category="InitInfo")
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UInputAction> input_action_swapWeapon;
 
 	UPROPERTY(Replicated)
 	AWeapon* overlaping_weapon;
-
-
 
 public:
 	UCombatComponent* getCombatCom();
@@ -75,5 +72,4 @@ public:
 	void OnDropWeaponPress();
 	void OnSwapWeaponPress();
 	void Set_Overlap_Weapon(AWeapon* weapon);
-
 };

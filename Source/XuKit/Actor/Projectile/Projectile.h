@@ -40,16 +40,16 @@ public:
 	class UParticleSystemComponent* tracer_component;
 	
 
-	UPROPERTY(EditAnywhere, Category = "InitInfo")
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UParticleSystem> tracerEffect;
 
-	UPROPERTY(EditDefaultsOnly, Category = "InitInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
 	TObjectPtr<UParticleSystem> ImpactEffect;
 
-	UPROPERTY(EditDefaultsOnly, Category = "InitInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
 	TObjectPtr<USoundBase> ImpactSound;
 
-	UPROPERTY(EditDefaultsOnly, Category = "InitInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
 	TObjectPtr<USoundBase> LoopSound;
 	
 	UPROPERTY(VisibleAnywhere)

@@ -15,10 +15,10 @@ class XUKIT_API UDamageGameplayAbility : public UQHGameplayAbility
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditDefaultsOnly, Category="InitInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
-	UPROPERTY(EditDefaultsOnly, Category="InitInfo")
+	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
 	float damageValue;
 
 	UFUNCTION(BlueprintCallable)
