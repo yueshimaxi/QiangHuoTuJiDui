@@ -69,6 +69,6 @@ public:
 	UPROPERTY(EditAnywhere, Category="AInitInfo")
 	EProjectileWeaponType weaponType;
 
-	UPROPERTY(Replicated)
+	UPROPERTY()
 	FWeaponInfo weapon_info;
 };

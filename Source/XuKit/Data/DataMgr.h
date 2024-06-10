@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "IDatabase/AppConfigDatabase.h"
+#include "IDatabase/WeaponConfigDatabase.h"
 #include "DataMgr.generated.h"
 
 /**
@@ -19,6 +20,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	UAppConfigDatabase* GetAppConfigDataBase() { return GetDataBase<UAppConfigDatabase>(DataBaseType::AppConfigData); }
+	UFUNCTION(BlueprintCallable)
+	UWeaponConfigDatabase* GetWeaponConfigDataBase() { return GetDataBase<UWeaponConfigDatabase>(DataBaseType::WeaponConfigData);} 
+	
 private:
 	template <typename T>
 	T* GetDataBase(DataBaseType dataBaseType)

@@ -19,6 +19,5 @@ class XUKIT_API AQHGameModeBase : public AGameModeBase
 public:
 	UPROPERTY(EditAnywhere,Category="AInitInfo")
 	TObjectPtr<UCharactorClassInfo> EnemyInitDataAsset;
-	UPROPERTY(EditAnywhere,Category="AInitInfo")
-	TObjectPtr<UWeaponInfoDataAsset> weapon_info_data_asset;
+
 };

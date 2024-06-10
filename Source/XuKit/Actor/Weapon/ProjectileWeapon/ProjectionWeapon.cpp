@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
 #include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
+#include "XuKit/Data/DataMgr.h"
+#include "XuKit/Data/IDatabase/WeaponConfigDatabase.h"
 #include "XuKit/GameMode/QHGameModeBase.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 #include "XuKit/UI/UIMgr.h"
@@ -14,20 +16,15 @@
 void AProjectionWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	//从Gamemode中获取武器信息
-	AQHGameModeBase* gameMode = GetWorld()->GetAuthGameMode<AQHGameModeBase>();
-	if (gameMode)
-	{
-		weapon_info = gameMode->weapon_info_data_asset->GetWeaponInfo(weaponType);
-		Ammo=weapon_info.weapon_clip_size;
-	}
+
+	weapon_info = GetWorld()->GetSubsystem<UDataMgr>()->GetWeaponConfigDataBase()->GetWeaponInfo(weaponType);
+	Ammo=weapon_info.weapon_clip_size;
 }
 
 void AProjectionWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AProjectionWeapon, Ammo);
-	DOREPLIFETIME(AProjectionWeapon, weapon_info);
 }
 
 void AProjectionWeapon::OnWeaponStateSet()
@@ -58,7 +55,6 @@ void AProjectionWeapon::Fire()
 }
 
 
-
 void AProjectionWeapon::SpendAmmo()
 {
 	if (Ammo > 0)
@@ -77,7 +73,7 @@ void AProjectionWeapon::SpendAmmo()
 
 void AProjectionWeapon::OnRep_Ammo()
 {
-	if (Cast<ACharacter>(GetOwner())->IsLocallyControlled())
+	if (GetOwner()&&Cast<ACharacter>(GetOwner())->IsLocallyControlled())
 	{
 		SetHUDAmmo();
 	}
@@ -85,11 +81,13 @@ void AProjectionWeapon::OnRep_Ammo()
 
 void AProjectionWeapon::SetHUDAmmo()
 {
-	UUIPlayerHUD* playerHUD = GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->GetUI<UUIPlayerHUD>();
-	if (playerHUD)
+	if (UUIPlayerHUD* playerHUD = GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->GetUI<UUIPlayerHUD>())
 	{
-		int allBackpackAmmo = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->GetAmmoNum(weapon_info.Ammo_type);
-		playerHUD->SetHUDAmmo(Ammo, allBackpackAmmo);
+		if (AQHPlayerState* playerState = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>())
+		{
+			int allBackpackAmmo = playerState->GetAmmoNum(weapon_info.Ammo_type);
+			playerHUD->SetHUDAmmo(Ammo, allBackpackAmmo);
+		}
 	}
 }
 
@@ -106,7 +104,7 @@ void AProjectionWeapon::ReloadAmmo()
 		int needAmmo = weapon_info.weapon_clip_size - Ammo;
 		if (allBackpackAmmo >= needAmmo)
 		{
-			Ammo =  weapon_info.weapon_clip_size;
+			Ammo = weapon_info.weapon_clip_size;
 			Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->AddAmmoNum(weapon_info.Ammo_type, -needAmmo);
 		}
 		else
