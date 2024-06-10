@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
 #include "XuKit/Actor/Weapon/Weapon.h"
 #include "ProjectionWeapon.generated.h"
 
+enum class EProjectileWeaponType;
 enum class EAmmoType;
 class ACasing;
 class AProjectile;
@@ -16,12 +18,14 @@ UCLASS()
 class XUKIT_API AProjectionWeapon : public AWeapon
 {
 	GENERATED_BODY()
+
 protected:
+	virtual void BeginPlay() override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-	virtual  void OnWeaponStateSet() override;
-	
+	virtual void OnWeaponStateSet() override;
+
 public:
-	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"),Category = "AInitInfo")
+	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"), Category = "AInitInfo")
 	TSubclassOf<AProjectile> projectionClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
@@ -29,7 +33,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
 	TObjectPtr<USoundBase> FireSound;
-	
+
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TSubclassOf<ACasing> casingClass;
 
@@ -37,19 +41,18 @@ public:
 	FVector GetProjectileSpawnLocation();
 
 	//弹壳生成位置
-	FVector	GetCasingSpawnLocation();
+	FVector GetCasingSpawnLocation();
 
 	UPROPERTY(EditAnywhere, Category="AInitInfo", ReplicatedUsing=OnRep_Ammo)
-	int Ammo=30;
+	int Ammo = 30;
 
-	UPROPERTY(EditAnywhere, Category="AInitInfo")
-	int MaxAmmo=30;
+
 
 	void Fire();
 
 
 	void SpendAmmo();
-	
+
 	UFUNCTION()
 	void OnRep_Ammo();
 
@@ -63,7 +66,9 @@ public:
 
 	int GetCurAmmo();
 
-	UPROPERTY()
-	EAmmoType ammoType;
+	UPROPERTY(EditAnywhere, Category="AInitInfo")
+	EProjectileWeaponType weaponType;
 
+	UPROPERTY(Replicated)
+	FWeaponInfo weapon_info;
 };

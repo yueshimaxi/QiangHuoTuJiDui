@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "QHGameModeBase.generated.h"
 
+class UWeaponInfoDataAsset;
 class UCharactorClassInfo;
 /**
  * 
@@ -16,6 +17,8 @@ class XUKIT_API AQHGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,Category="AInitInfo")
 	TObjectPtr<UCharactorClassInfo> EnemyInitDataAsset;
+	UPROPERTY(EditAnywhere,Category="AInitInfo")
+	TObjectPtr<UWeaponInfoDataAsset> weapon_info_data_asset;
 };

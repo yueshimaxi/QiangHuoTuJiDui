@@ -28,33 +28,33 @@ enum class EAmmoType
 };
 
 
-USTRUCT()
+USTRUCT(Blueprintable,BlueprintType)
 struct FWeaponInfo
 {	
 	GENERATED_BODY()
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	EProjectileWeaponType weapon_type;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TSubclassOf<AWeapon> weapon_class;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FString weapon_name;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FString weapon_description;
 
-	UPROPERTY()
-	int weapon_damage;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float weapon_damage;
 
-	UPROPERTY()
-	int weapon_fire_rate;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float weapon_fire_rate;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int weapon_clip_size;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	EAmmoType Ammo_type;
 	
 };

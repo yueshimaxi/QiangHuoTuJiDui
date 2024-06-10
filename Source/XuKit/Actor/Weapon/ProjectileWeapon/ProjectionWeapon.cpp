@@ -5,14 +5,29 @@
 
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
+#include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
+#include "XuKit/GameMode/QHGameModeBase.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 #include "XuKit/UI/UIMgr.h"
 #include "XuKit/UI/IUIBase/UIPlayerHUD.h"
+
+void AProjectionWeapon::BeginPlay()
+{
+	Super::BeginPlay();
+	//从Gamemode中获取武器信息
+	AQHGameModeBase* gameMode = GetWorld()->GetAuthGameMode<AQHGameModeBase>();
+	if (gameMode)
+	{
+		weapon_info = gameMode->weapon_info_data_asset->GetWeaponInfo(weaponType);
+		Ammo=weapon_info.weapon_clip_size;
+	}
+}
 
 void AProjectionWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AProjectionWeapon, Ammo);
+	DOREPLIFETIME(AProjectionWeapon, weapon_info);
 }
 
 void AProjectionWeapon::OnWeaponStateSet()
@@ -73,7 +88,7 @@ void AProjectionWeapon::SetHUDAmmo()
 	UUIPlayerHUD* playerHUD = GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->GetUI<UUIPlayerHUD>();
 	if (playerHUD)
 	{
-		int allBackpackAmmo = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->GetAmmoNum(ammoType);
+		int allBackpackAmmo = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->GetAmmoNum(weapon_info.Ammo_type);
 		playerHUD->SetHUDAmmo(Ammo, allBackpackAmmo);
 	}
 }
@@ -85,19 +100,19 @@ bool AProjectionWeapon::isEmptyAmmo()
 
 void AProjectionWeapon::ReloadAmmo()
 {
-	int allBackpackAmmo = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->GetAmmoNum(ammoType);
+	int allBackpackAmmo = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->GetAmmoNum(weapon_info.Ammo_type);
 	if (allBackpackAmmo > 0)
 	{
-		int needAmmo = MaxAmmo - Ammo;
+		int needAmmo = weapon_info.weapon_clip_size - Ammo;
 		if (allBackpackAmmo >= needAmmo)
 		{
-			Ammo = MaxAmmo;
-			Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->AddAmmoNum(ammoType, -needAmmo);
+			Ammo =  weapon_info.weapon_clip_size;
+			Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->AddAmmoNum(weapon_info.Ammo_type, -needAmmo);
 		}
 		else
 		{
 			Ammo += allBackpackAmmo;
-			Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->AddAmmoNum(ammoType, -allBackpackAmmo);
+			Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->AddAmmoNum(weapon_info.Ammo_type, -allBackpackAmmo);
 		}
 	}
 	if (Cast<ACharacter>(GetOwner())->IsLocallyControlled())
