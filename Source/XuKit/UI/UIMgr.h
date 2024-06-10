@@ -14,6 +14,8 @@ public:
 
 	void Init();
 
+	bool isInit=false;
+	
 	UPROPERTY()
 	TArray<UUserWidget*> uiActiveList;
 	UPROPERTY()

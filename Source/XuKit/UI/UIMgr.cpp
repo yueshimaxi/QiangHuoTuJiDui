@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "IUIBase/UIGameSettingScreen.h"
 #include "IUIBase/UIMessageBox.h"
+#include "IUIBase/UIPlayerHUD.h"
 #include "IUIBase/UIStart.h"
 #include "XuKit/XuBPFuncLib.h"
 
@@ -20,13 +21,19 @@ void UUIMgr::Init()
 		{UUIMessageBox::StaticClass(), GetUIPath(TEXT("UIMessageBox_BP"))},
 		{UUIStart::StaticClass(), GetUIPath(TEXT("UIStart_BP"))},
 		{UUIGameSettingScreen::StaticClass(), GetUIPath(TEXT("UIGameSettingScreen_BP"))},
+		{UUIPlayerHUD::StaticClass(), GetUIPath(TEXT("UIPlayerHUD_BP"))},
 
 	};
+	isInit = true;
 }
 
 
 UUserWidget* UUIMgr::ShowUIBP(TSubclassOf<UUserWidget> uiType)
 {
+	if (isInit == false)
+	{
+		Init();
+	}
 	UUserWidget* uiBase = nullptr;
 	UClass* U_TClassType = uiType.Get();
 	FString name = U_TClassType->GetName();
