@@ -23,9 +23,16 @@ protected:
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 private:
 	UPROPERTY(ReplicatedUsing=OnRep_EquippedWeapon)
 	AProjectionWeapon* equipped_projection_weapon;
+
+	UPROPERTY()
+	TArray<AProjectionWeapon*> own_projectile_weapons;
+
+	int max_Projectile_Weapon_Num = 5;
+
 public:
 	UPROPERTY()
 	APlayerCharacter* owner_character;
@@ -40,11 +47,9 @@ public:
 
 	void EquipWeapon(AProjectionWeapon* weapon);
 	UFUNCTION(Server, Reliable)
-	void Server_EquipWeapon(AProjectionWeapon* weapon);
+	void Server_EquipWeapon(AProjectionWeapon* projectile_weapon);
 
 	void DropWeapon();
 	UFUNCTION(Server, Reliable)
 	void Server_DropWeapon();
-
-	
 };

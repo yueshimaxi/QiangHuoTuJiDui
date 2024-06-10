@@ -51,7 +51,6 @@ void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AWeapon, weapon_state);
-
 }
 
 void AWeapon::SetWeaponState(EWeaponState state)
@@ -63,7 +62,6 @@ void AWeapon::ServerSetWeaponState_Implementation(EWeaponState state)
 {
 	weapon_state = state;
 	OnWeaponStateSet();
-
 }
 
 
@@ -74,6 +72,7 @@ void AWeapon::OnRep_WeaponState(EWeaponState old_state)
 
 void AWeapon::OnWeaponStateSet()
 {
+	SetActorHiddenInGame(false);
 	switch (weapon_state)
 	{
 	case EWeaponState::EWS_Inital:
@@ -86,7 +85,14 @@ void AWeapon::OnWeaponStateSet()
 		area_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		break;
+	case EWeaponState::EWS_Backpack:
+		//隐藏自己
+		SetActorHiddenInGame(true);
+		area_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		break;
 	case EWeaponState::EWS_Dropped:
+
 		area_component->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		weapon_mesh_component->SetSimulatePhysics(true);
@@ -94,7 +100,7 @@ void AWeapon::OnWeaponStateSet()
 		break;
 	case EWeaponState::Max:
 		break;
-	}	
+	}
 }
 
 void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -110,7 +116,7 @@ void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 void AWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	XuPRINT("overlap end");
-	
+
 	if (APlayerCharacter* player_character = Cast<APlayerCharacter>(OtherActor))
 	{
 		player_character->Set_Overlap_Weapon(nullptr);
@@ -119,12 +125,9 @@ void AWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 
 void AWeapon::Fire(const FHitResult& hit_result)
 {
-	
 }
 
 void AWeapon::OnRep_Owner()
 {
 	Super::OnRep_Owner();
 }
-
-

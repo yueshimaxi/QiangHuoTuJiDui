@@ -14,6 +14,7 @@ enum class EWeaponState
 {
 	EWS_Inital,
 	EWS_Equiped,
+	EWS_Backpack,
 	EWS_Dropped,
 	
 	Max,
