@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "QHGameModeBase.generated.h"
 
+class UCharactorClassInfo;
 /**
  * 
  */
@@ -13,5 +14,8 @@ UCLASS()
 class XUKIT_API AQHGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	UPROPERTY(EditAnywhere)
+	TObjectPtr<UCharactorClassInfo> EnemyInitDataAsset;
 };

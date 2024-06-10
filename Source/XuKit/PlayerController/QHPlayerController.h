@@ -7,6 +7,7 @@
 #include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
 #include "QHPlayerController.generated.h"
 
+class UDamageTextWidgetComponent;
 class UInputConfigDataAsset;
 struct FInputActionValue;
 class UInputAction;
@@ -66,7 +67,11 @@ public:
 	
 	void TraceMouseCuror();
 
-	
+public:
+	UPROPERTY(EditDefaultsOnly, Category="UI")
+	TSubclassOf<UDamageTextWidgetComponent>	DamageTextWidgetComponentClass;
+	UFUNCTION(Client,Reliable)
+	void ShowDamageText(float damage, ACharacter* targetCharacter, bool bIsCriticalHit, bool bIsBlockedHit);	
 
 
 };

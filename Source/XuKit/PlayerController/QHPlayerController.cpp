@@ -10,6 +10,7 @@
 #include "XuKit/Character/PlayerCharacter.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
+#include "XuKit/UI/DamageTextWidgetComponent.h"
 
 AQHPlayerController::AQHPlayerController()
 {
@@ -36,15 +37,12 @@ void AQHPlayerController::SetupInputComponent()
 	UQHEnhancedInputComponent* input_component = CastChecked<UQHEnhancedInputComponent>(InputComponent);
 	input_component->BindAction(input_action_move, ETriggerEvent::Triggered, this, &AQHPlayerController::OnMove);
 
-	input_component->BindActions(inputConfigDataAsset,this, &AQHPlayerController::OnAbliityInputTagPressed, &AQHPlayerController::OnAbliityInputTagHeld, &AQHPlayerController::OnAbliityInputTagReleased);
-
-
+	input_component->BindActions(inputConfigDataAsset, this, &AQHPlayerController::OnAbliityInputTagPressed, &AQHPlayerController::OnAbliityInputTagHeld, &AQHPlayerController::OnAbliityInputTagReleased);
 }
 
 void AQHPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-
 }
 
 void AQHPlayerController::PlayerTick(float DeltaTime)
@@ -52,7 +50,6 @@ void AQHPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 
 	TraceMouseCuror();
-
 }
 
 void AQHPlayerController::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -107,7 +104,6 @@ void AQHPlayerController::OnAbliityInputTagReleased(FGameplayTag inputActionTag)
 
 UQHAbilitySystemComponent* AQHPlayerController::GetABS()
 {
-	
 	if (abilitySystemComponent == nullptr)
 	{
 		abilitySystemComponent = Cast<UQHAbilitySystemComponent>(GetPlayerState<AQHPlayerState>()->GetAbilitySystemComponent());
@@ -117,7 +113,6 @@ UQHAbilitySystemComponent* AQHPlayerController::GetABS()
 
 void AQHPlayerController::OnRep_CurorHitResult(FHitResult oldCurorHitResult)
 {
-	
 }
 
 void AQHPlayerController::ServerSetCurorHitResult_Implementation(FHitResult hitResult)
@@ -130,8 +125,17 @@ void AQHPlayerController::TraceMouseCuror()
 	FHitResult local_CurorHitResult;
 	GetHitResultUnderCursor(ECC_Visibility, true, local_CurorHitResult);
 	ServerSetCurorHitResult(local_CurorHitResult);
-	
-
 }
 
-
+void AQHPlayerController::ShowDamageText_Implementation(float damage, ACharacter* targetCharacter, bool bIsCriticalHit, bool bIsBlockedHit)
+{
+	if (DamageTextWidgetComponentClass && targetCharacter)
+	{  
+		UDamageTextWidgetComponent* damageTextWidgetComponent = NewObject<UDamageTextWidgetComponent>(targetCharacter, DamageTextWidgetComponentClass);
+		damageTextWidgetComponent->RegisterComponent();
+		damageTextWidgetComponent->AttachToComponent(targetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepWorldTransform);
+		damageTextWidgetComponent->SetRelativeLocation(FVector::Zero());
+		damageTextWidgetComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		damageTextWidgetComponent->SetDamageText(damage, bIsCriticalHit, bIsBlockedHit);
+	}
+}

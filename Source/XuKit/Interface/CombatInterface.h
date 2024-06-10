@@ -44,5 +44,6 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	AProjectionWeapon* get_cur_projection_weapon();
 	
-	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	ECharactorClass GetCharactorClass();
 };

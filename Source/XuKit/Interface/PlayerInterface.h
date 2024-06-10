@@ -20,6 +20,26 @@ class XUKIT_API IPlayerInterface
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	void AddXP(int xp);
+
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	int GetXP();
+
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	void LevelUp();
+
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	void AddToLevel(int AddLevel);
+
+
+	
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	int FindLevelForXP(int XP);
+
+
+	
+
 
 	
 };

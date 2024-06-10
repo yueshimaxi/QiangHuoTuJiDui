@@ -18,4 +18,8 @@ void QHGameplayTags::InitGameplayTags()
 	gameplayTags.CombatSocket_TailTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Combat.Socket.Tail"),TEXT("Tail"));
 
 	gameplayTags.FireTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Fire"),TEXT("Fire"));
+
+	gameplayTags.Attributes_Meta_IncomingXPTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Meta.IncomingXP"),TEXT("Incoming XP"));
+
+	gameplayTags.HitReactTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("HitReact"),TEXT("Hit React"));
 }

@@ -37,6 +37,12 @@ public:
 
 	//ability tags
 	FGameplayTag FireTag;
+
+	FGameplayTag Attributes_Meta_IncomingXPTag;
+	
+	FGameplayTag HitReactTag;
+
+
 	
 private:
 	static QHGameplayTags gameplayTags;
