@@ -37,7 +37,7 @@ void AQHPlayerController::SetupInputComponent()
 	UQHEnhancedInputComponent* input_component = CastChecked<UQHEnhancedInputComponent>(InputComponent);
 	input_component->BindAction(input_action_move, ETriggerEvent::Triggered, this, &AQHPlayerController::OnMove);
 
-	input_component->BindActions(inputConfigDataAsset, this, &AQHPlayerController::OnAbliityInputTagPressed, &AQHPlayerController::OnAbliityInputTagHeld, &AQHPlayerController::OnAbliityInputTagReleased);
+	//input_component->BindActions(inputConfigDataAsset, this, &AQHPlayerController::OnAbliityInputTagPressed, &AQHPlayerController::OnAbliityInputTagHeld, &AQHPlayerController::OnAbliityInputTagReleased);
 }
 
 void AQHPlayerController::Tick(float DeltaSeconds)

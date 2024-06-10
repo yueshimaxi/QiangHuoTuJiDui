@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "QHCharacterBase.h"
 #include "XuKit/Interface/CombatInterface.h"
+#include "XuKit/Interface/PlayerInterface.h"
 #include "PlayerCharacter.generated.h"
 
 class UInputAction;
@@ -15,7 +16,7 @@ class UCameraComponent;
  * 
  */
 UCLASS()
-class XUKIT_API APlayerCharacter : public AQHCharacterBase
+class XUKIT_API APlayerCharacter : public AQHCharacterBase,public IPlayerInterface
 {
 	GENERATED_BODY()
 
@@ -33,6 +34,7 @@ public:
 	virtual void PostInitializeComponents() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual void ReloadAmmo_Implementation() override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -63,13 +65,25 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UInputAction> input_action_swapWeapon;
 
+	
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
+	TObjectPtr<UInputAction> input_action_attack;
+
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
+	TObjectPtr<UInputAction> input_action_reload;
+
 	UPROPERTY(Replicated)
 	AWeapon* overlaping_weapon;
 
 public:
 	UCombatComponent* getCombatCom();
+	
 	void OnEquipWeaponPress();
 	void OnDropWeaponPress();
 	void OnSwapWeaponPress();
 	void Set_Overlap_Weapon(AWeapon* weapon);
+
+	void OnAttackHold();
+	void OnReloadPress();
+	
 };

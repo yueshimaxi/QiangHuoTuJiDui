@@ -15,7 +15,8 @@ class XUKIT_API UUIPlayerHUD : public UUserWidget,public  IUIBaseInterface
 public:
 	virtual EUILayer GetUILayer_Implementation() const override;
 	virtual EUIType GetUIType_Implementation() const override;
-
+	virtual void NativeOnInitialized() override;
+	virtual void NativeConstruct() override;
 private:
 	GENERATED_BODY()
 
@@ -57,6 +58,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* TaskContent_Text;
 
+	void SetHUDAmmo(int ClipAmmoNum, int AllAmmoNum);
 protected:
 
+	
 };

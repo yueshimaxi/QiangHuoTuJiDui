@@ -25,6 +25,12 @@ void UQHAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 
 	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, Health, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, MaxHealth, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, Gold, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, PisalReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, MaxPisalReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, RifleReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, MaxRifleReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	
 }
 
 void UQHAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -166,8 +172,36 @@ void UQHAttributeSet::SendXPEvent(FEffectProperties props)
 
 void UQHAttributeSet::OnRep_Health(const FGameplayAttributeData& oldData) const
 {
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, Health, oldData);
 }
 
 void UQHAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& oldData) const
 {
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, MaxHealth, oldData);
 }
+
+void UQHAttributeSet::OnRep_PisalReserveAmmo(const FGameplayAttributeData& oldData) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, PisalReserveAmmo, oldData);
+}
+
+void UQHAttributeSet::OnRep_MaxPisalReserveAmmo(const FGameplayAttributeData& oldData) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, MaxPisalReserveAmmo, oldData);
+}
+
+void UQHAttributeSet::OnRep_RifleReserveAmmo(const FGameplayAttributeData& oldData) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, RifleReserveAmmo, oldData);
+}
+
+void UQHAttributeSet::OnRep_MaxRifleReserveAmmo(const FGameplayAttributeData& oldData) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, MaxRifleReserveAmmo, oldData);
+}
+
+void UQHAttributeSet::OnRep_Gold(const FGameplayAttributeData& oldData) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, Gold, oldData);
+}
+

@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
+#include "XuKit/AbilitySystem/QHGameplayTags.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
@@ -98,6 +99,12 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	input_component->BindAction(input_action_equipWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnEquipWeaponPress);
 	input_component->BindAction(input_action_dropWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnDropWeaponPress);
 	input_component->BindAction(input_action_swapWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnSwapWeaponPress);
+
+	//攻击
+	input_component->BindAction(input_action_attack, ETriggerEvent::Triggered, this, &APlayerCharacter::OnAttackHold);
+
+	//换弹
+	input_component->BindAction(input_action_reload, ETriggerEvent::Started, this, &APlayerCharacter::OnReloadPress);
 }
 
 void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -106,6 +113,14 @@ void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 
 	DOREPLIFETIME(APlayerCharacter, overlaping_weapon);
 
+}
+
+void APlayerCharacter::ReloadAmmo_Implementation()
+{
+	if (AProjectionWeapon* projection_weapon = get_cur_projection_weapon_Implementation())
+	{
+		projection_weapon->ReloadAmmo();
+	}
 }
 
 void APlayerCharacter::InitDefaultProjectionWeapon()
@@ -154,6 +169,31 @@ void APlayerCharacter::Set_Overlap_Weapon(AWeapon* weapon)
 
 }
 
+
+
+void APlayerCharacter::OnAttackHold()
+{
+	//如果弹夹子弹大于零则激活攻击Ability，否则换弹Ability
+	if (AProjectionWeapon* projection_weapon = get_cur_projection_weapon_Implementation())
+	{
+		UQHAbilitySystemComponent*	qh_ABS= Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
+		if (projection_weapon->GetCurAmmo() > 0)
+		{
+			
+			qh_ABS->AbilityInputTagHeld(QHGameplayTags::Get().FireTag);
+		}
+		else
+		{
+			qh_ABS->AbilityInputTagHeld(QHGameplayTags::Get().ReloadTag);
+		}
+	}
+}
+
+void APlayerCharacter::OnReloadPress()
+{
+	UQHAbilitySystemComponent*	qh_ABS= Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
+	qh_ABS->AbilityInputTagPressed(QHGameplayTags::Get().ReloadTag);
+}
 
 
 UCombatComponent* APlayerCharacter::getCombatCom()

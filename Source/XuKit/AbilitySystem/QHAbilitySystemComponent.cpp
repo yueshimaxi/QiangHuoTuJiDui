@@ -23,6 +23,17 @@ void UQHAbilitySystemComponent::AddCharactorAbilities(TArray<TSubclassOf<UGamepl
 
 void UQHAbilitySystemComponent::AbilityInputTagPressed(FGameplayTag ActionTag)
 {
+	for (FGameplayAbilitySpec& abilitySpc : ActivatableAbilities.Items)
+	{
+		if (abilitySpc.DynamicAbilityTags.HasTagExact(ActionTag))
+		{
+			AbilitySpecInputPressed(abilitySpc);
+			if (!abilitySpc.IsActive())
+			{
+				TryActivateAbility(abilitySpc.Handle);
+			}
+		}
+	}
 }
 
 void UQHAbilitySystemComponent::AbilityInputTagHeld(FGameplayTag ActionTag)

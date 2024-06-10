@@ -25,6 +25,7 @@ public:
 	//input tags
 	FGameplayTag  InputTag_MouseLeftTag;
 	FGameplayTag  InputTag_MouseRightTag;
+	FGameplayTag  InputTag_key_R_tag;
 
 	//ability tags
 	FGameplayTag DamageTag;
@@ -37,10 +38,13 @@ public:
 
 	//ability tags
 	FGameplayTag FireTag;
+	FGameplayTag ReloadTag;
 
 	FGameplayTag Attributes_Meta_IncomingXPTag;
 	
 	FGameplayTag HitReactTag;
+
+	
 
 
 	

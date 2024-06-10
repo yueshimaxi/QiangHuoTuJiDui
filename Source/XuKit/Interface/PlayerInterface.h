@@ -39,7 +39,9 @@ public:
 
 
 	
-
+	
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	void ReloadAmmo();
 
 	
 };

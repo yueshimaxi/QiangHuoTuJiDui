@@ -21,22 +21,8 @@ enum class EWeaponState
 };
 
 
-UENUM()
-enum class EProjectileWeaponType
-{
-	pistol,
-	AssaultRifle,
-	shotGun,
-	SMG,
-	Rocket,
-};
 
-USTRUCT()
-struct FWeaponInfo
-{	
-	GENERATED_BODY()
-	
-};
+
 
 UCLASS()
 class XUKIT_API AWeapon : public AActor
@@ -72,7 +58,7 @@ public:
 	UFUNCTION()
 	void OnRep_WeaponState(EWeaponState old_state);
 
-	void OnWeaponStateSet();
+	virtual  void OnWeaponStateSet();
 
 	
 	UFUNCTION()
@@ -83,7 +69,6 @@ public:
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 					  int32 OtherBodyIndex);
 
-	virtual void Fire(const FHitResult& hit_result);
 
 	virtual void OnRep_Owner() override;
 

@@ -6,6 +6,7 @@
 #include "XuKit/Actor/Weapon/Weapon.h"
 #include "ProjectionWeapon.generated.h"
 
+enum class EAmmoType;
 class ACasing;
 class AProjectile;
 /**
@@ -15,7 +16,10 @@ UCLASS()
 class XUKIT_API AProjectionWeapon : public AWeapon
 {
 	GENERATED_BODY()
-
+protected:
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+	virtual  void OnWeaponStateSet() override;
+	
 public:
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"),Category = "AInitInfo")
 	TSubclassOf<AProjectile> projectionClass;
@@ -34,5 +38,32 @@ public:
 
 	//弹壳生成位置
 	FVector	GetCasingSpawnLocation();
+
+	UPROPERTY(EditAnywhere, Category="AInitInfo", ReplicatedUsing=OnRep_Ammo)
+	int Ammo=30;
+
+	UPROPERTY(EditAnywhere, Category="AInitInfo")
+	int MaxAmmo=30;
+
+	void Fire();
+
+
+	void SpendAmmo();
 	
+	UFUNCTION()
+	void OnRep_Ammo();
+
+	void SetHUDAmmo();
+
+	bool isEmptyAmmo();
+
+
+	//换弹夹
+	void ReloadAmmo();
+
+	int GetCurAmmo();
+
+	UPROPERTY()
+	EAmmoType ammoType;
+
 };

@@ -50,6 +50,7 @@ UUserWidget* UUIMgr::ShowUIBP(TSubclassOf<UUserWidget> uiType)
 		XuPRINT("UIclass is NUll");
 	}
 	uiBase = CreateWidget<UUserWidget>(GetWorld(), uiclass);
+	XuPRINT("CreateWidget");
 
 	if (!uiBase)
 	{

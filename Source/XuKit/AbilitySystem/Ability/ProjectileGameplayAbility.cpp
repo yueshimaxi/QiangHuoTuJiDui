@@ -62,4 +62,6 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 
 	//生成MuzzleFlashEffect
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), projection_weapon->MuzzleFlashEffect, ammoLocation, ammoRotation);
+
+	projection_weapon->Fire();
 }

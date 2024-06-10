@@ -7,9 +7,12 @@
 #include "GameFramework/PlayerState.h"
 #include "QHPlayerState.generated.h"
 
+enum class EAmmoType;
 class UQHAttributeSet;
 class UQHAbilitySystemComponent;
 class UAttributeSet;
+
+
 /**
  * 
  */
@@ -33,4 +36,13 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UQHAttributeSet> qh_attribute_set;
+
+	UPROPERTY()
+	TMap<EAmmoType,int>	ammo_map;
+
+	void SpendAmmo(EAmmoType ammo_type);
+
+	int GetAmmoNum(EAmmoType ammo_type);
+
+	void AddAmmoNum(EAmmoType ammo_type, int num);
 };

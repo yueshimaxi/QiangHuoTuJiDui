@@ -51,9 +51,9 @@ void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* proj
 	if (equipped_projection_weapon == nullptr)
 	{
 		equipped_projection_weapon = projectile_weapon;
-		equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Equiped);
-		equipped_projection_weapon->AttachToComponent(owner_character->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, owner_character->WeaponAttackSocket);
 		equipped_projection_weapon->SetOwner(owner_character);
+		equipped_projection_weapon->AttachToComponent(owner_character->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, owner_character->WeaponAttackSocket);
+		equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Equiped);
 	}
 	else
 	{

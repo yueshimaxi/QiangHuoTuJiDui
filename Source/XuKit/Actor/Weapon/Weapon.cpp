@@ -123,9 +123,7 @@ void AWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 	}
 }
 
-void AWeapon::Fire(const FHitResult& hit_result)
-{
-}
+
 
 void AWeapon::OnRep_Owner()
 {
