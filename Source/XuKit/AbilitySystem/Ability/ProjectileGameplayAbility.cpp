@@ -31,7 +31,7 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 	spawn_transform.SetRotation(ammoRotation.Quaternion());
 
 	//画球体
-	//DrawDebugSphere(GetWorld(), ammoLocation, 10, 10, FColor::Red, false, 1);
+	DrawDebugSphere(GetWorld(), ammoLocation, 10, 10, FColor::Red, false, 1);
 
 	//生成子弹
 	AProjectile* projectile = GetWorld()->SpawnActorDeferred<AProjectile>(projection_weapon->projectionClass, spawn_transform, GetOwningActorFromActorInfo(),
