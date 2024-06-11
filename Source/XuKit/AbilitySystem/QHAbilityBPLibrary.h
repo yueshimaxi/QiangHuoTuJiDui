@@ -6,7 +6,28 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "QHAbilityBPLibrary.generated.h"
 
+class UCharactorClassInfo;
+class UAbilitySystemComponent;
+class UAttributeSet;
 struct FGameplayEffectContextHandle;
+
+USTRUCT(BlueprintType)
+struct FWidgetControllerParams
+{
+	GENERATED_BODY()
+	FWidgetControllerParams(){}
+	FWidgetControllerParams(APlayerController* PC,APlayerState* PS,UAbilitySystemComponent* ASC,UAttributeSet* AS)
+	:PlayerController(PC),PlayerState(PS),AbilitySystemComponent(ASC),AttributeSet(AS){}
+	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
+	TObjectPtr<APlayerController> PlayerController;
+	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
+	TObjectPtr<APlayerState> PlayerState;
+	
+	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
+	TObjectPtr<UAttributeSet> AttributeSet;	
+};
 /**
  * 
  */
@@ -29,5 +50,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
 	static int GetRewardXPFromCharactorTypeAndLevel(UObject* WorldContextObject, ECharactorClass CharactorClass, int level);
+
+	UFUNCTION(BlueprintPure, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
+	static FWidgetControllerParams GetFWidgetControllerParams(UObject* WorldContextObject);
 
 };

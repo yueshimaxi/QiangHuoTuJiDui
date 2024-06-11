@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "XuKit/Data/CharactorClassInfo.h"
 #include "XuKit/GameMode/QHGameModeBase.h"
+#include "XuKit/PlayerState/QHPlayerState.h"
 
 bool UQHAbilityBPLibrary::IsNotFriendly(AActor* ActorA, AActor* ActorB)
 {
@@ -53,4 +54,14 @@ int UQHAbilityBPLibrary::GetRewardXPFromCharactorTypeAndLevel(UObject* WorldCont
 	FCharactorInfo charactor_info = enemy_init_data_asset->GetCharactorInfo(CharactorClass);
 	int Reward= charactor_info.RewardXP.GetValueAtLevel(level);
 	return Reward;
+}
+
+FWidgetControllerParams UQHAbilityBPLibrary::GetFWidgetControllerParams(UObject* WorldContextObject)
+{
+	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
+	{
+		AQHPlayerState* PS = PC->GetPlayerState<AQHPlayerState>();
+		return FWidgetControllerParams(PC, PS, PS->GetAbilitySystemComponent(), PS->GetAttributeSet());
+	}
+	return FWidgetControllerParams();
 }

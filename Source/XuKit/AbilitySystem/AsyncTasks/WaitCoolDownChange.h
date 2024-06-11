@@ -38,5 +38,5 @@ protected:
 	UFUNCTION()
 	void OnGameplayTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
 
-	bool GetCooldownRemainingForTag(FGameplayTag CooldownTag, float & TimeRemaining, float & CooldownDuration);
+	bool GetCooldownRemainingForTag(FGameplayTag local_CooldownTag, float& TimeRemaining, float& CooldownDuration);
 };

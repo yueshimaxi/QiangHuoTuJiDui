@@ -8,6 +8,7 @@
 #include "XuKit/Interface/PlayerInterface.h"
 #include "PlayerCharacter.generated.h"
 
+class UGameplayEffect;
 class UInputAction;
 class UCombatComponent;
 class USpringArmComponent;
@@ -85,5 +86,8 @@ public:
 
 	void OnAttackHold();
 	void OnReloadPress();
+
+	virtual void InitDefaultAttributesToSelf() override;
+
 	
 };

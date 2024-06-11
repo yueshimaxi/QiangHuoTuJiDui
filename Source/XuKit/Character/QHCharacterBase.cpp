@@ -87,3 +87,18 @@ void AQHCharacterBase::AddCharactorAbilities()
 	if (!HasAuthority())return;
 	ABS->AddCharactorAbilities(DefaultAbilities);
 }
+
+void AQHCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> DefaultAttributeEffect)
+{
+	check(IsValid(GetAbilitySystemComponent()));
+	check(DefaultAttributeEffect);
+	FGameplayEffectContextHandle effect_context_handle = GetAbilitySystemComponent()->MakeEffectContext();
+	effect_context_handle.AddSourceObject(this);
+	const FGameplayEffectSpecHandle effect_spec_handle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultAttributeEffect, 1.0f, effect_context_handle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*effect_spec_handle.Data.Get(), GetAbilitySystemComponent());
+}
+
+void AQHCharacterBase::InitDefaultAttributesToSelf()
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
+}

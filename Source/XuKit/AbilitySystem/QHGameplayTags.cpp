@@ -27,4 +27,5 @@ void QHGameplayTags::InitGameplayTags()
 	gameplayTags.ReloadTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Reload"),TEXT("Reload"));
 
 	gameplayTags.Cooldown_FireTag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Fire"),TEXT("Fire Cooldown"));
+	gameplayTags.Cooldown_ReloadTag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Reload"),TEXT("Reload Cooldown"));
 }

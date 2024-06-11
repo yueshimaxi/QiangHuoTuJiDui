@@ -70,6 +70,8 @@ void APlayerCharacter::InitAbilityActorInfo()
 	qh_ability_system_component->InitAbilityActorInfo(player_state, this);
 
 	AddCharactorAbilities();
+	InitDefaultAttributesToSelf();
+
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
@@ -193,6 +195,12 @@ void APlayerCharacter::OnReloadPress()
 {
 	UQHAbilitySystemComponent*	qh_ABS= Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
 	qh_ABS->AbilityInputTagPressed(QHGameplayTags::Get().ReloadTag);
+}
+
+void APlayerCharacter::InitDefaultAttributesToSelf()
+{
+	ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
+
 }
 
 

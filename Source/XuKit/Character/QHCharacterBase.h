@@ -8,6 +8,7 @@
 #include "XuKit/Interface/CombatInterface.h"
 #include "QHCharacterBase.generated.h"
 
+class UGameplayEffect;
 class UGameplayAbility;
 class UAttributeSet;
 
@@ -54,4 +55,10 @@ public:
 	FName RightHandAttackSocket;
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	FName TailAttackSocket;
+
+	UPROPERTY(EditAnywhere, Category=" AInitInfo")
+	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributeEffect;
+	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> DefaultAttributeEffect);
+	virtual void InitDefaultAttributesToSelf() ;
+
 };

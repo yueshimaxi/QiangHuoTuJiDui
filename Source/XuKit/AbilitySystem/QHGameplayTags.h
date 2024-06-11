@@ -49,6 +49,7 @@ public:
 
 	//cooldown tags
 	FGameplayTag Cooldown_FireTag;
+	FGameplayTag Cooldown_ReloadTag;
 
 	
 private:
