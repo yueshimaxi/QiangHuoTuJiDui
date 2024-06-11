@@ -18,7 +18,7 @@ void AProjectionWeapon::BeginPlay()
 	Super::BeginPlay();
 
 	weapon_info = GetWorld()->GetSubsystem<UDataMgr>()->GetWeaponConfigDataBase()->GetWeaponInfo(weaponType);
-	Ammo=weapon_info.weapon_clip_size;
+	Ammo = weapon_info.weapon_clip_size;
 }
 
 void AProjectionWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -73,7 +73,7 @@ void AProjectionWeapon::SpendAmmo()
 
 void AProjectionWeapon::OnRep_Ammo()
 {
-	if (GetOwner()&&Cast<ACharacter>(GetOwner())->IsLocallyControlled())
+	if (GetOwner() && Cast<ACharacter>(GetOwner())->IsLocallyControlled())
 	{
 		SetHUDAmmo();
 	}
@@ -98,24 +98,27 @@ bool AProjectionWeapon::isEmptyAmmo()
 
 void AProjectionWeapon::ReloadAmmo()
 {
-	int allBackpackAmmo = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->GetAmmoNum(weapon_info.Ammo_type);
-	if (allBackpackAmmo > 0)
+	if (AQHPlayerState* playerState = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>())
 	{
-		int needAmmo = weapon_info.weapon_clip_size - Ammo;
-		if (allBackpackAmmo >= needAmmo)
+		int allBackpackAmmo = playerState->GetAmmoNum(weapon_info.Ammo_type);
+		if (allBackpackAmmo > 0)
 		{
-			Ammo = weapon_info.weapon_clip_size;
-			Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->AddAmmoNum(weapon_info.Ammo_type, -needAmmo);
+			int needAmmo = weapon_info.weapon_clip_size - Ammo;
+			if (allBackpackAmmo >= needAmmo)
+			{
+				Ammo = weapon_info.weapon_clip_size;
+				playerState->AddAmmoNum(weapon_info.Ammo_type, -needAmmo);
+			}
+			else
+			{
+				Ammo += allBackpackAmmo;
+				playerState->AddAmmoNum(weapon_info.Ammo_type, -allBackpackAmmo);
+			}
 		}
-		else
+		if (Cast<ACharacter>(GetOwner())->IsLocallyControlled())
 		{
-			Ammo += allBackpackAmmo;
-			Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>()->AddAmmoNum(weapon_info.Ammo_type, -allBackpackAmmo);
+			SetHUDAmmo();
 		}
-	}
-	if (Cast<ACharacter>(GetOwner())->IsLocallyControlled())
-	{
-		SetHUDAmmo();
 	}
 }
 

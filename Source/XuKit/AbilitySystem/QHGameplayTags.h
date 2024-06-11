@@ -40,12 +40,15 @@ public:
 	FGameplayTag FireTag;
 	FGameplayTag ReloadTag;
 
+	//meta data tags
 	FGameplayTag Attributes_Meta_IncomingXPTag;
 	
 	FGameplayTag HitReactTag;
 
 	
 
+	//cooldown tags
+	FGameplayTag Cooldown_FireTag;
 
 	
 private:
