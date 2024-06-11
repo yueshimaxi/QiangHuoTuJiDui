@@ -14,18 +14,22 @@
 
 void UProjectileGameplayAbility::ApplyCooldown(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) const
 {
+	//Super::ApplyCooldown(Handle, ActorInfo, ActivationInfo);
 	UGameplayEffect* CooldownGE = GetCooldownGameplayEffect();
 	if (CooldownGE)
 	{
-		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(CooldownGE->GetClass(), GetAbilityLevel());
-		FGameplayTagContainer OurSetByCallerTag;
-		OurSetByCallerTag.AddTag(QHGameplayTags::Get().FireTag);
-		SpecHandle.Data.Get()->DynamicGrantedTags.AppendTags(OurSetByCallerTag);
-		SpecHandle.Data.Get()->SetSetByCallerMagnitude(QHGameplayTags::Get().FireTag, 3);
-		
-		ApplyGameplayEffectToOwner(Handle, ActorInfo, ActivationInfo, CooldownGE, GetAbilityLevel(Handle, ActorInfo));
+		ICombatInterface* combat_interface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
+		if (!combat_interface)return;
+
+		AProjectionWeapon* projection_weapon = ICombatInterface::Execute_get_cur_projection_weapon(GetAvatarActorFromActorInfo());
+		if (!projection_weapon)return;
+
+		float Fire_rate = projection_weapon->weapon_info.weapon_fire_rate;
+
+		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(CooldownGameplayEffectClass, GetAbilityLevel());
+		SpecHandle.Data.Get()->SetSetByCallerMagnitude(cooldown_tag, Fire_rate);
+		ApplyGameplayEffectSpecToOwner(Handle, ActorInfo, ActivationInfo, SpecHandle);
 	}
-	
 }
 
 void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGameplayTag socketTag, bool overridePitch, float pitch)

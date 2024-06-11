@@ -17,4 +17,9 @@ class XUKIT_API UQHGameplayAbility : public UGameplayAbility
 public:
 	UPROPERTY(EditDefaultsOnly,Category = "AInitInfo")
 	FGameplayTag start_up_input_ability_tag;
+	
+	UPROPERTY(EditDefaultsOnly,Category = "AInitInfo")
+	FGameplayTag cooldown_tag;
+
+	
 };
