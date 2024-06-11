@@ -12,6 +12,22 @@
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/Interface/CombatInterface.h"
 
+void UProjectileGameplayAbility::ApplyCooldown(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) const
+{
+	UGameplayEffect* CooldownGE = GetCooldownGameplayEffect();
+	if (CooldownGE)
+	{
+		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(CooldownGE->GetClass(), GetAbilityLevel());
+		FGameplayTagContainer OurSetByCallerTag;
+		OurSetByCallerTag.AddTag(QHGameplayTags::Get().FireTag);
+		SpecHandle.Data.Get()->DynamicGrantedTags.AppendTags(OurSetByCallerTag);
+		SpecHandle.Data.Get()->SetSetByCallerMagnitude(QHGameplayTags::Get().FireTag, 3);
+		
+		ApplyGameplayEffectToOwner(Handle, ActorInfo, ActivationInfo, CooldownGE, GetAbilityLevel(Handle, ActorInfo));
+	}
+	
+}
+
 void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGameplayTag socketTag, bool overridePitch, float pitch)
 {
 	//XuPRINT_ShowInScreen(TEXT("SpawnProjectile"));

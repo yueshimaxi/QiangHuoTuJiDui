@@ -18,7 +18,7 @@ class XUKIT_API UProjectileGameplayAbility : public UDamageGameplayAbility
 
 
 public:
-	
+	virtual void ApplyCooldown(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) const override;
 
 	UFUNCTION(BlueprintCallable, Category = "AInitInfo")
 	void SpawnProjectile(FVector targetLocation,FGameplayTag socketTag,bool overridePitch=false,float pitch=0.0f);
