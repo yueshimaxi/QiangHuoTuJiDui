@@ -30,10 +30,14 @@ void AProjectionWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void AProjectionWeapon::OnWeaponStateSet()
 {
 	Super::OnWeaponStateSet();
-	if (GetOwner() && Cast<ACharacter>(GetOwner())->IsLocallyControlled())
+	if (weapon_state == EWeaponState::EWS_Equiped)
 	{
-		SetHUDAmmo();
+		if (GetOwner() && Cast<ACharacter>(GetOwner())->IsLocallyControlled())
+		{
+			SetHUDAmmo();
+		};
 	}
+
 }
 
 FVector AProjectionWeapon::GetProjectileSpawnLocation()
@@ -86,7 +90,7 @@ void AProjectionWeapon::SetHUDAmmo()
 		if (AQHPlayerState* playerState = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>())
 		{
 			int allBackpackAmmo = playerState->GetAmmoNum(weapon_info.Ammo_type);
-			playerHUD->SetHUDAmmo(Ammo, allBackpackAmmo);
+			playerHUD->SetHUDAmmo(Ammo, allBackpackAmmo, weapon_info);
 		}
 	}
 }

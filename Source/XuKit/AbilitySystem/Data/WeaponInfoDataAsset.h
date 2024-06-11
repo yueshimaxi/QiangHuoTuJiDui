@@ -57,6 +57,9 @@ struct FWeaponInfo
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	EAmmoType Ammo_type;
 	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UTexture2D* weapon_icon;
+	
 };
 
 /**

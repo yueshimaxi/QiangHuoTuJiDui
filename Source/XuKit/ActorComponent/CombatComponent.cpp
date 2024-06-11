@@ -57,6 +57,7 @@ void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* proj
 	}
 	else
 	{
+		equipped_projection_weapon->SetOwner(owner_character);
 		projectile_weapon->SetWeaponState(EWeaponState::EWS_Backpack);
 	}
 
@@ -81,9 +82,9 @@ void UCombatComponent::Server_DropWeapon_Implementation()
 	if (own_projection_weapons.Num() > 0)
 	{
 		equipped_projection_weapon = own_projection_weapons[0];
+		equipped_projection_weapon->SetOwner(owner_character);
 		equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Equiped);
 		equipped_projection_weapon->AttachToComponent(owner_character->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, owner_character->WeaponAttackSocket);
-		equipped_projection_weapon->SetOwner(owner_character);
 	}
 	else
 	{

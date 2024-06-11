@@ -1,11 +1,13 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Image.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 #include "XuKit/UI/UIBaseInterface.h"
 #include "UIPlayerHUD.generated.h"
 
+struct FWeaponInfo;
 /**
  * 
  */
@@ -38,6 +40,9 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* AllAmmoNum_Text;
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UImage* WeaponIcon_Image;
 	
 	
 //XP、Coin
@@ -58,7 +63,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* TaskContent_Text;
 
-	void SetHUDAmmo(int ClipAmmoNum, int AllAmmoNum);
+	void SetHUDAmmo(int ClipAmmoNum, int AllAmmoNum,FWeaponInfo local_weapon_info);
 protected:
 
 	
