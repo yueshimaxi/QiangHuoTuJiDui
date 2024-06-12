@@ -46,4 +46,5 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	ECharactorClass GetCharactorClass();
+	
 };

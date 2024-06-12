@@ -42,6 +42,9 @@ public:
 	
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
 	void ReloadAmmo();
+	
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	void SwapWeapon(bool swapWeaponForward);
 
 	
 };

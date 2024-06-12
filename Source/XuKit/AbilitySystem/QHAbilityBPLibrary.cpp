@@ -5,7 +5,10 @@
 
 #include "GameplayEffectTypes.h"
 #include "QHAbilityTypes.h"
+#include "Abilities/GameplayAbilityTargetTypes.h"
+#include "Ability/QHGameplayAbility.h"
 #include "Kismet/GameplayStatics.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/Data/CharactorClassInfo.h"
 #include "XuKit/GameMode/QHGameModeBase.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
@@ -64,4 +67,27 @@ FWidgetControllerParams UQHAbilityBPLibrary::GetFWidgetControllerParams(UObject*
 		return FWidgetControllerParams(PC, PS, PS->GetAbilitySystemComponent(), PS->GetAttributeSet());
 	}
 	return FWidgetControllerParams();
+
+	
+}
+
+bool UQHAbilityBPLibrary::GetSwapWeaponDirFromTargetData(const FGameplayAbilityTargetDataHandle& TargetData, int32 Index)
+{
+	if (TargetData.Data.IsValidIndex(Index))
+	{
+		FGameplayAbilityTargetData* Data = TargetData.Data[Index].Get();
+		//FGameplayAbilityTargetData转换成FSwapWeaponDirGameplayAbilityTargetData
+		if (Data)
+		{
+			const FSwapWeaponDirGameplayAbilityTargetData* HitResultPtr = static_cast<const FSwapWeaponDirGameplayAbilityTargetData*>(Data);
+			if (HitResultPtr)
+			{
+				XuPRINT(FString::Printf(TEXT("GetSwapWeaponDirFromTargetData: %d"), HitResultPtr->bSwapForward));
+				return HitResultPtr->bSwapForward;
+			}
+		}
+	
+	}
+	XuPRINT(FString::Printf(TEXT("GetSwapWeaponDirFromTargetData failed")));
+	return false;
 }

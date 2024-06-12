@@ -38,6 +38,7 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void ReloadAmmo_Implementation() override;
 	virtual void OnRep_PlayerState() override;
+	virtual  void SwapWeapon_Implementation(bool swapWeaponForward) override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -96,6 +97,8 @@ public:
 
 
 	void FreshHUD();
+
+	bool SwapWeapon_forward=false;
 
 	
 };

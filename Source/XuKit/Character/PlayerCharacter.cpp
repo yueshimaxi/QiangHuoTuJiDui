@@ -133,6 +133,11 @@ void APlayerCharacter::OnRep_PlayerState()
 	Super::OnRep_PlayerState();
 }
 
+void APlayerCharacter::SwapWeapon_Implementation(bool swapWeaponForward)
+{
+	getCombatCom()->SwapWeapon(swapWeaponForward);
+}
+
 void APlayerCharacter::InitDefaultProjectionWeapon()
 {
 	AProjectionWeapon* projection_weapon = GetWorld()->SpawnActor<AProjectionWeapon>(default_projection_weapon_class);
@@ -173,17 +178,13 @@ void APlayerCharacter::OnSwapWeaponPress(const FInputActionValue& input_action_v
 	//根据鼠标滚轮值切换武器，根据CombatComponent里的武器数组按顺序切换
 	const float inputValue = input_action_value.Get<float>();
 	XuPRINT(FString::Printf(TEXT("inputValue:%f"), inputValue));
-	if (inputValue > 0)
-	{
-		getCombatCom()->SwapWeapon(true);
-	}
-	else if (inputValue < 0)
-	{
-		getCombatCom()->SwapWeapon(false);
-	}
-	
 
-	
+	if (getCombatCom()->own_projection_weapons.Num() > 1)
+	{
+		SwapWeapon_forward = inputValue > 0;
+		UQHAbilitySystemComponent* qh_ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
+		qh_ABS->AbilityInputTagPressed(QHGameplayTags::Get().SwapWeaponTag);
+	}
 }
 
 void APlayerCharacter::Set_Overlap_Weapon(AWeapon* weapon)

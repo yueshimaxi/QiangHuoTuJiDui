@@ -39,6 +39,7 @@ public:
 	//ability tags
 	FGameplayTag FireTag;
 	FGameplayTag ReloadTag;
+	FGameplayTag SwapWeaponTag;
 
 	//meta data tags
 	FGameplayTag Attributes_Meta_IncomingXPTag;

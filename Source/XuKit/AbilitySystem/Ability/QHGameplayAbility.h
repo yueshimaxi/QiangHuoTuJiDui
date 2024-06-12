@@ -5,7 +5,22 @@
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
 #include "QHGameplayAbility.generated.h"
+USTRUCT(BlueprintType)
+struct  FSwapWeaponDirGameplayAbilityTargetData : public FGameplayAbilityTargetData
+{
+	GENERATED_BODY()
 
+public:
+	// 添加你需要的bool成员变量
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bSwapForward;
+
+	// 构造函数
+	FSwapWeaponDirGameplayAbilityTargetData()
+	{
+		bSwapForward = false;
+	}
+};
 /**
  * 
  */

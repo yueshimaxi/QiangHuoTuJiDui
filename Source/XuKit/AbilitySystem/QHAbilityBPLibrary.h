@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "QHAbilityBPLibrary.generated.h"
 
+struct FGameplayAbilityTargetDataHandle;
 class UCharactorClassInfo;
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -53,5 +54,12 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
 	static FWidgetControllerParams GetFWidgetControllerParams(UObject* WorldContextObject);
+
+
+	UFUNCTION(BlueprintPure, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
+	static bool  GetSwapWeaponDirFromTargetData(const FGameplayAbilityTargetDataHandle& TargetData, int32 Index);
+
+	
+
 
 };

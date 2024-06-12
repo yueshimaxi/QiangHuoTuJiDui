@@ -52,6 +52,28 @@ void UTargetDataTask::SendCurorData()
 	}
 }
 
+void UTargetDataTask::SendSwapWeaponDirData()
+{
+	FScopedPredictionWindow ScopedPrediction(AbilitySystemComponent.Get());
+
+	APlayerController* player_controller = Ability->GetCurrentActorInfo()->PlayerController.Get();
+	FHitResult curorHitResult;
+	player_controller->GetHitResultUnderCursor(ECC_Visibility, false, curorHitResult);
+
+	FGameplayAbilityTargetDataHandle AbilityTargetDataHandle;
+	FGameplayAbilityTargetData_SingleTargetHit* hitData = new FGameplayAbilityTargetData_SingleTargetHit();
+	hitData->HitResult = curorHitResult;
+	AbilityTargetDataHandle.Add(hitData);
+
+	AbilitySystemComponent->ServerSetReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey(),
+		AbilityTargetDataHandle, FGameplayTag(), AbilitySystemComponent->ScopedPredictionKey);
+
+	if (ShouldBroadcastAbilityTaskDelegates())
+	{
+		ValidData.Broadcast(AbilityTargetDataHandle);
+	}
+}
+
 void UTargetDataTask::OnCurorDataReplicatedCallBack(const FGameplayAbilityTargetDataHandle& Data, FGameplayTag ActivationTag)
 {
 	AbilitySystemComponent->ConsumeClientReplicatedTargetData(GetAbilitySpecHandle(),GetActivationPredictionKey());
