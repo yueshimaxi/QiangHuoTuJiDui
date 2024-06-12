@@ -36,6 +36,7 @@ public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void ReloadAmmo_Implementation() override;
+	virtual void OnRep_PlayerState() override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -88,6 +89,10 @@ public:
 	void OnReloadPress();
 
 	virtual void InitDefaultAttributesToSelf() override;
+
+
+
+	void FreshHUD();
 
 	
 };

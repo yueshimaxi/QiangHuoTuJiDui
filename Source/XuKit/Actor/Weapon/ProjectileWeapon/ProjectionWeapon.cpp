@@ -17,8 +17,8 @@ void AProjectionWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 
-	weapon_info = GetWorld()->GetSubsystem<UDataMgr>()->GetWeaponConfigDataBase()->GetWeaponInfo(weaponType);
-	Ammo = weapon_info.weapon_clip_size;
+	InitData();
+
 }
 
 void AProjectionWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -129,4 +129,14 @@ void AProjectionWeapon::ReloadAmmo()
 int AProjectionWeapon::GetCurAmmo()
 {
 	return Ammo;
+}
+
+void AProjectionWeapon::InitData()
+{
+	if (bInitData)
+	{
+		return;
+	}
+	weapon_info = GetWorld()->GetSubsystem<UDataMgr>()->GetWeaponConfigDataBase()->GetWeaponInfo(weaponType);
+	Ammo = weapon_info.weapon_clip_size;
 }

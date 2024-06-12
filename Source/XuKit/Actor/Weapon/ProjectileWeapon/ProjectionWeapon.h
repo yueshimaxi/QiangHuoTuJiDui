@@ -71,4 +71,8 @@ public:
 
 	UPROPERTY()
 	FWeaponInfo weapon_info;
+
+	bool bInitData=false;
+	void InitData();
+	
 };

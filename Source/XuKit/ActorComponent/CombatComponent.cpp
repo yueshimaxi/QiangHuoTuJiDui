@@ -67,7 +67,7 @@ void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* proj
 
 void UCombatComponent::DropWeapon()
 {
-	if (equipped_projection_weapon)
+	if (equipped_projection_weapon&&own_projection_weapons.Num()>1)
 	{
 		Server_DropWeapon();
 	}

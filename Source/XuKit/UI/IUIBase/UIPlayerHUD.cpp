@@ -28,17 +28,17 @@ void UUIPlayerHUD::NativeOnInitialized()
 void UUIPlayerHUD::NativeConstruct()
 {
 	Super::NativeConstruct();
-	// APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	// if (playerController)
-	// {
-	// 	if (ICombatInterface* icombatInterface = Cast<ICombatInterface>(playerController->GetPawn()))
-	// 	{
-	// 		AQHPlayerState *playerState = playerController->GetPlayerState<AQHPlayerState>();
-	// 		AProjectionWeapon* weapon = icombatInterface->Execute_get_cur_projection_weapon(playerController->GetPawn());
-	// 		int allBackpackAmmo = playerState->GetAmmoNum(weapon->weapon_info.Ammo_type);
-	// 		SetHUDAmmo(weapon->Ammo, allBackpackAmmo, weapon->weapon_info);
-	// 	}
-	// }
+	APlayerController* playerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	if (playerController)
+	{
+		if (ICombatInterface* icombatInterface = Cast<ICombatInterface>(playerController->GetPawn()))
+		{
+			AQHPlayerState *playerState = playerController->GetPlayerState<AQHPlayerState>();
+			AProjectionWeapon* weapon = icombatInterface->Execute_get_cur_projection_weapon(playerController->GetPawn());
+			int allBackpackAmmo = playerState->GetAmmoNum(weapon->weapon_info.Ammo_type);
+			SetHUDAmmo(weapon->Ammo, allBackpackAmmo, weapon->weapon_info);
+		}
+	}
 
 	XuPRINT("UUIPlayerHUD::NativeConstruct");
 }

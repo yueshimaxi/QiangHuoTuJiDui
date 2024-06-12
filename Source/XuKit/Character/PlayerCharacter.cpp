@@ -13,9 +13,12 @@
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
+#include "XuKit/HUD/QHHUD.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
+#include "XuKit/UI/UIMgr.h"
+#include "XuKit/UI/IUIBase/UIPlayerHUD.h"
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -71,7 +74,6 @@ void APlayerCharacter::InitAbilityActorInfo()
 
 	AddCharactorAbilities();
 	InitDefaultAttributesToSelf();
-
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
@@ -79,6 +81,7 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 	InitAbilityActorInfo();
 	InitDefaultProjectionWeapon();
+	FreshHUD();
 }
 
 AProjectionWeapon* APlayerCharacter::get_cur_projection_weapon_Implementation()
@@ -114,7 +117,6 @@ void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
 	DOREPLIFETIME(APlayerCharacter, overlaping_weapon);
-
 }
 
 void APlayerCharacter::ReloadAmmo_Implementation()
@@ -125,9 +127,15 @@ void APlayerCharacter::ReloadAmmo_Implementation()
 	}
 }
 
+void APlayerCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+}
+
 void APlayerCharacter::InitDefaultProjectionWeapon()
 {
 	AProjectionWeapon* projection_weapon = GetWorld()->SpawnActor<AProjectionWeapon>(default_projection_weapon_class);
+	projection_weapon->InitData();
 	getCombatCom()->EquipWeapon(projection_weapon);
 }
 
@@ -141,8 +149,6 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 		SetActorRotation(new_rot);
 	}
 }
-
-
 
 
 void APlayerCharacter::OnEquipWeaponPress()
@@ -168,9 +174,7 @@ void APlayerCharacter::OnSwapWeaponPress()
 void APlayerCharacter::Set_Overlap_Weapon(AWeapon* weapon)
 {
 	overlaping_weapon = weapon;
-
 }
-
 
 
 void APlayerCharacter::OnAttackHold()
@@ -178,10 +182,9 @@ void APlayerCharacter::OnAttackHold()
 	//如果弹夹子弹大于零则激活攻击Ability，否则换弹Ability
 	if (AProjectionWeapon* projection_weapon = get_cur_projection_weapon_Implementation())
 	{
-		UQHAbilitySystemComponent*	qh_ABS= Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
+		UQHAbilitySystemComponent* qh_ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
 		if (projection_weapon->GetCurAmmo() > 0)
 		{
-			
 			qh_ABS->AbilityInputTagHeld(QHGameplayTags::Get().FireTag);
 		}
 		else
@@ -193,14 +196,27 @@ void APlayerCharacter::OnAttackHold()
 
 void APlayerCharacter::OnReloadPress()
 {
-	UQHAbilitySystemComponent*	qh_ABS= Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
+	UQHAbilitySystemComponent* qh_ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
 	qh_ABS->AbilityInputTagPressed(QHGameplayTags::Get().ReloadTag);
 }
 
 void APlayerCharacter::InitDefaultAttributesToSelf()
 {
 	ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
+}
 
+void APlayerCharacter::FreshHUD()
+{
+	if (AQHPlayerState* playerState = GetPlayerState<AQHPlayerState>())
+	{
+		if (UUIPlayerHUD* playerHUD = GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->GetUI<UUIPlayerHUD>())
+		{
+			AProjectionWeapon* weapon = get_cur_projection_weapon();
+
+			int allBackpackAmmo = playerState->GetAmmoNum(weapon->weapon_info.Ammo_type);
+			playerHUD->SetHUDAmmo(weapon->Ammo, allBackpackAmmo, weapon->weapon_info);
+		}
+	}
 }
 
 
@@ -208,5 +224,3 @@ UCombatComponent* APlayerCharacter::getCombatCom()
 {
 	return combat_component;
 }
-
-
