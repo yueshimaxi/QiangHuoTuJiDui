@@ -8,6 +8,7 @@
 #include "XuKit/Interface/PlayerInterface.h"
 #include "PlayerCharacter.generated.h"
 
+struct FInputActionValue;
 class UGameplayEffect;
 class UInputAction;
 class UCombatComponent;
@@ -74,6 +75,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UInputAction> input_action_reload;
 
+
+
 	UPROPERTY(Replicated)
 	AWeapon* overlaping_weapon;
 
@@ -82,7 +85,7 @@ public:
 	
 	void OnEquipWeaponPress();
 	void OnDropWeaponPress();
-	void OnSwapWeaponPress();
+	void OnSwapWeaponPress(const FInputActionValue& input_action_value);
 	void Set_Overlap_Weapon(AWeapon* weapon);
 
 	void OnAttackHold();

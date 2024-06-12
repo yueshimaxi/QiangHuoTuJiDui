@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
@@ -167,8 +168,22 @@ void APlayerCharacter::OnDropWeaponPress()
 	getCombatCom()->DropWeapon();
 }
 
-void APlayerCharacter::OnSwapWeaponPress()
+void APlayerCharacter::OnSwapWeaponPress(const FInputActionValue& input_action_value)
 {
+	//根据鼠标滚轮值切换武器，根据CombatComponent里的武器数组按顺序切换
+	const float inputValue = input_action_value.Get<float>();
+	XuPRINT(FString::Printf(TEXT("inputValue:%f"), inputValue));
+	if (inputValue > 0)
+	{
+		getCombatCom()->SwapWeapon(true);
+	}
+	else if (inputValue < 0)
+	{
+		getCombatCom()->SwapWeapon(false);
+	}
+	
+
+	
 }
 
 void APlayerCharacter::Set_Overlap_Weapon(AWeapon* weapon)

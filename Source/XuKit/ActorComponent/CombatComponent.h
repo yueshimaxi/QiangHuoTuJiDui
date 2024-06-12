@@ -52,4 +52,10 @@ public:
 	void DropWeapon();
 	UFUNCTION(Server, Reliable)
 	void Server_DropWeapon();
+
+	void SwapWeapon(bool forward);
+	UFUNCTION(Server, Reliable)
+	void Server_SwapWeapon(bool forward);
+
+	int currentIndex=0;
 };

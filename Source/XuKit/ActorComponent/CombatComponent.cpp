@@ -67,11 +67,12 @@ void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* proj
 
 void UCombatComponent::DropWeapon()
 {
-	if (equipped_projection_weapon&&own_projection_weapons.Num()>1)
+	if (equipped_projection_weapon && own_projection_weapons.Num() > 1)
 	{
 		Server_DropWeapon();
 	}
 }
+
 
 void UCombatComponent::Server_DropWeapon_Implementation()
 {
@@ -90,4 +91,40 @@ void UCombatComponent::Server_DropWeapon_Implementation()
 	{
 		equipped_projection_weapon = nullptr;
 	}
+}
+
+
+void UCombatComponent::SwapWeapon(bool forward)
+{
+	Server_SwapWeapon(forward);
+}
+
+void UCombatComponent::Server_SwapWeapon_Implementation(bool forward)
+{
+	if (own_projection_weapons.Num() > 1)
+	{
+		AProjectionWeapon* temp = equipped_projection_weapon;
+		temp->SetWeaponState(EWeaponState::EWS_Backpack);
+		equipped_projection_weapon=nullptr;
+		if (forward)
+		{
+		
+			currentIndex += 1;
+			if (currentIndex >= own_projection_weapons.Num())
+			{
+				currentIndex = 0;
+			}
+	
+		}
+		else
+		{
+			currentIndex -= 1;
+			if (currentIndex < 0)
+			{
+				currentIndex = own_projection_weapons.Num() - 1;
+			}
+		}
+		EquipWeapon(own_projection_weapons[currentIndex]);
+
+		}
 }
