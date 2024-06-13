@@ -73,14 +73,15 @@ void APlayerCharacter::InitAbilityActorInfo()
 	qh_attribute_set = player_state->GetAttributeSet();
 	qh_ability_system_component->InitAbilityActorInfo(player_state, this);
 
-	AddCharactorAbilities();
-	InitDefaultAttributesToSelf();
+
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 	InitAbilityActorInfo();
+	AddCharactorAbilities();
+	InitDefaultAttributesToSelf();
 	InitDefaultProjectionWeapon();
 	FreshHUD();
 }

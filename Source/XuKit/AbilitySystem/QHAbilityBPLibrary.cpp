@@ -4,13 +4,16 @@
 #include "QHAbilityBPLibrary.h"
 
 #include "GameplayEffectTypes.h"
+#include "QHAbilitySystemComponent.h"
 #include "QHAbilityTypes.h"
+#include "QHAttributeSet.h"
 #include "Abilities/GameplayAbilityTargetTypes.h"
 #include "Ability/QHGameplayAbility.h"
 #include "Kismet/GameplayStatics.h"
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/Data/CharactorClassInfo.h"
 #include "XuKit/GameMode/QHGameModeBase.h"
+#include "XuKit/PlayerController/QHPlayerController.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 
 bool UQHAbilityBPLibrary::IsNotFriendly(AActor* ActorA, AActor* ActorB)
@@ -63,8 +66,11 @@ FWidgetControllerParams UQHAbilityBPLibrary::GetFWidgetControllerParams(UObject*
 {
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
 	{
-		AQHPlayerState* PS = PC->GetPlayerState<AQHPlayerState>();
-		return FWidgetControllerParams(PC, PS, PS->GetAbilitySystemComponent(), PS->GetAttributeSet());
+		AQHPlayerState* qh_PS = PC->GetPlayerState<AQHPlayerState>();
+		AQHPlayerController* qh_PC = Cast<AQHPlayerController>(PC);
+		UQHAbilitySystemComponent* qh_ASC =Cast<UQHAbilitySystemComponent>( qh_PS->GetAbilitySystemComponent());
+		UQHAttributeSet* qh_AS = Cast<UQHAttributeSet>(qh_PS->GetAttributeSet());
+		return FWidgetControllerParams(qh_PC, qh_PS, qh_ASC, qh_AS);
 	}
 	return FWidgetControllerParams();
 

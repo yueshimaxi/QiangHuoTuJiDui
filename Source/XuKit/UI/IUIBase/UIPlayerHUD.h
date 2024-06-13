@@ -4,9 +4,12 @@
 #include "Components/Image.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
+#include "XuKit/AbilitySystem/QHAbilityBPLibrary.h"
 #include "XuKit/UI/UIBaseInterface.h"
 #include "UIPlayerHUD.generated.h"
 
+class UQHAttributeSet;
+class UAbilitySystemComponent;
 struct FWeaponInfo;
 /**
  * 
@@ -64,7 +67,28 @@ public:
 	UTextBlock* TaskContent_Text;
 
 	void SetHUDAmmo(int ClipAmmoNum, int AllAmmoNum,FWeaponInfo local_weapon_info);
+
+	UPROPERTY(BlueprintReadWrite)
+	float curMaxHealth;
+
+	UPROPERTY(BlueprintReadWrite)
+	float curHealth;
+
+	UFUNCTION(BlueprintCallable)
+	void SetHealth(float NewValue);
+
+	UFUNCTION(BlueprintCallable)
+	void SetMaxHealth(float NewValue);
+
+	void SetHealthProgress();
+
+	UFUNCTION( BlueprintCallable)
+	void testsethealth();
+
+	UPROPERTY(BlueprintReadWrite)
+	FWidgetControllerParams widget_controller_params= FWidgetControllerParams();
 protected:
+	
 
 	
 };

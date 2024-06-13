@@ -6,6 +6,10 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "QHAbilityBPLibrary.generated.h"
 
+class UQHAbilitySystemComponent;
+class AQHPlayerController;
+class AQHPlayerState;
+class UQHAttributeSet;
 struct FGameplayAbilityTargetDataHandle;
 class UCharactorClassInfo;
 class UAbilitySystemComponent;
@@ -17,17 +21,17 @@ struct FWidgetControllerParams
 {
 	GENERATED_BODY()
 	FWidgetControllerParams(){}
-	FWidgetControllerParams(APlayerController* PC,APlayerState* PS,UAbilitySystemComponent* ASC,UAttributeSet* AS)
-	:PlayerController(PC),PlayerState(PS),AbilitySystemComponent(ASC),AttributeSet(AS){}
+	FWidgetControllerParams(AQHPlayerController* PC,AQHPlayerState* PS,UQHAbilitySystemComponent* ASC,UQHAttributeSet* AS)
+	:qh_PlayerController(PC),qh_PlayerState(PS),qh_AbilitySystemComponent(ASC),qh_AttributeSet(AS){}
 	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
-	TObjectPtr<APlayerController> PlayerController;
+	TObjectPtr<AQHPlayerController> qh_PlayerController;
 	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
-	TObjectPtr<APlayerState> PlayerState;
+	TObjectPtr<AQHPlayerState> qh_PlayerState;
 	
 	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UQHAbilitySystemComponent> qh_AbilitySystemComponent;
 	UPROPERTY(BlueprintReadOnly,Category="WidgetController")
-	TObjectPtr<UAttributeSet> AttributeSet;	
+	TObjectPtr<UQHAttributeSet> qh_AttributeSet;	
 };
 /**
  * 
