@@ -20,7 +20,7 @@ ACasing::ACasing()
 	mesh_component->SetSimulatePhysics(true);
 	ShellEjectionImpulse=5.f;
 
-	
+	bReplicates = true;
 }
 
 // Called when the game starts or when spawned

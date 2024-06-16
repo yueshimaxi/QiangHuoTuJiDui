@@ -17,8 +17,7 @@ struct FWeaponInfo;
  * 
  */
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEventDelegatezzz, float, EventData);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FEventDelegatezzzz, float, EventData);
+
 
 UCLASS()
 class XUKIT_API UUIPlayerHUD : public UUserWidget,public  IUIBaseInterface
@@ -96,19 +95,10 @@ public:
 
 	UPROPERTY()
 	FXuEventDelegate fresh_hud_delegate;
-	UPROPERTY()
-	FEventDelegatezzz fresh_hud_delegatezzz;
-	UPROPERTY()
-	FEventDelegatezzzz fresh_hud_delegatezzzz;
 	int freshhud_EventID;
 	UFUNCTION()
 	void OnFreshHUDEvent(UEventData* event_data);
-	UPROPERTY()
-	FXuEventDelegate freshroomlist_delegate;
-	int freshroom_EventID;
-	UFUNCTION()
-	void OnFreshroomEvent(UEventData* event_data);
-	UFUNCTION()
-	void OnFreshroomEventzzz(float event_data);
+
+
 	
 };

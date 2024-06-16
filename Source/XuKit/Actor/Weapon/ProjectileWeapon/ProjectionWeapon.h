@@ -28,16 +28,17 @@ public:
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"), Category = "AInitInfo")
 	TSubclassOf<AProjectile> projectionClass;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "AInitInfo")
 	TObjectPtr<UParticleSystem> MuzzleFlashEffect;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AInitInfo")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "AInitInfo")
 	TObjectPtr<USoundBase> FireSound;
 
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TSubclassOf<ACasing> casingClass;
 
 	//子弹生成位置
+	UFUNCTION(BlueprintCallable,BlueprintPure)
 	FVector GetProjectileSpawnLocation();
 
 	//弹壳生成位置

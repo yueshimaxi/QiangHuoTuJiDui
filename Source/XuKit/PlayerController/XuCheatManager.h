@@ -18,10 +18,5 @@ class XUKIT_API UXuCheatManager : public UCheatManager
 
 	UFUNCTION(Exec)
 	void GM_SaveAppconfig();
-	UFUNCTION(Exec)
-	void GM_registFreshRoom();
-	int freshRoomID;
-	void freshRoom(UEventData* EventData);
-	UFUNCTION(Exec)
-	void GM_callFreshRoom();
+
 };

@@ -52,6 +52,9 @@ public:
 	FGameplayTag Cooldown_FireTag;
 	FGameplayTag Cooldown_ReloadTag;
 
+
+	FGameplayTag GameplayCue_GunFireSoundTag;
+	FGameplayTag GameplayCue_GunFireEmitterTag;
 	
 private:
 	static QHGameplayTags gameplayTags;

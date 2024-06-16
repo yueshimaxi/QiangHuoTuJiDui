@@ -77,11 +77,12 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 		ACasing* casing = GetWorld()->SpawnActor<ACasing>(projection_weapon->casingClass, casing_transform);
 	}
 
-	//播放音效
-	UGameplayStatics::PlaySoundAtLocation(GetWorld(), projection_weapon->FireSound, ammoLocation);
-
-	//生成MuzzleFlashEffect
-	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), projection_weapon->MuzzleFlashEffect, ammoLocation, ammoRotation);
+	//改在GC中调用
+	// //播放音效
+	// UGameplayStatics::PlaySoundAtLocation(GetWorld(), projection_weapon->FireSound, ammoLocation);
+	//
+	// //生成MuzzleFlashEffect
+	// UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), projection_weapon->MuzzleFlashEffect, ammoLocation, ammoRotation);
 
 	projection_weapon->Fire();
 }

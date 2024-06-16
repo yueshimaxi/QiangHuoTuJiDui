@@ -29,4 +29,7 @@ void QHGameplayTags::InitGameplayTags()
 
 	gameplayTags.Cooldown_FireTag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Fire"),TEXT("Fire Cooldown"));
 	gameplayTags.Cooldown_ReloadTag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Reload"),TEXT("Reload Cooldown"));
+
+	gameplayTags.GameplayCue_GunFireSoundTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("GameplayCue.GunFire.Sound"),TEXT("Gun Fire Sound"));
+	gameplayTags.GameplayCue_GunFireEmitterTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("GameplayCue.GunFire.Emitter"),TEXT("Gun Fire Emitter"));
 }
