@@ -72,10 +72,6 @@ void UUIPlayerHUD::SetHealthProgress()
 	}
 }
 
-void UUIPlayerHUD::testsethealth()
-{
-	widget_controller_params.qh_AttributeSet->SetHealth(40);
-}
 
 void UUIPlayerHUD::OnFreshHUDEvent(UEventData* event_data)
 {
@@ -104,6 +100,5 @@ void UUIPlayerHUD::OnFreshHUDEvent(UEventData* event_data)
 		curMaxHealth = widget_controller_params.qh_AttributeSet->GetMaxHealth();
 		curHealth = widget_controller_params.qh_AttributeSet->GetHealth();
 		SetHealthProgress();
-		testsethealth();
 	}
 }

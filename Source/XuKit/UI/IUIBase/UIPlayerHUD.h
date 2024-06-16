@@ -88,8 +88,6 @@ public:
 
 	void SetHealthProgress();
 
-	UFUNCTION( BlueprintCallable)
-	void testsethealth();
 
 	UPROPERTY(BlueprintReadWrite)
 	FWidgetControllerParams widget_controller_params= FWidgetControllerParams();
