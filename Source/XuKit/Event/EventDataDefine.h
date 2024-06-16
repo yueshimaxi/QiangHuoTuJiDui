@@ -56,3 +56,21 @@ public:
 };
 
 
+
+
+UCLASS()
+class UFreshHUDEventData : public UEventData
+{
+	GENERATED_BODY()
+
+public:
+	virtual EXuEventType GetEventType() override
+	{
+		return EXuEventType::FreshHUD;
+	}
+
+
+
+};
+
+

@@ -24,7 +24,7 @@ void UUIFindSessionPanel::NativeOnInitialized()
 void UUIFindSessionPanel::NativeConstruct()
 {
 	Super::NativeConstruct();
-	FEventDelegate fresh_room_list_eventDelegate;
+	FXuEventDelegate fresh_room_list_eventDelegate;
 	fresh_room_list_eventDelegate.BindDynamic(this, &UUIFindSessionPanel::OnFreshRoomListEvent);
 	GetWorld()->GetSubsystem<UEventMgr>()->RegistEvent(EXuEventType::FreshRoomList, fresh_room_list_view_EventID, fresh_room_list_eventDelegate);
 	loadingImage->SetVisibility(ESlateVisibility::Collapsed);

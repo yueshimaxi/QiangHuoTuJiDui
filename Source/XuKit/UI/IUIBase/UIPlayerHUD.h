@@ -5,15 +5,21 @@
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
 #include "XuKit/AbilitySystem/QHAbilityBPLibrary.h"
+#include "XuKit/Event/EventMgr.h"
 #include "XuKit/UI/UIBaseInterface.h"
 #include "UIPlayerHUD.generated.h"
 
+class UEventData;
 class UQHAttributeSet;
 class UAbilitySystemComponent;
 struct FWeaponInfo;
 /**
  * 
  */
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEventDelegatezzz, float, EventData);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FEventDelegatezzzz, float, EventData);
+
 UCLASS()
 class XUKIT_API UUIPlayerHUD : public UUserWidget,public  IUIBaseInterface
 {
@@ -87,8 +93,22 @@ public:
 
 	UPROPERTY(BlueprintReadWrite)
 	FWidgetControllerParams widget_controller_params= FWidgetControllerParams();
-protected:
-	
 
+	UPROPERTY()
+	FXuEventDelegate fresh_hud_delegate;
+	UPROPERTY()
+	FEventDelegatezzz fresh_hud_delegatezzz;
+	UPROPERTY()
+	FEventDelegatezzzz fresh_hud_delegatezzzz;
+	int freshhud_EventID;
+	UFUNCTION()
+	void OnFreshHUDEvent(UEventData* event_data);
+	UPROPERTY()
+	FXuEventDelegate freshroomlist_delegate;
+	int freshroom_EventID;
+	UFUNCTION()
+	void OnFreshroomEvent(UEventData* event_data);
+	UFUNCTION()
+	void OnFreshroomEventzzz(float event_data);
 	
 };

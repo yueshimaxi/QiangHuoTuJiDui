@@ -5,6 +5,7 @@
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "XuCheatManager.h"
 #include "Net/UnrealNetwork.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/Character/PlayerCharacter.h"
@@ -14,6 +15,8 @@
 
 AQHPlayerController::AQHPlayerController()
 {
+	CheatClass = UXuCheatManager::StaticClass();
+
 }
 
 void AQHPlayerController::BeginPlay()

@@ -8,10 +8,13 @@
 #include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
 #include "XuKit/Data/DataMgr.h"
 #include "XuKit/Data/IDatabase/WeaponConfigDatabase.h"
+#include "XuKit/Event/EventDataDefine.h"
+#include "XuKit/Event/EventMgr.h"
 #include "XuKit/GameMode/QHGameModeBase.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 #include "XuKit/UI/UIMgr.h"
 #include "XuKit/UI/IUIBase/UIPlayerHUD.h"
+
 
 void AProjectionWeapon::BeginPlay()
 {
@@ -85,14 +88,16 @@ void AProjectionWeapon::OnRep_Ammo()
 
 void AProjectionWeapon::SetHUDAmmo()
 {
-	if (UUIPlayerHUD* playerHUD = GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->GetUI<UUIPlayerHUD>())
-	{
-		if (AQHPlayerState* playerState = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>())
-		{
-			int allBackpackAmmo = playerState->GetAmmoNum(weapon_info.Ammo_type);
-			playerHUD->SetHUDAmmo(Ammo, allBackpackAmmo, weapon_info);
-		}
-	}
+	UFreshHUDEventData* fresh_hud_event = NewObject<UFreshHUDEventData>();
+	GetWorld()->GetSubsystem<UEventMgr>()->BroadcastEvent(EXuEventType::FreshHUD, fresh_hud_event);
+	// if (UUIPlayerHUD* playerHUD = GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->GetUI<UUIPlayerHUD>())
+	// {
+	// 	if (AQHPlayerState* playerState = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>())
+	// 	{
+	// 		int allBackpackAmmo = playerState->GetAmmoNum(weapon_info.Ammo_type);
+	// 		playerHUD->SetHUDAmmo(Ammo, allBackpackAmmo, weapon_info);
+	// 	}
+	// }
 }
 
 bool AProjectionWeapon::isEmptyAmmo()

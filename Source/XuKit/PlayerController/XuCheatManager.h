@@ -6,6 +6,7 @@
 #include "GameFramework/CheatManager.h"
 #include "XuCheatManager.generated.h"
 
+class UEventData;
 /**
  * 
  */
@@ -17,4 +18,10 @@ class XUKIT_API UXuCheatManager : public UCheatManager
 
 	UFUNCTION(Exec)
 	void GM_SaveAppconfig();
+	UFUNCTION(Exec)
+	void GM_registFreshRoom();
+	int freshRoomID;
+	void freshRoom(UEventData* EventData);
+	UFUNCTION(Exec)
+	void GM_callFreshRoom();
 };

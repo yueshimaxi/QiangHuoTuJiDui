@@ -19,7 +19,7 @@ void UEventContain::BroadcastEvent(UEventData* EventData)
 	}
 }
 
-int UEventContain::AddEvent(FEventDelegate eventDelegate)
+int UEventContain::AddEvent(FXuEventDelegate eventDelegate)
 {
 	int EventId = ++EventIDCounter;
 	EventFuncMap.Add(EventId, eventDelegate);
@@ -31,7 +31,7 @@ void UEventContain::RemoveEvent(int EventID)
 	EventFuncMap.Remove(EventID);
 }
 
-void UEventMgr::RegistEvent(EXuEventType EventType, int& EventID, FEventDelegate EventDelegate)
+void UEventMgr::RegistEvent(EXuEventType EventType, int& EventID, FXuEventDelegate EventDelegate)
 {
 	if (!EventDictionary.Contains(EventType))
 	{

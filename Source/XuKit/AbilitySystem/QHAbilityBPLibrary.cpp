@@ -58,7 +58,7 @@ int UQHAbilityBPLibrary::GetRewardXPFromCharactorTypeAndLevel(UObject* WorldCont
 	UCharactorClassInfo* enemy_init_data_asset = GetCharactorInfoDataAsset(WorldContextObject);
 
 	FCharactorInfo charactor_info = enemy_init_data_asset->GetCharactorInfo(CharactorClass);
-	int Reward= charactor_info.RewardXP.GetValueAtLevel(level);
+	int Reward = charactor_info.RewardXP.GetValueAtLevel(level);
 	return Reward;
 }
 
@@ -67,14 +67,16 @@ FWidgetControllerParams UQHAbilityBPLibrary::GetFWidgetControllerParams(UObject*
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
 	{
 		AQHPlayerState* qh_PS = PC->GetPlayerState<AQHPlayerState>();
+		if (qh_PS == nullptr)
+		{
+			return FWidgetControllerParams();
+		}
 		AQHPlayerController* qh_PC = Cast<AQHPlayerController>(PC);
-		UQHAbilitySystemComponent* qh_ASC =Cast<UQHAbilitySystemComponent>( qh_PS->GetAbilitySystemComponent());
+		UQHAbilitySystemComponent* qh_ASC = Cast<UQHAbilitySystemComponent>(qh_PS->GetAbilitySystemComponent());
 		UQHAttributeSet* qh_AS = Cast<UQHAttributeSet>(qh_PS->GetAttributeSet());
 		return FWidgetControllerParams(qh_PC, qh_PS, qh_ASC, qh_AS);
 	}
 	return FWidgetControllerParams();
-
-	
 }
 
 bool UQHAbilityBPLibrary::GetSwapWeaponDirFromTargetData(const FGameplayAbilityTargetDataHandle& TargetData, int32 Index)
@@ -92,7 +94,6 @@ bool UQHAbilityBPLibrary::GetSwapWeaponDirFromTargetData(const FGameplayAbilityT
 				return HitResultPtr->bSwapForward;
 			}
 		}
-	
 	}
 	XuPRINT(FString::Printf(TEXT("GetSwapWeaponDirFromTargetData failed")));
 	return false;

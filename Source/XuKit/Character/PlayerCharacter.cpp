@@ -14,6 +14,8 @@
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
+#include "XuKit/Event/EventDataDefine.h"
+#include "XuKit/Event/EventMgr.h"
 #include "XuKit/HUD/QHHUD.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
@@ -72,8 +74,6 @@ void APlayerCharacter::InitAbilityActorInfo()
 	qh_ability_system_component = player_state->GetAbilitySystemComponent();
 	qh_attribute_set = player_state->GetAttributeSet();
 	qh_ability_system_component->InitAbilityActorInfo(player_state, this);
-
-
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
@@ -83,7 +83,20 @@ void APlayerCharacter::PossessedBy(AController* NewController)
 	AddCharactorAbilities();
 	InitDefaultAttributesToSelf();
 	InitDefaultProjectionWeapon();
-	FreshHUD();
+	if (IsLocallyControlled())
+	{
+		FreshHUD();
+	}
+}
+
+void APlayerCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	InitAbilityActorInfo();
+	if (IsLocallyControlled())
+	{
+		FreshHUD();
+	}
 }
 
 AProjectionWeapon* APlayerCharacter::get_cur_projection_weapon_Implementation()
@@ -129,10 +142,6 @@ void APlayerCharacter::ReloadAmmo_Implementation()
 	}
 }
 
-void APlayerCharacter::OnRep_PlayerState()
-{
-	Super::OnRep_PlayerState();
-}
 
 void APlayerCharacter::SwapWeapon_Implementation(bool swapWeaponForward)
 {
@@ -224,16 +233,8 @@ void APlayerCharacter::InitDefaultAttributesToSelf()
 
 void APlayerCharacter::FreshHUD()
 {
-	if (AQHPlayerState* playerState = GetPlayerState<AQHPlayerState>())
-	{
-		if (UUIPlayerHUD* playerHUD = GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->GetUI<UUIPlayerHUD>())
-		{
-			AProjectionWeapon* weapon = get_cur_projection_weapon();
-
-			int allBackpackAmmo = playerState->GetAmmoNum(weapon->weapon_info.Ammo_type);
-			playerHUD->SetHUDAmmo(weapon->Ammo, allBackpackAmmo, weapon->weapon_info);
-		}
-	}
+	UFreshHUDEventData* fresh_hud_event = NewObject<UFreshHUDEventData>();
+	GetWorld()->GetSubsystem<UEventMgr>()->BroadcastEvent(EXuEventType::FreshHUD, fresh_hud_event);
 }
 
 

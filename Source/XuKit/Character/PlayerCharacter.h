@@ -39,6 +39,7 @@ public:
 	virtual void ReloadAmmo_Implementation() override;
 	virtual void OnRep_PlayerState() override;
 	virtual  void SwapWeapon_Implementation(bool swapWeaponForward) override;
+	
 
 protected:
 	UPROPERTY(VisibleAnywhere)

@@ -5,6 +5,7 @@
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
+#include "XuKit/Event/EventMgr.h"
 #include "XuKit/Interface/CombatInterface.h"
 #include "XuKit/Interface/PlayerInterface.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
@@ -25,27 +26,21 @@ void UUIPlayerHUD::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 	XuPRINT("UUIPlayerHUD::NativeOnInitialized");
+	fresh_hud_delegatezzzz.BindDynamic(this, &UUIPlayerHUD::OnFreshroomEventzzz);
 }
 
 void UUIPlayerHUD::NativeConstruct()
 {
-	widget_controller_params = UQHAbilityBPLibrary::GetFWidgetControllerParams(GetWorld());
-
 	Super::NativeConstruct();
-	if (widget_controller_params.qh_PlayerController)
+	fresh_hud_delegate.BindDynamic(this, &UUIPlayerHUD::OnFreshHUDEvent);
+	freshroomlist_delegate.BindDynamic(this, &UUIPlayerHUD::OnFreshroomEvent);
+	if (GetWorld())
 	{
-		if (ICombatInterface* icombatInterface = Cast<ICombatInterface>(widget_controller_params.qh_PlayerController->GetPawn()))
-		{
-			AProjectionWeapon* weapon = icombatInterface->Execute_get_cur_projection_weapon(widget_controller_params.qh_PlayerController->GetPawn());
-			int allBackpackAmmo = widget_controller_params.qh_PlayerState->GetAmmoNum(weapon->weapon_info.Ammo_type);
-			SetHUDAmmo(weapon->Ammo, allBackpackAmmo, weapon->weapon_info);
-			curMaxHealth = widget_controller_params.qh_AttributeSet->GetMaxHealth();
-			curHealth = widget_controller_params.qh_AttributeSet->GetHealth();
-			SetHealthProgress();
-			testsethealth();
-		}
+		GetWorld()->GetSubsystem<UEventMgr>()->RegistEvent(EXuEventType::FreshHUD, freshhud_EventID, fresh_hud_delegate);
+		GetWorld()->GetSubsystem<UEventMgr>()->RegistEvent(EXuEventType::FreshRoomList, freshroom_EventID, fresh_hud_delegate);
 	}
 
+	OnFreshHUDEvent(nullptr);
 	XuPRINT("UUIPlayerHUD::NativeConstruct");
 }
 
@@ -84,4 +79,33 @@ void UUIPlayerHUD::SetHealthProgress()
 void UUIPlayerHUD::testsethealth()
 {
 	widget_controller_params.qh_AttributeSet->SetHealth(40);
+}
+
+void UUIPlayerHUD::OnFreshHUDEvent(UEventData* event_data)
+{
+	widget_controller_params = UQHAbilityBPLibrary::GetFWidgetControllerParams(GetWorld());
+
+	if (widget_controller_params.qh_PlayerState == nullptr || widget_controller_params.qh_AttributeSet == nullptr || widget_controller_params.qh_PlayerController == nullptr)
+	{
+		return;
+	}
+	if (ICombatInterface* icombatInterface = Cast<ICombatInterface>(widget_controller_params.qh_PlayerController->GetPawn()))
+	{
+		AProjectionWeapon* weapon = icombatInterface->Execute_get_cur_projection_weapon(widget_controller_params.qh_PlayerController->GetPawn());
+		int allBackpackAmmo = widget_controller_params.qh_PlayerState->GetAmmoNum(weapon->weapon_info.Ammo_type);
+		SetHUDAmmo(weapon->Ammo, allBackpackAmmo, weapon->weapon_info);
+		curMaxHealth = widget_controller_params.qh_AttributeSet->GetMaxHealth();
+		curHealth = widget_controller_params.qh_AttributeSet->GetHealth();
+		SetHealthProgress();
+		testsethealth();
+	}
+}
+
+void UUIPlayerHUD::OnFreshroomEvent(UEventData* event_data)
+{
+	XuPRINT(TEXT("UUIPlayerHUD::OnFreshroomEvent"));
+}
+
+void UUIPlayerHUD::OnFreshroomEventzzz(float event_data)
+{
 }
