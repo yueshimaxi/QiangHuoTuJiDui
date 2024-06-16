@@ -17,6 +17,7 @@ struct FWeaponInfo;
  * 
  */
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWidgetControllerSetDelegate);
 
 
 UCLASS()
@@ -100,5 +101,8 @@ public:
 	void OnFreshHUDEvent(UEventData* event_data);
 
 
-	
+	UPROPERTY(BlueprintAssignable)
+	FWidgetControllerSetDelegate widget_controller_set_delegate;
+
+	bool bInit=false;
 };

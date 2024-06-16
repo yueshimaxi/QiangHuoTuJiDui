@@ -95,6 +95,13 @@ void APlayerCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 	if (IsLocallyControlled())
 	{
+		AQHPlayerController* qhPC= Cast<AQHPlayerController>(GetController());
+		AQHPlayerState*	qhPS=qhPC->GetPlayerState<AQHPlayerState>();
+		AQHPlayerState* sencondPS=GetPlayerState<AQHPlayerState>();
+		if (qhPS==sencondPS)
+		{
+			XuPRINT(TEXT("zzzz"));
+		}
 		FreshHUD();
 	}
 }

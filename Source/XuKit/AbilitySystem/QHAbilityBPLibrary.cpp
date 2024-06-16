@@ -66,7 +66,7 @@ FWidgetControllerParams UQHAbilityBPLibrary::GetFWidgetControllerParams(UObject*
 {
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(WorldContextObject, 0))
 	{
-		AQHPlayerState* qh_PS = PC->GetPlayerState<AQHPlayerState>();
+		AQHPlayerState* qh_PS = PC->GetPawn()->GetPlayerState<AQHPlayerState>();
 		if (qh_PS == nullptr)
 		{
 			return FWidgetControllerParams();

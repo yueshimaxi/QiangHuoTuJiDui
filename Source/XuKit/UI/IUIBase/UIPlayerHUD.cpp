@@ -30,12 +30,13 @@ void UUIPlayerHUD::NativeOnInitialized()
 
 void UUIPlayerHUD::NativeConstruct()
 {
-	fresh_hud_delegate.BindDynamic(this, &UUIPlayerHUD::OnFreshHUDEvent);
-	GetWorld()->GetSubsystem<UEventMgr>()->RegistEvent(EXuEventType::FreshHUD, freshhud_EventID, fresh_hud_delegate);
 
 	Super::NativeConstruct();
-
+	
+	fresh_hud_delegate.BindDynamic(this, &UUIPlayerHUD::OnFreshHUDEvent);
+	GetWorld()->GetSubsystem<UEventMgr>()->RegistEvent(EXuEventType::FreshHUD, freshhud_EventID, fresh_hud_delegate);
 	OnFreshHUDEvent(nullptr);
+
 	XuPRINT("UUIPlayerHUD::NativeConstruct");
 }
 
@@ -78,12 +79,20 @@ void UUIPlayerHUD::testsethealth()
 
 void UUIPlayerHUD::OnFreshHUDEvent(UEventData* event_data)
 {
-	widget_controller_params = UQHAbilityBPLibrary::GetFWidgetControllerParams(GetWorld());
-
-	if (widget_controller_params.qh_PlayerState == nullptr || widget_controller_params.qh_AttributeSet == nullptr || widget_controller_params.qh_PlayerController == nullptr)
+	if (!bInit)
 	{
-		return;
+		widget_controller_params = UQHAbilityBPLibrary::GetFWidgetControllerParams(GetWorld());
+
+		if (widget_controller_params.qh_PlayerState == nullptr || widget_controller_params.qh_AttributeSet == nullptr || widget_controller_params.qh_PlayerController == nullptr)
+		{
+			return;
+		}
+		bInit = true;
+		widget_controller_set_delegate.Broadcast();
+		XuPRINT(TEXT("widget_controller_set_delegate.Broadcast()"));
 	}
+
+
 	if (ICombatInterface* icombatInterface = Cast<ICombatInterface>(widget_controller_params.qh_PlayerController->GetPawn()))
 	{
 		AProjectionWeapon* weapon = icombatInterface->Execute_get_cur_projection_weapon(widget_controller_params.qh_PlayerController->GetPawn());

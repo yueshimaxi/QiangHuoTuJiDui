@@ -65,7 +65,7 @@ void UQHAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 			{
 				combat_interface->Die();
 			}
-			SendXPEvent(EffectProperties);
+			//SendXPEvent(EffectProperties);
 		}
 		else
 		{

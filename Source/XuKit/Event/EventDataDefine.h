@@ -69,7 +69,21 @@ public:
 		return EXuEventType::FreshHUD;
 	}
 
+};
 
+
+
+
+UCLASS()
+class UHealthChangeEventData : public UEventData
+{
+	GENERATED_BODY()
+
+public:
+	virtual EXuEventType GetEventType() override
+	{
+		return EXuEventType::HealthChange;
+	}
 
 };
 
