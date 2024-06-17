@@ -30,8 +30,8 @@ AProjectile::AProjectile()
 	SphereCom->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
 
 	ProjectileMovementCom = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementCom"));
-	ProjectileMovementCom->InitialSpeed = 550.f;
-	ProjectileMovementCom->MaxSpeed = 550.f;
+	ProjectileMovementCom->InitialSpeed = 2000.f;
+	ProjectileMovementCom->MaxSpeed = 2000.f;
 	ProjectileMovementCom->ProjectileGravityScale = 0;
 
 	bReplicates = true;
