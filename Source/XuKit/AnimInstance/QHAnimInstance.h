@@ -26,9 +26,10 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Charactor", meta = (AllowPrivateAccess = true))
 	class AQHCharacterBase* qh_character;
 
-	UPROPERTY(BlueprintReadWrite)
-	class AQHPlayerController* qh_playercontroller;
 
+
+	UPROPERTY()
+	class AQHPlayerState* qh_playerstate;
 	UPROPERTY(BlueprintReadWrite)
 	UCharacterMovementComponent* MovementComponent;
 

@@ -3,6 +3,8 @@
 
 #include "QHPlayerState.h"
 
+#include "Net/UnrealNetwork.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
@@ -17,6 +19,8 @@ AQHPlayerState::AQHPlayerState()
 	qh_attribute_set = CreateDefaultSubobject<UQHAttributeSet>(TEXT("qh_attributeSet"));
 	AddAmmoNum(EAmmoType::EAmmoType_Pistol, 30);
 	AddAmmoNum(EAmmoType::EAmmoType_AssaultRifle, 100);
+
+	bReplicates = true;
 }
 
 void AQHPlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -33,6 +37,8 @@ UAttributeSet* AQHPlayerState::GetAttributeSet()
 {
 	return qh_attribute_set;
 }
+
+
 
 void AQHPlayerState::SpendAmmo(EAmmoType ammo_type)
 {

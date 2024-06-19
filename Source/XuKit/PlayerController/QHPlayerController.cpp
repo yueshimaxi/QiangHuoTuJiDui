@@ -74,8 +74,6 @@ void AQHPlayerController::OnMove(const FInputActionValue& input_action_value)
 
 	if (APawn* pawn = GetPawn())
 	{
-		horInputValue = moveValue.Y;
-		verInputValue = moveValue.X;
 		pawn->AddMovementInput(forwardDir, moveValue.X);
 		pawn->AddMovementInput(rightDir, moveValue.Y);
 	}

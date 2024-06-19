@@ -53,8 +53,8 @@ private:
 	UQHAbilitySystemComponent* GetABS();
 	
 public:
-	float horInputValue;
-	float verInputValue;
+
+
 
 	UPROPERTY(ReplicatedUsing=OnRep_CurorHitResult)
 	FHitResult CurorHitResult;

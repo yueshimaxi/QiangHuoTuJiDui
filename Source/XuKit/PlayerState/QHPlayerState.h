@@ -28,7 +28,7 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet();
 
-	
+
 
 public:
 	UPROPERTY(EditAnywhere)
@@ -38,7 +38,7 @@ public:
 	TObjectPtr<UQHAttributeSet> qh_attribute_set;
 
 	UPROPERTY()
-	TMap<EAmmoType,int>	ammo_map;
+	TMap<EAmmoType, int> ammo_map;
 
 	void SpendAmmo(EAmmoType ammo_type);
 
@@ -46,3 +46,5 @@ public:
 
 	void AddAmmoNum(EAmmoType ammo_type, int num);
 };
+
+
