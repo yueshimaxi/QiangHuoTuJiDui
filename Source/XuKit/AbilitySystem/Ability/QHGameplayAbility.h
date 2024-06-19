@@ -20,6 +20,23 @@ public:
 	{
 		bSwapForward = false;
 	}
+
+	virtual UScriptStruct* GetScriptStruct() const override
+	{
+		return FSwapWeaponDirGameplayAbilityTargetData::StaticStruct();
+	}
+
+	bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
+
+};
+
+template<>
+struct TStructOpsTypeTraits<FSwapWeaponDirGameplayAbilityTargetData> : public TStructOpsTypeTraitsBase2<FSwapWeaponDirGameplayAbilityTargetData>
+{
+	enum
+	{
+		WithNetSerializer = true	// For now this is REQUIRED for FGameplayAbilityTargetDataHandle net serialization to work
+	};
 };
 /**
  * 

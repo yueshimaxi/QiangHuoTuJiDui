@@ -42,7 +42,7 @@ public:
 	UFUNCTION()
 	void OnRep_EquippedWeapon();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Replicated)
 	TArray<TObjectPtr<AProjectionWeapon>> own_projection_weapons;
 
 	void EquipWeapon(AProjectionWeapon* weapon);

@@ -27,7 +27,7 @@ public:
 	FTargetDataSignature ValidData;
 
 	void SendCurorData();
-	void SendSwapWeaponDirData();
+
 
 	void OnCurorDataReplicatedCallBack(const FGameplayAbilityTargetDataHandle& Data, FGameplayTag ActivationTag);
 };

@@ -26,6 +26,7 @@ void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UCombatComponent, equipped_projection_weapon);
+	DOREPLIFETIME(UCombatComponent, own_projection_weapons);
 }
 
 AProjectionWeapon* UCombatComponent::GetCurProjectionWeapon()
