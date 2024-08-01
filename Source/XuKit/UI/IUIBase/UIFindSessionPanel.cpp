@@ -2,6 +2,8 @@
 
 
 #include "XuKit/UI/IUIBase/UIFindSessionPanel.h"
+
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/Event/EventDataDefine.h"
 #include "XuKit/UI/UIMgr.h"
 
@@ -26,7 +28,7 @@ void UUIFindSessionPanel::NativeConstruct()
 	Super::NativeConstruct();
 	FXuEventDelegate fresh_room_list_eventDelegate;
 	fresh_room_list_eventDelegate.BindDynamic(this, &UUIFindSessionPanel::OnFreshRoomListEvent);
-	GetWorld()->GetSubsystem<UEventMgr>()->RegistEvent(EXuEventType::FreshRoomList, fresh_room_list_view_EventID, fresh_room_list_eventDelegate);
+	UXuBPFuncLib::GetEventManager(GetWorld())->RegistEvent(EXuEventType::FreshRoomList, fresh_room_list_view_EventID, fresh_room_list_eventDelegate);
 	loadingImage->SetVisibility(ESlateVisibility::Collapsed);
 	noResultBorder->SetVisibility(ESlateVisibility::Collapsed);
 	OnClickFreshRoomListBtn();
@@ -35,7 +37,7 @@ void UUIFindSessionPanel::NativeConstruct()
 void UUIFindSessionPanel::NativeDestruct()
 {
 	Super::NativeDestruct();
-	GetWorld()->GetSubsystem<UEventMgr>()->RemoveEvent(EXuEventType::FreshRoomList, fresh_room_list_view_EventID);
+	UXuBPFuncLib::GetEventManager(GetWorld())->RemoveEvent(EXuEventType::FreshRoomList, fresh_room_list_view_EventID);
 
 }
 
@@ -54,7 +56,7 @@ void UUIFindSessionPanel::OnClickFreshRoomListBtn()
 
 void UUIFindSessionPanel::OnClickBackBtn()
 {
-	GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->HideUI<UUIFindSessionPanel>();
+	UXuBPFuncLib::GetUIManager(GetWorld())->HideUI<UUIFindSessionPanel>();
 }
 
 void UUIFindSessionPanel::OnFreshRoomListEvent(UEventData* event_data)

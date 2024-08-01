@@ -2,6 +2,8 @@
 
 
 #include "XuKit/UI/IUIBase/UICreateSessionPanel.h"
+
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/GameInstance/XuGI.h"
 #include "XuKit/UI/UIMgr.h"
 
@@ -34,6 +36,6 @@ void UUICreateSessionPanel::OnClickCreateRoomBtn()
 
 void UUICreateSessionPanel::OnClickBackBtn()
 {
-	GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->HideUI<UUICreateSessionPanel>();
+	UXuBPFuncLib::GetUIManager(GetWorld())->HideUI<UUICreateSessionPanel>();
 }
 

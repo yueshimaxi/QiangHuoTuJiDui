@@ -4,6 +4,7 @@
 #include "XuKit/UI//IUIBase/UIGameSettingScreen.h"
 
 #include "CommonButtonBase.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/Settings/LyraGameSettingRegistry.h"
 #include "XuKit/UI/UIMgr.h"
 
@@ -61,7 +62,7 @@ void UUIGameSettingScreen::OnResetButtonClicked()
 void UUIGameSettingScreen::OnBackButtonClicked()
 {
 	ApplyChanges();
-	GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->PopUI();
+	UXuBPFuncLib::GetUIManager(GetWorld())->PopUI();
 }
 
 

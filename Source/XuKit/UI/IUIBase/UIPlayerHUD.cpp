@@ -34,7 +34,7 @@ void UUIPlayerHUD::NativeConstruct()
 	Super::NativeConstruct();
 	
 	fresh_hud_delegate.BindDynamic(this, &UUIPlayerHUD::OnFreshHUDEvent);
-	GetWorld()->GetSubsystem<UEventMgr>()->RegistEvent(EXuEventType::FreshHUD, freshhud_EventID, fresh_hud_delegate);
+	UXuBPFuncLib::GetEventManager(GetWorld())->RegistEvent(EXuEventType::FreshHUD, freshhud_EventID, fresh_hud_delegate);
 	OnFreshHUDEvent(nullptr);
 
 	XuPRINT("UUIPlayerHUD::NativeConstruct");

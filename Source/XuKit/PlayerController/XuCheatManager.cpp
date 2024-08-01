@@ -10,7 +10,7 @@
 
 void UXuCheatManager::GM_SaveAppconfig()
 {
-	GetWorld()->GetSubsystem<UDataMgr>()->GetAppConfigDataBase()->OnSave();
+	 UXuBPFuncLib::GetDataManager(GetWorld())->GetAppConfigDataBase()->OnSave();
 }
 
 

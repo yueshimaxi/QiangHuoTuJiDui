@@ -6,6 +6,7 @@
 #include "Components/Button.h"
 #include "Components/SizeBox.h"
 #include "Components/TextBlock.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/UI/UIMgr.h"
 
 EUILayer UUIMessageBox::GetUILayer_Implementation() const
@@ -49,7 +50,7 @@ void UUIMessageBox::OnClickLeftBtn()
 	{
 		left_btn_delegate.Execute();
 	}
-	GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->HideUI<UUIMessageBox>();
+	UXuBPFuncLib::GetUIManager(GetWorld())->HideUI<UUIMessageBox>();
 }
 
 void UUIMessageBox::OnClickRightBtn()
@@ -58,7 +59,7 @@ void UUIMessageBox::OnClickRightBtn()
 	{
 		right_btn_delegate.Execute();
 	}
-	GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->HideUI<UUIMessageBox>();
+	UXuBPFuncLib::GetUIManager(GetWorld())->HideUI<UUIMessageBox>();
 }
 
 

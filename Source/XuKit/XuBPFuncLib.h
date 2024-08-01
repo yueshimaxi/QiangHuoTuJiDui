@@ -13,6 +13,9 @@ int32 LineNumber = __LINE__; \
 FString ContentString = content; \
 UE_LOG(LogTemp, Warning, TEXT("XuLog:[%s :%d] %s"), *FunctionName, LineNumber, *ContentString); \
 }
+class UEventMgr;
+class UDataMgr;
+class UUIMgr;
 /**
  * 
  */
@@ -49,4 +52,14 @@ public:
 
 	UFUNCTION(BlueprintCallable, meta=(WorldContext="WorldContextObject", DeterminesOutputType="actor"))
 	static AActor* GetActorByClassAndTag(UObject* WorldContextObject, TSubclassOf<AActor> actor, FString name);
+
+	UFUNCTION(Blueprintable, BlueprintCallable,meta=(WorldContext="WorldContextObject"), Category = "XuBPFuncLib")
+	static UUIMgr* GetUIManager(UObject* WorldContextObject);
+
+	UFUNCTION(Blueprintable, BlueprintCallable,meta=(WorldContext="WorldContextObject"), Category = "XuBPFuncLib")
+	static UDataMgr* GetDataManager(UObject* WorldContextObject);
+
+	UFUNCTION(Blueprintable, BlueprintCallable,meta=(WorldContext="WorldContextObject"), Category = "XuBPFuncLib")
+	static UEventMgr* GetEventManager(UObject* WorldContextObject);
+	
 };

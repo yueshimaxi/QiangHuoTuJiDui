@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class XUKIT_API UDataMgr : public UWorldSubsystem
+class XUKIT_API UDataMgr : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 public:

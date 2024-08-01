@@ -3,10 +3,11 @@
 
 #include "APPMgr.h"
 
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/UI/UIMgr.h"
 #include "XuKit/UI/IUIBase/UIMessageBox.h"
 
 void UAPPMgr::Init()
 {
-	GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->Init();
+	UXuBPFuncLib::GetUIManager(GetWorld())->Init();
 }

@@ -9,12 +9,14 @@ EXuEventType UEventData::GetEventType()
 }
 
 void UEventContain::BroadcastEvent(UEventData* EventData)
-{
-	for (auto& Elem : EventFuncMap)
+{ 
+	TArray<int> keys;
+	EventFuncMap.GetKeys(keys);
+	for (int i = keys.Num() - 1; i >= 0; i--)
 	{
-		if (Elem.Value.IsBound())
+		if (EventFuncMap[keys[i]].IsBound())
 		{
-			Elem.Value.Execute(EventData);
+			EventFuncMap[keys[i]].Execute(EventData);
 		}
 	}
 }

@@ -241,7 +241,7 @@ void APlayerCharacter::InitDefaultAttributesToSelf()
 void APlayerCharacter::FreshHUD()
 {
 	UFreshHUDEventData* fresh_hud_event = NewObject<UFreshHUDEventData>();
-	GetWorld()->GetSubsystem<UEventMgr>()->BroadcastEvent(EXuEventType::FreshHUD, fresh_hud_event);
+	UXuBPFuncLib::GetEventManager(GetWorld())->BroadcastEvent(EXuEventType::FreshHUD, fresh_hud_event);
 }
 
 

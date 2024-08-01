@@ -5,6 +5,7 @@
 
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
 #include "XuKit/Data/DataMgr.h"
 #include "XuKit/Data/IDatabase/WeaponConfigDatabase.h"
@@ -89,7 +90,7 @@ void AProjectionWeapon::OnRep_Ammo()
 void AProjectionWeapon::SetHUDAmmo()
 {
 	UFreshHUDEventData* fresh_hud_event = NewObject<UFreshHUDEventData>();
-	GetWorld()->GetSubsystem<UEventMgr>()->BroadcastEvent(EXuEventType::FreshHUD, fresh_hud_event);
+	UXuBPFuncLib::GetEventManager(GetWorld())->BroadcastEvent(EXuEventType::FreshHUD, fresh_hud_event);
 	// if (UUIPlayerHUD* playerHUD = GetWorld()->GetGameInstance()->GetSubsystem<UUIMgr>()->GetUI<UUIPlayerHUD>())
 	// {
 	// 	if (AQHPlayerState* playerState = Cast<ACharacter>(GetOwner())->GetPlayerState<AQHPlayerState>())
@@ -142,6 +143,6 @@ void AProjectionWeapon::InitData()
 	{
 		return;
 	}
-	weapon_info = GetWorld()->GetSubsystem<UDataMgr>()->GetWeaponConfigDataBase()->GetWeaponInfo(weaponType);
+	weapon_info = UXuBPFuncLib::GetDataManager(GetWorld())->GetWeaponConfigDataBase()->GetWeaponInfo(weaponType);
 	Ammo = weapon_info.weapon_clip_size;
 }
