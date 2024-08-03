@@ -134,6 +134,6 @@ int UUIMgr::GetStackUINum()
 
 FString UUIMgr::GetUIPath(FString uiName)
 {
-	FString uiPath = TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/Asset/BP/UI/UIBaseInterface/");
+	FString uiPath = TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/BP/UI/UIBaseInterface/");
 	return FString::Printf(TEXT("%s%s.%s_C'"), *uiPath, *uiName, *uiName);
 }
