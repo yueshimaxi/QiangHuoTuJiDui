@@ -10,7 +10,7 @@ DataBaseType UWeaponConfigDatabase::DataBaseType()
 
 FString UWeaponConfigDatabase::DataPath()
 {
-	return FPaths::Combine(FPaths::ProjectContentDir(), FString("Asset/DataAsset/AppConfig.json"));
+	return FPaths::Combine(FPaths::ProjectContentDir(), FString("XuAsset/DataAsset/AppConfig.json"));
 
 }
 
@@ -18,7 +18,7 @@ void UWeaponConfigDatabase::OnParse()
 {
 	Super::OnParse();
 
-	weaponInfoDataAsset=LoadObject<UWeaponInfoDataAsset>(nullptr, TEXT("/Script/XuKit.WeaponInfoDataAsset'/Game/Asset/BP/Data/DA_WeaponInfo.DA_WeaponInfo'"));
+	weaponInfoDataAsset=LoadObject<UWeaponInfoDataAsset>(nullptr, TEXT("/Script/XuKit.WeaponInfoDataAsset'/Game/XuAsset/BP/Data/DA_WeaponInfo.DA_WeaponInfo'"));
 	
 }
 

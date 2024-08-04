@@ -12,7 +12,8 @@
 				"Engine",
 				"GameSettings",
 				"GameplayAbilities",
-				"EnhancedInput"
+				"EnhancedInput",
+				"AIModule"
 			]
 		}
 	],

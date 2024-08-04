@@ -12,7 +12,7 @@ DataBaseType UAppConfigDatabase::DataBaseType()
 
 FString UAppConfigDatabase::DataPath()
 {
-	return FPaths::Combine(FPaths::ProjectContentDir(), FString("Asset/DataAsset/AppConfig.json"));
+	return FPaths::Combine(FPaths::ProjectContentDir(), FString("XuAsset/DataAsset/AppConfig.json"));
 
 }
 
