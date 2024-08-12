@@ -15,7 +15,7 @@ AEnemyCharacter::AEnemyCharacter()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 	GetCharacterMovement()->bUseControllerDesiredRotation = true;
-
+ 
 	qh_ability_system_component = CreateDefaultSubobject<UQHAbilitySystemComponent>(TEXT("QHABS"));
 	qh_ability_system_component->SetIsReplicated(true);
 	qh_ability_system_component->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
