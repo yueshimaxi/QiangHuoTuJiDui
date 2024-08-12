@@ -13,7 +13,8 @@
 				"GameSettings",
 				"GameplayAbilities",
 				"EnhancedInput",
-				"AIModule"
+				"AIModule",
+				"UMG"
 			]
 		}
 	],
