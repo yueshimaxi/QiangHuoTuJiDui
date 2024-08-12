@@ -30,4 +30,10 @@ public:
 	class UBlackboardData* BlackboardData;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="AI")
 	class AQHAIController* AuraAIController ;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="CharactorInfo")
+	int BaseWalkSpeed=100;
+	
+	UPROPERTY()
+	bool bHitReact;
 };
