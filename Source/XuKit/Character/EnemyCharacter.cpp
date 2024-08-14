@@ -24,6 +24,7 @@ AEnemyCharacter::AEnemyCharacter()
 	qh_ability_system_component->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	qh_attribute_set = CreateDefaultSubobject<UQHAttributeSet>(TEXT("UAttributeSet"));
 	HealthBarWidgetComponent= CreateDefaultSubobject<UEnemyHealthWidgetComponent>(TEXT("HealthBarWidgetComponent"));
+	HealthBarWidgetComponent->SetupAttachment(RootComponent);
 }
 
 void AEnemyCharacter::BeginPlay()
