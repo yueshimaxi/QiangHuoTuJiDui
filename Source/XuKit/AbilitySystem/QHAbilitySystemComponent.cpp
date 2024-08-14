@@ -5,6 +5,20 @@
 
 #include "Ability/QHGameplayAbility.h"
 
+void UQHAbilitySystemComponent::AbilitySystemComponentInfoSet()
+{
+	OnGameplayEffectAppliedDelegateToSelf.AddUObject(this, &UQHAbilitySystemComponent::ClientEffectApplied);
+
+}
+
+void UQHAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* abs, const FGameplayEffectSpec& effect_spec, FActiveGameplayEffectHandle active_effect_handle)
+{
+	FGameplayTagContainer effect_tags;
+	effect_spec.GetAllAssetTags(effect_tags);
+	bAbilityGiven=true;
+	OnEffectTags.Broadcast(effect_tags);
+}
+
 void UQHAbilitySystemComponent::AddCharactorAbilities(TArray<TSubclassOf<UGameplayAbility>>& startUpAbilities)
 {
 	for (TSubclassOf<UGameplayAbility> ability : startUpAbilities)
@@ -61,3 +75,4 @@ void UQHAbilitySystemComponent::AbilityInputTagReleased(FGameplayTag ActionTag)
 		}
 	}
 }
+

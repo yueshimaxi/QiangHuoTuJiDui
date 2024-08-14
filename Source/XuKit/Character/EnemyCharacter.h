@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "QHCharacterBase.h"
+#include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "EnemyCharacter.generated.h"
 
+class UEnemyHealthWidgetComponent;
 /**
  * 
  */
@@ -30,10 +32,17 @@ public:
 	class UBlackboardData* BlackboardData;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="AI")
 	class AQHAIController* AuraAIController ;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UEnemyHealthWidgetComponent* HealthBarWidgetComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="CharactorInfo")
 	int BaseWalkSpeed=100;
 	
 	UPROPERTY()
 	bool bHitReact;
+
+	UPROPERTY(BlueprintAssignable)
+	FAttributeInfoChangeSigntal HealthChange;
+	UPROPERTY(BlueprintAssignable)
+	FAttributeInfoChangeSigntal MaxHealthChange;
 };

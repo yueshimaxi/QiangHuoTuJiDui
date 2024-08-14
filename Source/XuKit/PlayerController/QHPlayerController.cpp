@@ -8,10 +8,10 @@
 #include "XuCheatManager.h"
 #include "Net/UnrealNetwork.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
+#include "XuKit/ActorComponent/DamageTextWidgetComponent.h"
 #include "XuKit/Character/PlayerCharacter.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
-#include "XuKit/UI/DamageTextWidgetComponent.h"
 
 AQHPlayerController::AQHPlayerController()
 {

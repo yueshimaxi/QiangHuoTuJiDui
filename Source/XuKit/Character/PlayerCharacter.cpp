@@ -11,6 +11,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 #include "XuKit/XuBPFuncLib.h"
+#include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
@@ -74,6 +75,8 @@ void APlayerCharacter::InitAbilityActorInfo()
 	qh_ability_system_component = player_state->GetAbilitySystemComponent();
 	qh_attribute_set = player_state->GetAttributeSet();
 	qh_ability_system_component->InitAbilityActorInfo(player_state, this);
+	Cast<UQHAbilitySystemComponent>(qh_ability_system_component)->AbilitySystemComponentInfoSet();
+
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
