@@ -6,6 +6,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "XuKit/AbilitySystem/AuraAbilityLibrary.h"
 #include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/ActorComponent/EnemyHealthWidgetComponent.h"
@@ -54,6 +55,14 @@ void AEnemyCharacter::InitAbilityActorInfo()
 			MaxHealthChange.Broadcast(data.NewValue);
 		}
 	);
+
+
+	if (HasAuthority())
+	{
+		InitDefaultAttributesToSelf();
+		UAuraAbilityLibrary::GiveStartAbilities(this, GetPlayerLevel_Implementation(), CharactorClass, GetAbilitySystemComponent());
+	}
+	
 	if (HealthBarWidgetComponent->isInitWidgeted)
 	{
 		UUIEnemyHealthBar* health_bar= Cast<UUIEnemyHealthBar>(HealthBarWidgetComponent->GetWidget());
@@ -85,4 +94,10 @@ void AEnemyCharacter::PossessedBy(AController* NewController)
 		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsHitReacting"), false);
 		//AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsRanger"), CharactorClass != ECharactorClass::Warrior);
 	}
+}
+
+void AEnemyCharacter::InitDefaultAttributesToSelf()
+{
+	UAuraAbilityLibrary::InitDefaultAttributeActorInfo(this, GetPlayerLevel_Implementation(), CharactorClass, GetAbilitySystemComponent());
+	
 }

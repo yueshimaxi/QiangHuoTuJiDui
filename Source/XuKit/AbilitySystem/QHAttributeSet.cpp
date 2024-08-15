@@ -5,7 +5,7 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameplayEffectExtension.h"
-#include "QHAbilityBPLibrary.h"
+#include "AuraAbilityLibrary.h"
 #include "QHGameplayTags.h"
 #include "GameFramework/Character.h"
 #include "Net/UnrealNetwork.h"
@@ -73,8 +73,8 @@ void UQHAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 			tag_container.AddTag(QHGameplayTags::Get().HitReactTag);
 			EffectProperties.TargetASC->TryActivateAbilitiesByTag(tag_container);
 		}
-		bool isBlocked = UQHAbilityBPLibrary::IsBlockedHit(EffectProperties.EffectContextHandle);
-		bool isCriticalHit = UQHAbilityBPLibrary::IsCriticalHit(EffectProperties.EffectContextHandle);
+		bool isBlocked = UAuraAbilityLibrary::IsBlockedHit(EffectProperties.EffectContextHandle);
+		bool isCriticalHit = UAuraAbilityLibrary::IsCriticalHit(EffectProperties.EffectContextHandle);
 		ShowDamageText(EffectProperties, GetIncomingDamage(), isCriticalHit, isBlocked);
 		SetIncomingDamage(0);
 	}
@@ -160,7 +160,7 @@ void UQHAttributeSet::SendXPEvent(FEffectProperties props)
 {
 	int targetPlayerLevel = ICombatInterface::Execute_GetPlayerLevel(props.TargetCharacter);
 	ECharactorClass targetCharactorClass = ICombatInterface::Execute_GetCharactorClass(props.TargetCharacter);
-	int RewardXP = UQHAbilityBPLibrary::GetRewardXPFromCharactorTypeAndLevel(GetWorld(), targetCharactorClass, targetPlayerLevel);
+	int RewardXP = UAuraAbilityLibrary::GetRewardXPFromCharactorTypeAndLevel(GetWorld(), targetCharactorClass, targetPlayerLevel);
 	FGameplayTag gameplaytag = QHGameplayTags::Get().Attributes_Meta_IncomingXPTag;
 	FGameplayEventData eventData;
 	eventData.EventTag = gameplaytag;

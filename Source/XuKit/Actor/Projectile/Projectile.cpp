@@ -11,7 +11,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "XuKit/XuKit.h"
-#include "XuKit/AbilitySystem/QHAbilityBPLibrary.h"
+#include "XuKit/AbilitySystem/AuraAbilityLibrary.h"
 
 // Sets default values
 AProjectile::AProjectile()
@@ -85,7 +85,7 @@ void AProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 		//XuPRINT("EffectHandle is invalid && EffectHandle.Data.Get()->GetEffectContext().GetEffectCauser() == OtherActor", false);
 		return;
 	}
-	if (!UQHAbilityBPLibrary::IsNotFriendly(EffectHandle.Data.Get()->GetEffectContext().GetEffectCauser(), OtherActor))
+	if (!UAuraAbilityLibrary::IsNotFriendly(EffectHandle.Data.Get()->GetEffectContext().GetEffectCauser(), OtherActor))
 	{
 		return;
 	}

@@ -61,4 +61,7 @@ public:
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> DefaultAttributeEffect);
 	virtual void InitDefaultAttributesToSelf() ;
 
+	UPROPERTY(EditAnywhere, Category="CharactorInfo")
+	ECharactorClass CharactorClass;
+
 };

@@ -77,7 +77,7 @@ void UUIPlayerHUD::OnFreshHUDEvent(UEventData* event_data)
 {
 	if (!bInit)
 	{
-		widget_controller_params = UQHAbilityBPLibrary::GetFWidgetControllerParams(GetWorld());
+		widget_controller_params = UAuraAbilityLibrary::GetFWidgetControllerParams(GetWorld());
 
 		if (widget_controller_params.qh_PlayerState == nullptr || widget_controller_params.qh_AttributeSet == nullptr || widget_controller_params.qh_PlayerController == nullptr)
 		{

@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "QHAbilityBPLibrary.generated.h"
+#include "AuraAbilityLibrary.generated.h"
 
+enum class ECharactorClass : uint8;
 class UQHAbilitySystemComponent;
 class AQHPlayerController;
 class AQHPlayerState;
@@ -37,7 +38,7 @@ struct FWidgetControllerParams
  * 
  */
 UCLASS()
-class XUKIT_API UQHAbilityBPLibrary : public UBlueprintFunctionLibrary
+class XUKIT_API UAuraAbilityLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 public:
@@ -64,6 +65,9 @@ public:
 	static bool  GetSwapWeaponDirFromTargetData(const FGameplayAbilityTargetDataHandle& TargetData, int32 Index);
 
 	
+	UFUNCTION(BlueprintCallable, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
+	static void InitDefaultAttributeActorInfo(UObject* WorldContextObject, int level, ECharactorClass charactor_class, UAbilitySystemComponent* ABS);
 
-
+	UFUNCTION(BlueprintCallable, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
+	static void GiveStartAbilities(UObject* WorldContextObject, int level, ECharactorClass charactor_class, UAbilitySystemComponent* ABS);
 };

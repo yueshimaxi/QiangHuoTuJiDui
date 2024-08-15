@@ -26,6 +26,8 @@ public:
 
 	virtual void PossessedBy(AController* NewController) override;
 
+	virtual void InitDefaultAttributesToSelf() override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="AI")
 	class UBehaviorTree* BehaviorTree;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="AI")

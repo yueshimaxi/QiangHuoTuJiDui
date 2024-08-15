@@ -33,7 +33,7 @@ struct FCharactorInfo
  * 
  */
 UCLASS(Blueprintable)
-class XUKIT_API UCharactorClassInfo : public UDataAsset
+class  UCharactorClassInfo : public UDataAsset
 {
 	GENERATED_BODY()
 

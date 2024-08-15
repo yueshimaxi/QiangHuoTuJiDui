@@ -4,7 +4,7 @@
 #include "Components/Image.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
-#include "XuKit/AbilitySystem/QHAbilityBPLibrary.h"
+#include "XuKit/AbilitySystem/AuraAbilityLibrary.h"
 #include "XuKit/Event/EventMgr.h"
 #include "XuKit/UI/UIBaseInterface.h"
 #include "UIPlayerHUD.generated.h"
