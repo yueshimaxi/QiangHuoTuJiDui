@@ -81,6 +81,11 @@ UAttributeSet* AQHCharacterBase::GetAttributeSet()
 	return qh_attribute_set;
 }
 
+UAnimMontage* AQHCharacterBase::GetHitReactMontage_Implementation()
+{
+	return HitReactMontage;
+}
+
 void AQHCharacterBase::AddCharactorAbilities()
 {
 	UQHAbilitySystemComponent* ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);

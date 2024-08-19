@@ -29,7 +29,9 @@ protected:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet();
 
-	
+	UPROPERTY(EditDefaultsOnly, Category="Combat")
+	UAnimMontage* HitReactMontage;
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 	void AddCharactorAbilities();
 
 
