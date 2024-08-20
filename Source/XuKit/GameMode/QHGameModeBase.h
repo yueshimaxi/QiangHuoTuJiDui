@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "QHGameModeBase.generated.h"
 
+class AEnemySpawnPoint;
+class UEnemySpawnInfoAsset;
 class UWeaponInfoDataAsset;
 class UCharactorClassInfo;
 /**
@@ -17,7 +19,25 @@ class XUKIT_API AQHGameModeBase : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere,Category="AInitInfo")
+	UPROPERTY(EditAnywhere, Category="AInitInfo")
 	TObjectPtr<UCharactorClassInfo> EnemyInitDataAsset;
 
+
+	UPROPERTY(EditAnywhere, Category="AInitInfo")
+	TObjectPtr<UEnemySpawnInfoAsset> EnemySpawnInfoAsset;
+
+
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
+
+
+	UPROPERTY()
+	TArray<AEnemySpawnPoint*> EnemySpawnPoints;
+
+
+	UPROPERTY()
+	float CurrentTime;
+
+	UFUNCTION()
+	void SpawnEnemy();
 };
