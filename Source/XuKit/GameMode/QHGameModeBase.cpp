@@ -30,7 +30,7 @@ void AQHGameModeBase::Tick(float DeltaSeconds)
 
 void AQHGameModeBase::SpawnEnemy()
 {
-	for (int i = 0; i < EnemySpawnInfoAsset->EnemySpawnInfos.Num() - 1; ++i)
+	for (int i = 0; i < EnemySpawnInfoAsset->EnemySpawnInfos.Num() ; ++i)
 	{
 		FEnemySpawnInfo& info = EnemySpawnInfoAsset->EnemySpawnInfos[i];
 		if (info.spawned)

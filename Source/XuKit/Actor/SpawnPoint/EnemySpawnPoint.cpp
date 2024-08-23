@@ -25,5 +25,7 @@ void AEnemySpawnPoint::BeginDestroy()
 
 void AEnemySpawnPoint::SpawnEnemy(TSubclassOf<AEnemyCharacter> EnemyClass)
 {
-	AEnemyCharacter* enemy_character=  Cast<AEnemyCharacter>( GetWorld()->SpawnActor(EnemyClass, &GetActorTransform()));
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	GetWorld()->SpawnActor<AEnemyCharacter>(EnemyClass, GetActorTransform(), SpawnParams);
 }
