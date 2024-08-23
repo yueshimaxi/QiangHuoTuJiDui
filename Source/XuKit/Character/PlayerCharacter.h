@@ -41,6 +41,7 @@ public:
 	virtual  void SwapWeapon_Implementation(bool swapWeaponForward) override;
 	
 
+
 protected:
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* camera_component;
@@ -95,7 +96,7 @@ public:
 
 	virtual void InitDefaultAttributesToSelf() override;
 
-
+	virtual void AddCharactorAbilities() override;
 
 	void FreshHUD();
 

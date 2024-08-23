@@ -1,4 +1,7 @@
 #include "EnemySpawnPoint.h"
+#include "Engine/StaticMeshActor.h"
+#include "Kismet/GameplayStatics.h"
+#include "XuKit/Character/EnemyCharacter.h"
 
 AEnemySpawnPoint::AEnemySpawnPoint()
 {
@@ -22,5 +25,5 @@ void AEnemySpawnPoint::BeginDestroy()
 
 void AEnemySpawnPoint::SpawnEnemy(TSubclassOf<AEnemyCharacter> EnemyClass)
 {
-	
+	AEnemyCharacter* enemy_character=  Cast<AEnemyCharacter>( GetWorld()->SpawnActor(EnemyClass, &GetActorTransform()));
 }

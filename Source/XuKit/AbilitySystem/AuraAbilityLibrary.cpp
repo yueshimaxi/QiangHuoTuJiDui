@@ -99,6 +99,32 @@ bool UAuraAbilityLibrary::GetSwapWeaponDirFromTargetData(const FGameplayAbilityT
 	return false;
 }
 
+void UAuraAbilityLibrary::GetLiveActorOnSphere(UObject* WorldContextObject, const FVector& Origin, float Radius, TArray<AActor*>& OutActors, TArray<AActor*> IgnoreActors)
+{
+
+	FCollisionQueryParams SphereParams;
+
+
+	SphereParams.AddIgnoredActors(IgnoreActors);
+
+	// query scene to see what we hit
+	TArray<FOverlapResult> Overlaps;
+	if (UWorld* World = GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::LogAndReturnNull))
+	{
+		World->OverlapMultiByObjectType(Overlaps, Origin, FQuat::Identity, FCollisionObjectQueryParams(FCollisionObjectQueryParams::InitType::AllDynamicObjects), FCollisionShape::MakeSphere(Radius), SphereParams);
+		for (int32 Idx = 0; Idx < Overlaps.Num(); ++Idx)
+		{
+			AActor* Overlap = Overlaps[Idx].GetActor();
+			bool implementCombatInterface = Overlap->GetClass()->ImplementsInterface(UCombatInterface::StaticClass());
+
+			if (implementCombatInterface && !ICombatInterface::Execute_IsDead(Overlap))
+			{
+				OutActors.AddUnique(Overlap);
+			}
+		}
+	}
+}
+
 void UAuraAbilityLibrary::InitDefaultAttributeActorInfo(UObject* WorldContextObject, int level, ECharactorClass charactor_class, UAbilitySystemComponent* ABS)
 {
 	UCharactorClassInfo* enemy_init_data_asset = GetCharactorInfoDataAsset(WorldContextObject);
@@ -144,4 +170,11 @@ void UAuraAbilityLibrary::GiveStartAbilities(UObject* WorldContextObject, int le
 			ABS->GiveAbility(spec);
 		}
 	}
+}
+
+FTaggedMontage UAuraAbilityLibrary::GetRandomTagMotageFromArray(UObject* WorldContextObject, const TArray<FTaggedMontage>& Montages)
+{
+	if (Montages.Num() == 0)return FTaggedMontage();
+	int32 index = FMath::RandRange(0, Montages.Num() - 1);
+	return Montages[index];
 }

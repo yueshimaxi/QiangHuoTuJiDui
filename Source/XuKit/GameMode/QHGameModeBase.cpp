@@ -15,6 +15,10 @@ void AQHGameModeBase::BeginPlay()
 	{
 		EnemySpawnPoints.Add(Cast<AEnemySpawnPoint>(element));
 	}
+	for (int i = 0; i < EnemySpawnInfoAsset->EnemySpawnInfos.Num() - 1; ++i)
+	{
+		EnemySpawnInfoAsset->EnemySpawnInfos[i].spawned = false;
+	}
 }
 
 void AQHGameModeBase::Tick(float DeltaSeconds)
@@ -35,12 +39,13 @@ void AQHGameModeBase::SpawnEnemy()
 		}
 		if (CurrentTime >= info.time)
 		{
-			info.spawned = true;
-			for (int j = 0; j < info.count - 1; ++j)
+			for (int j = 0; j < info.count ; ++j)
 			{
 				int32 index = FMath::RandRange(0, EnemySpawnPoints.Num() - 1);
 				EnemySpawnPoints[index]->SpawnEnemy(info.EnemyClass);
 			}
+			info.spawned = true;
+
 		}
 	}
 }

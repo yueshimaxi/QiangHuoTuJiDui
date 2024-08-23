@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "NiagaraSystem.h"
 #include "GameFramework/Character.h"
 #include "XuKit/Interface/CombatInterface.h"
 #include "QHCharacterBase.generated.h"
@@ -32,9 +33,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Combat")
 	UAnimMontage* HitReactMontage;
 	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
-	void AddCharactorAbilities();
+	virtual void AddCharactorAbilities();
 
-
+	virtual TArray<FTaggedMontage> GetTaggedMontages_Implementation() override;
+	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(FGameplayTag tag) override;
 
 public:	
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "AInitInfo")
@@ -65,5 +67,17 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="CharactorInfo")
 	ECharactorClass CharactorClass;
+
+
+	
+protected:
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TArray<FTaggedMontage>	TaggedMontages;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UNiagaraSystem*	BloomEffect;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	USoundBase* DeathSound;
 
 };

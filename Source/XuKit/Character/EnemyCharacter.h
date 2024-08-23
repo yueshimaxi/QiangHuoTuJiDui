@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "QHCharacterBase.h"
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
+#include "XuKit/Interface/EnemyInterface.h"
 #include "EnemyCharacter.generated.h"
 
 class UEnemyHealthWidgetComponent;
@@ -12,7 +13,7 @@ class UEnemyHealthWidgetComponent;
  * 
  */
 UCLASS()
-class XUKIT_API AEnemyCharacter : public AQHCharacterBase
+class XUKIT_API AEnemyCharacter : public AQHCharacterBase, public IEnemyInterface
 {
 	GENERATED_BODY()
 
@@ -27,6 +28,9 @@ public:
 	virtual void PossessedBy(AController* NewController) override;
 
 	virtual void InitDefaultAttributesToSelf() override;
+	virtual void SetCombatTarget_Implementation(AActor* CombatTarget) override;
+	virtual AActor* GetCombatTarget_Implementation() override;
+	virtual int GetPlayerLevel_Implementation() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="AI")
 	class UBehaviorTree* BehaviorTree;
@@ -38,6 +42,8 @@ public:
 	UEnemyHealthWidgetComponent* HealthBarWidgetComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="CharactorInfo")
+	int PlayerLevel;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="CharactorInfo")
 	int BaseWalkSpeed=100;
 	
 	UPROPERTY()
@@ -47,4 +53,11 @@ public:
 	FAttributeInfoChangeSigntal HealthChange;
 	UPROPERTY(BlueprintAssignable)
 	FAttributeInfoChangeSigntal MaxHealthChange;
+
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="AI")
+	AActor* CombatTargetActor;
+
+	virtual void AddCharactorAbilities() override;
+
 };

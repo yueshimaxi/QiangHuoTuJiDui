@@ -14,7 +14,8 @@ struct FEnemySpawnInfo
 	TSubclassOf<class AEnemyCharacter> EnemyClass;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int32 count;
-	bool spawned;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool spawned=false;
 
 };
 

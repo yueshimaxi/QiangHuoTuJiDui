@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "XuKit/Interface/CombatInterface.h"
 #include "AuraAbilityLibrary.generated.h"
 
 enum class ECharactorClass : uint8;
@@ -64,10 +65,17 @@ public:
 	UFUNCTION(BlueprintPure, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
 	static bool  GetSwapWeaponDirFromTargetData(const FGameplayAbilityTargetDataHandle& TargetData, int32 Index);
 
+	UFUNCTION(BlueprintCallable, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
+	static  void GetLiveActorOnSphere(UObject* WorldContextObject, const FVector& Origin, float Radius, TArray<AActor*>& OutActors,TArray<AActor*> IgnoreActors);
+	
 	
 	UFUNCTION(BlueprintCallable, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
 	static void InitDefaultAttributeActorInfo(UObject* WorldContextObject, int level, ECharactorClass charactor_class, UAbilitySystemComponent* ABS);
 
 	UFUNCTION(BlueprintCallable, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
 	static void GiveStartAbilities(UObject* WorldContextObject, int level, ECharactorClass charactor_class, UAbilitySystemComponent* ABS);
+
+	UFUNCTION(BlueprintCallable, Category="AuraAbilityLibrary", meta=(WorldContext="WorldContextObject"))
+	static FTaggedMontage GetRandomTagMotageFromArray(UObject* WorldContextObject, const TArray<FTaggedMontage>& Montages);
+
 };

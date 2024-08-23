@@ -40,6 +40,8 @@ public:
 	FGameplayTag FireTag;
 	FGameplayTag ReloadTag;
 	FGameplayTag SwapWeaponTag;
+	FGameplayTag Abilities_AttackTag;
+
 
 	//meta data tags
 	FGameplayTag Attributes_Meta_IncomingXPTag;
@@ -55,6 +57,12 @@ public:
 
 	FGameplayTag GameplayCue_GunFireSoundTag;
 	FGameplayTag GameplayCue_GunFireEmitterTag;
+
+	FGameplayTag Montage_Attack1Tag;
+	FGameplayTag Montage_Attack2Tag;
+	FGameplayTag Montage_Attack3Tag;
+	FGameplayTag Montage_Attack4Tag;
+
 	
 private:
 	static QHGameplayTags gameplayTags;

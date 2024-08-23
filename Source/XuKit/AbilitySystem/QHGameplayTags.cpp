@@ -13,10 +13,10 @@ void QHGameplayTags::InitGameplayTags()
 	
 	gameplayTags.DamageTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Damage"),TEXT("Damage"));
 
-	gameplayTags.CombatSocket_WeaponTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Combat.Socket.Weapon"),TEXT("Weapon"));
-	gameplayTags.CombatSocket_LeftHandTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Combat.Socket.LeftHand"),TEXT("Left Hand"));
-	gameplayTags.CombatSocket_RightHandTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Combat.Socket.RightHand"),TEXT("Right Hand"));
-	gameplayTags.CombatSocket_TailTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Combat.Socket.Tail"),TEXT("Tail"));
+	gameplayTags.CombatSocket_WeaponTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.Weapon"),TEXT("CombatSocket Weapon"));
+	gameplayTags.CombatSocket_LeftHandTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.LeftHand"),TEXT("CombatSocket LeftHand"));
+	gameplayTags.CombatSocket_RightHandTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.RightHand"),TEXT("CombatSocket RightHand"));
+	gameplayTags.CombatSocket_TailTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("CombatSocket.Tail"),TEXT("CombatSocket Tail"));
 
 
 	gameplayTags.Attributes_Meta_IncomingXPTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attributes.Meta.IncomingXP"),TEXT("Incoming XP"));
@@ -26,10 +26,16 @@ void QHGameplayTags::InitGameplayTags()
 	gameplayTags.FireTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Fire"),TEXT("Fire"));
 	gameplayTags.ReloadTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Reload"),TEXT("Reload"));
 	gameplayTags.SwapWeaponTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.SwapWeapon"),TEXT("Swap Weapon"));
+	gameplayTags.Abilities_AttackTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Attack"),TEXT("Attack"));
 
 	gameplayTags.Cooldown_FireTag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Fire"),TEXT("Fire Cooldown"));
 	gameplayTags.Cooldown_ReloadTag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Reload"),TEXT("Reload Cooldown"));
 
 	gameplayTags.GameplayCue_GunFireSoundTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("GameplayCue.GunFire.Sound"),TEXT("Gun Fire Sound"));
 	gameplayTags.GameplayCue_GunFireEmitterTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("GameplayCue.GunFire.Emitter"),TEXT("Gun Fire Emitter"));
+
+	gameplayTags.Montage_Attack1Tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack1"),TEXT("Montage Attack1"));
+	gameplayTags.Montage_Attack2Tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack2"),TEXT("Montage Attack2"));
+	gameplayTags.Montage_Attack3Tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack3"),TEXT("Montage Attack3"));
+	gameplayTags.Montage_Attack4Tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack4"),TEXT("Montage Attack4"));
 }

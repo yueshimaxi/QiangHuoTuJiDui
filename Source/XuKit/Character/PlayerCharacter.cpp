@@ -241,6 +241,13 @@ void APlayerCharacter::InitDefaultAttributesToSelf()
 	ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
 }
 
+void APlayerCharacter::AddCharactorAbilities()
+{
+	UQHAbilitySystemComponent* ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
+	if (!HasAuthority())return;
+	ABS->AddCharactorAbilities(DefaultAbilities);
+}
+
 void APlayerCharacter::FreshHUD()
 {
 	UFreshHUDEventData* fresh_hud_event = NewObject<UFreshHUDEventData>();

@@ -3,11 +3,31 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UObject/Interface.h"
+#include "XuKit/AbilitySystem/Data/CharactorClassInfo.h"
 #include "XuKit/Actor/Weapon/Weapon.h"
 #include "CombatInterface.generated.h"
 
 class AProjectionWeapon;
+
+USTRUCT(BlueprintType, Blueprintable)
+struct FTaggedMontage
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UAnimMontage* Montage;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag MontageTag;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag SocketTag;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	USoundBase* ImpactSound;
+	
+};
+
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
 class UCombatInterface : public UInterface
@@ -46,5 +66,10 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	ECharactorClass GetCharactorClass();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	TArray<FTaggedMontage> GetTaggedMontages();
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	FTaggedMontage GetTaggedMontageByTag(FGameplayTag tag);
 	
 };

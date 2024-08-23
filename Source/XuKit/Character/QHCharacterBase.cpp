@@ -21,6 +21,7 @@ AQHCharacterBase::AQHCharacterBase()
 	GetMesh()->SetGenerateOverlapEvents(true);
 	
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
+	WeaponAttackSocket = TEXT("WeaponSocket");
 	WeaponMesh->SetupAttachment(GetMesh(), WeaponAttackSocket);
 }
 
@@ -88,9 +89,25 @@ UAnimMontage* AQHCharacterBase::GetHitReactMontage_Implementation()
 
 void AQHCharacterBase::AddCharactorAbilities()
 {
-	UQHAbilitySystemComponent* ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
-	if (!HasAuthority())return;
-	ABS->AddCharactorAbilities(DefaultAbilities);
+
+}
+
+TArray<FTaggedMontage> AQHCharacterBase::GetTaggedMontages_Implementation()
+{
+	return TaggedMontages;
+
+}
+
+FTaggedMontage AQHCharacterBase::GetTaggedMontageByTag_Implementation(FGameplayTag tag)
+{
+	for (FTaggedMontage& taggedMontage : TaggedMontages)
+	{
+		if (taggedMontage.MontageTag.MatchesTag(tag))
+		{
+			return taggedMontage;
+		}
+	}
+	return FTaggedMontage();
 }
 
 void AQHCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> DefaultAttributeEffect)

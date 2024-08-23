@@ -26,6 +26,7 @@ AEnemyCharacter::AEnemyCharacter()
 	qh_attribute_set = CreateDefaultSubobject<UQHAttributeSet>(TEXT("UAttributeSet"));
 	HealthBarWidgetComponent= CreateDefaultSubobject<UEnemyHealthWidgetComponent>(TEXT("HealthBarWidgetComponent"));
 	HealthBarWidgetComponent->SetupAttachment(RootComponent);
+	AutoPossessAI= EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 void AEnemyCharacter::BeginPlay()
@@ -60,7 +61,7 @@ void AEnemyCharacter::InitAbilityActorInfo()
 	if (HasAuthority())
 	{
 		InitDefaultAttributesToSelf();
-		UAuraAbilityLibrary::GiveStartAbilities(this, GetPlayerLevel_Implementation(), CharactorClass, GetAbilitySystemComponent());
+		AddCharactorAbilities();
 	}
 	
 	if (HealthBarWidgetComponent->isInitWidgeted)
@@ -99,5 +100,26 @@ void AEnemyCharacter::PossessedBy(AController* NewController)
 void AEnemyCharacter::InitDefaultAttributesToSelf()
 {
 	UAuraAbilityLibrary::InitDefaultAttributeActorInfo(this, GetPlayerLevel_Implementation(), CharactorClass, GetAbilitySystemComponent());
-	
+}
+
+
+void AEnemyCharacter::SetCombatTarget_Implementation(AActor* CombatTarget)
+{
+	CombatTargetActor = CombatTarget;
+}
+
+AActor* AEnemyCharacter::GetCombatTarget_Implementation()
+{
+	return CombatTargetActor;
+}
+
+int AEnemyCharacter::GetPlayerLevel_Implementation()
+{
+	return PlayerLevel;
+}
+
+void AEnemyCharacter::AddCharactorAbilities()
+{
+	UAuraAbilityLibrary::GiveStartAbilities(this, GetPlayerLevel_Implementation(), CharactorClass, GetAbilitySystemComponent());
+
 }
