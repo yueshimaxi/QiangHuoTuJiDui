@@ -15,7 +15,7 @@ void AQHGameModeBase::BeginPlay()
 	{
 		EnemySpawnPoints.Add(Cast<AEnemySpawnPoint>(element));
 	}
-	for (int i = 0; i < EnemySpawnInfoAsset->EnemySpawnInfos.Num() - 1; ++i)
+	for (int i = 0; i < EnemySpawnInfoAsset->EnemySpawnInfos.Num() ; ++i)
 	{
 		EnemySpawnInfoAsset->EnemySpawnInfos[i].spawned = false;
 	}
