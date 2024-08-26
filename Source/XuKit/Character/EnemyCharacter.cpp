@@ -123,3 +123,12 @@ void AEnemyCharacter::AddCharactorAbilities()
 	UAuraAbilityLibrary::GiveStartAbilities(this, GetPlayerLevel_Implementation(), CharactorClass, GetAbilitySystemComponent());
 
 }
+
+void AEnemyCharacter::Die()
+{
+	SetLifeSpan(Lifespawn);
+	if (AuraAIController){
+		AuraAIController->GetBlackboardComponent()->SetValueAsBool(FName("IsDead"), true);
+	}
+	Super::Die();
+}

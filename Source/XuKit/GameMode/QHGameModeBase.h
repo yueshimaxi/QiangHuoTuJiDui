@@ -38,6 +38,8 @@ public:
 	UPROPERTY()
 	float CurrentTime;
 
+	void InitSpawnPointData();
+	
 	UFUNCTION()
-	void SpawnEnemy();
+	void UpdateSpawnEnemy();
 };

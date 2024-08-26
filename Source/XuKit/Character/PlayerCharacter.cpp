@@ -246,6 +246,7 @@ void APlayerCharacter::AddCharactorAbilities()
 	UQHAbilitySystemComponent* ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
 	if (!HasAuthority())return;
 	ABS->AddCharactorAbilities(DefaultAbilities);
+	ABS->AddCharactorPassiveAbilities(StartUpPassiveAbilities);
 }
 
 void APlayerCharacter::FreshHUD()

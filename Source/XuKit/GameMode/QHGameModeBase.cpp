@@ -9,6 +9,19 @@
 void AQHGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+	InitSpawnPointData();
+}
+
+void AQHGameModeBase::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	CurrentTime += DeltaSeconds;
+	UpdateSpawnEnemy();
+}
+
+void AQHGameModeBase::InitSpawnPointData()
+{
 	TArray<AActor*> localEnemySpawnPoints;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AEnemySpawnPoint::StaticClass(), localEnemySpawnPoints);
 	for (auto element : localEnemySpawnPoints)
@@ -21,14 +34,7 @@ void AQHGameModeBase::BeginPlay()
 	}
 }
 
-void AQHGameModeBase::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-	CurrentTime += DeltaSeconds;
-	SpawnEnemy();
-}
-
-void AQHGameModeBase::SpawnEnemy()
+void AQHGameModeBase::UpdateSpawnEnemy()
 {
 	for (int i = 0; i < EnemySpawnInfoAsset->EnemySpawnInfos.Num() ; ++i)
 	{

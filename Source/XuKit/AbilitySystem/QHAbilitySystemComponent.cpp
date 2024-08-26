@@ -35,6 +35,19 @@ void UQHAbilitySystemComponent::AddCharactorAbilities(TArray<TSubclassOf<UGamepl
 	}
 }
 
+void UQHAbilitySystemComponent::AddCharactorPassiveAbilities(TArray<TSubclassOf<UGameplayAbility>>& startUpPassiveAbilities)
+{
+	for (TSubclassOf<UGameplayAbility> ability : startUpPassiveAbilities)
+	{
+		if (ability)
+		{
+			FGameplayAbilitySpec spec(ability, 1, INDEX_NONE, this);
+			GiveAbilityAndActivateOnce(spec);
+
+		}
+	}
+}
+
 void UQHAbilitySystemComponent::AbilityInputTagPressed(FGameplayTag ActionTag)
 {
 	for (FGameplayAbilitySpec& abilitySpc : ActivatableAbilities.Items)

@@ -50,6 +50,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TArray<TSubclassOf<UGameplayAbility>> DefaultAbilities;
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
+	TArray<TSubclassOf<UGameplayAbility>> StartUpPassiveAbilities;
 
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	FName WeaponAttackSocket;

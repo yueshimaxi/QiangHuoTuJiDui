@@ -23,14 +23,22 @@ public:
 
 	virtual void BeginPlay() override;
 
-	virtual void InitAbilityActorInfo() override;
-
 	virtual void PossessedBy(AController* NewController) override;
 
+
+	//Charactor
+	virtual void InitAbilityActorInfo() override;
 	virtual void InitDefaultAttributesToSelf() override;
+	virtual void AddCharactorAbilities() override;
+
+	
+	//icomabtinterface
+	virtual void Die() override;
+	virtual int GetPlayerLevel_Implementation() override;
+
+	//IEnemyInterface
 	virtual void SetCombatTarget_Implementation(AActor* CombatTarget) override;
 	virtual AActor* GetCombatTarget_Implementation() override;
-	virtual int GetPlayerLevel_Implementation() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="AI")
 	class UBehaviorTree* BehaviorTree;
@@ -58,6 +66,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite,Category="AI")
 	AActor* CombatTargetActor;
 
-	virtual void AddCharactorAbilities() override;
+
+	float Lifespawn = 5;
+
+
 
 };
