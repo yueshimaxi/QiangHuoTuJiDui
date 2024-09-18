@@ -7,11 +7,13 @@
 #include "GameFramework/PlayerState.h"
 #include "QHPlayerState.generated.h"
 
+class ULevelUpInfoDataAsset;
 enum class EAmmoType;
 class UQHAttributeSet;
 class UQHAbilitySystemComponent;
 class UAttributeSet;
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FPlayerStateChangeDelegate, int);
 
 /**
  * 
@@ -37,6 +39,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	TObjectPtr<UQHAttributeSet> qh_attribute_set;
 
+
+	
+	UPROPERTY(EditDefaultsOnly)
+	TObjectPtr<ULevelUpInfoDataAsset> LevelUpInfoDataAsset;
+
+	
 	UPROPERTY()
 	TMap<EAmmoType, int> ammo_map;
 
@@ -45,6 +53,28 @@ public:
 	int GetAmmoNum(EAmmoType ammo_type);
 
 	void AddAmmoNum(EAmmoType ammo_type, int num);
+
+
+	FPlayerStateChangeDelegate on_xp_change_delegate;
+	FPlayerStateChangeDelegate on_level_change_delegate;
+	
+	UPROPERTY(VisibleAnywhere, ReplicatedUsing=OnRep_XP)
+	int XP=0;
+	void SetXP(int xp);
+	int GetXP();
+	void AddToXP(int xp);
+
+	UFUNCTION()
+	void OnRep_XP(int oldValue);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, ReplicatedUsing=OnRep_PlayerLevel)
+	int PlayerLevel = 1;
+	void SetPlayerLevel(int level);
+	int GetPlayerLevel();
+	void AddPlayerLevel(int level);
+
+	UFUNCTION()
+	void OnRep_PlayerLevel(int oldValue);
 };
 
 

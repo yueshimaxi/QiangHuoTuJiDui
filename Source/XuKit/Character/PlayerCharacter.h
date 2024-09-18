@@ -39,7 +39,12 @@ public:
 	virtual void ReloadAmmo_Implementation() override;
 	virtual void OnRep_PlayerState() override;
 	virtual  void SwapWeapon_Implementation(bool swapWeaponForward) override;
-	
+	virtual void AddXP_Implementation(int xp) override;
+	virtual int GetXP_Implementation() override;
+	virtual void LevelUp_Implementation() override;
+	virtual int FindLevelForXP_Implementation(int XP) override;
+	virtual int GetPlayerLevel_Implementation() override;
+	virtual void AddToLevel_Implementation(int AddLevel) override;
 
 
 protected:
@@ -52,6 +57,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UCombatComponent* combat_component;
 
+	UPROPERTY(VisibleAnywhere)
+	UNiagaraComponent* level_up_niagara_component;
 
 	void SetPawnRotatorToMouseCursor();
 
@@ -103,4 +110,6 @@ public:
 	bool SwapWeapon_forward=false;
 
 	
+	UFUNCTION(NetMulticast,Reliable)
+	void MulticastLevelUpNiagara();
 };

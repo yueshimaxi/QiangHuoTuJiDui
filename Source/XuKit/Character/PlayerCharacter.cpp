@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "NiagaraComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -13,6 +14,7 @@
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
+#include "XuKit/AbilitySystem/Data/LevelUpInfoDataAsset.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/Event/EventDataDefine.h"
@@ -53,6 +55,10 @@ APlayerCharacter::APlayerCharacter()
 
 	combat_component = CreateDefaultSubobject<UCombatComponent>(TEXT("combat_component"));
 	combat_component->SetIsReplicated(true);
+
+	level_up_niagara_component = CreateDefaultSubobject<UNiagaraComponent>(TEXT("level_up_niagara_component"));
+	level_up_niagara_component->SetupAttachment(RootComponent);
+	level_up_niagara_component->bAutoActivate = false;
 }
 
 void APlayerCharacter::BeginPlay()
@@ -158,6 +164,43 @@ void APlayerCharacter::SwapWeapon_Implementation(bool swapWeaponForward)
 	getCombatCom()->SwapWeapon(swapWeaponForward);
 }
 
+void APlayerCharacter::AddXP_Implementation(int xp)
+{
+	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
+	player_state->AddToXP(xp);
+}
+
+int APlayerCharacter::GetXP_Implementation()
+{
+	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
+	return player_state->GetXP();
+}
+
+void APlayerCharacter::LevelUp_Implementation()
+{
+	MulticastLevelUpNiagara();
+}
+
+int APlayerCharacter::FindLevelForXP_Implementation(int XP)
+{
+	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
+	int level = player_state->LevelUpInfoDataAsset->FindLevelByXP(XP);
+
+	return level;
+}
+
+int APlayerCharacter::GetPlayerLevel_Implementation()
+{
+	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
+	return player_state->GetPlayerLevel();
+}
+
+void APlayerCharacter::AddToLevel_Implementation(int AddLevel)
+{
+	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
+	return player_state->AddPlayerLevel(AddLevel);
+}
+
 void APlayerCharacter::InitDefaultProjectionWeapon()
 {
 	AProjectionWeapon* projection_weapon = GetWorld()->SpawnActor<AProjectionWeapon>(default_projection_weapon_class);
@@ -259,4 +302,16 @@ void APlayerCharacter::FreshHUD()
 UCombatComponent* APlayerCharacter::getCombatCom()
 {
 	return combat_component;
+}
+
+
+void APlayerCharacter::MulticastLevelUpNiagara_Implementation()
+{
+	FVector camera_location = camera_component->GetComponentLocation();
+	FVector levelup_niagara_location = level_up_niagara_component->GetComponentLocation();
+
+	FRotator niagaraRotator =( camera_location-levelup_niagara_location).Rotation();
+	level_up_niagara_component->SetWorldRotation(niagaraRotator);
+	
+	level_up_niagara_component->Activate(true);
 }

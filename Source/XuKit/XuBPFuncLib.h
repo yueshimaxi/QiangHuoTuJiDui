@@ -11,7 +11,7 @@
 FString FunctionName = FString(__FUNCTION__); \
 int32 LineNumber = __LINE__; \
 FString ContentString = content; \
-UE_LOG(LogTemp, Warning, TEXT("XuLog:[%s :%d] %s"), *FunctionName, LineNumber, *ContentString); \
+UE_LOG(LogTemp, Log, TEXT("XuLog:[%s :%d] %s"), *FunctionName, LineNumber, *ContentString); \
 }
 class UEventMgr;
 class UDataMgr;

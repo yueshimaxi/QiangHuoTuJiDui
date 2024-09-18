@@ -88,3 +88,49 @@ void AQHPlayerState::AddAmmoNum(EAmmoType ammo_type, int num)
 }
 
 
+void AQHPlayerState::SetXP(int xp)
+{
+	XP=xp;
+	on_xp_change_delegate.Broadcast(XP);
+
+}
+
+int AQHPlayerState::GetXP()
+{
+	return XP;
+}
+
+void AQHPlayerState::AddToXP(int xp)
+{
+	XP+=xp;
+	on_xp_change_delegate.Broadcast(XP);
+}
+
+void AQHPlayerState::OnRep_XP(int oldValue)
+{
+	on_xp_change_delegate.Broadcast(XP);
+	
+}
+ 
+void AQHPlayerState::SetPlayerLevel(int level)
+{
+	PlayerLevel=level;
+	on_level_change_delegate.Broadcast(PlayerLevel);
+}
+
+int AQHPlayerState::GetPlayerLevel()
+{
+	return PlayerLevel;
+}
+void AQHPlayerState::AddPlayerLevel(int level)
+{
+	PlayerLevel+=level;
+	on_level_change_delegate.Broadcast(PlayerLevel);
+}
+
+
+
+void AQHPlayerState::OnRep_PlayerLevel(int oldValue)
+{
+	on_level_change_delegate.Broadcast(PlayerLevel);
+}

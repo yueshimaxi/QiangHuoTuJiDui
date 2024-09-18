@@ -41,7 +41,7 @@ void UQHAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, fl
 void UQHAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
-
+	XuPRINT(FString::Printf(TEXT("Apply effect :%s"),*Data.EffectSpec.Def->GetName()));
 	FEffectProperties EffectProperties;
 	SetEffectProperties(Data, EffectProperties);
 
