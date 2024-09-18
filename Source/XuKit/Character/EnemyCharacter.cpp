@@ -4,6 +4,7 @@
 #include "EnemyCharacter.h"
 
 #include "BehaviorTree/BlackboardComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "XuKit/AbilitySystem/AuraAbilityLibrary.h"
@@ -111,6 +112,12 @@ void AEnemyCharacter::SetCombatTarget_Implementation(AActor* CombatTarget)
 AActor* AEnemyCharacter::GetCombatTarget_Implementation()
 {
 	return CombatTargetActor;
+}
+
+void AEnemyCharacter::VirDie()
+{
+	Super::VirDie();
+
 }
 
 int AEnemyCharacter::GetPlayerLevel_Implementation()

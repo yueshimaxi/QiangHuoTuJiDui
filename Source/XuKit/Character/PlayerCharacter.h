@@ -112,4 +112,6 @@ public:
 	
 	UFUNCTION(NetMulticast,Reliable)
 	void MulticastLevelUpNiagara();
+
+
 };

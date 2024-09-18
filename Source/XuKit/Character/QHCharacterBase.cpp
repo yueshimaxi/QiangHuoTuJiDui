@@ -4,6 +4,7 @@
 #include "QHCharacterBase.h"
 
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "XuKit/XuKit.h"
 #include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
@@ -19,7 +20,7 @@ AQHCharacterBase::AQHCharacterBase()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 	GetMesh()->SetGenerateOverlapEvents(true);
-	
+
 	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
 	WeaponAttackSocket = TEXT("WeaponSocket");
 	WeaponMesh->SetupAttachment(GetMesh(), WeaponAttackSocket);
@@ -89,13 +90,11 @@ UAnimMontage* AQHCharacterBase::GetHitReactMontage_Implementation()
 
 void AQHCharacterBase::AddCharactorAbilities()
 {
-
 }
 
 TArray<FTaggedMontage> AQHCharacterBase::GetTaggedMontages_Implementation()
 {
 	return TaggedMontages;
-
 }
 
 FTaggedMontage AQHCharacterBase::GetTaggedMontageByTag_Implementation(FGameplayTag tag)
@@ -123,4 +122,59 @@ void AQHCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> DefaultAtt
 void AQHCharacterBase::InitDefaultAttributesToSelf()
 {
 	ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
+}
+
+void AQHCharacterBase::Die()
+{
+	Die_Server();
+}
+
+
+void AQHCharacterBase::Die_Server_Implementation()
+{
+	Die_Multicast();
+}
+
+void AQHCharacterBase::Die_Multicast_Implementation()
+{
+	VirDie();
+}
+
+void AQHCharacterBase::VirDie()
+{
+	isDead = true;
+
+	WeaponMesh->SetSimulatePhysics(true);
+	WeaponMesh->SetEnableGravity(true);
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+	GetMesh()->SetSimulatePhysics(true);
+	GetMesh()->SetEnableGravity(true);
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	Dissive();
+	UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeathSound, GetActorLocation());
+}
+
+bool AQHCharacterBase::IsDead_Implementation()
+{
+	return isDead;
+}
+
+void AQHCharacterBase::Dissive()
+{
+	if (MeshDissiveM)
+	{
+		MeshDissiveDM = UMaterialInstanceDynamic::Create(MeshDissiveM, GetMesh());
+		GetMesh()->SetMaterial(0, MeshDissiveDM);
+		StartDissiveTimeline(MeshDissiveDM);
+	}
+	if (WeaponMeshDissiveM)
+	{
+		WeaponMeshDissiveDM = UMaterialInstanceDynamic::Create(WeaponMeshDissiveM, WeaponMesh);
+		WeaponMesh->SetMaterial(0, WeaponMeshDissiveDM);
+		StartWeaponDissiveTimeline(WeaponMeshDissiveDM);
+	}
 }

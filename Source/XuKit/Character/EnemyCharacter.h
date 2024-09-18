@@ -70,5 +70,6 @@ public:
 	float Lifespawn = 5;
 
 
+	virtual void VirDie() override;
 
 };

@@ -82,4 +82,31 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	USoundBase* DeathSound;
 
+	virtual void Die() override;
+	virtual bool IsDead_Implementation() override;
+
+	UFUNCTION(Server,Reliable)
+	void Die_Server();
+	UFUNCTION(NetMulticast, Reliable)
+	void Die_Multicast();
+	bool isDead=false;
+	virtual void VirDie();
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	UMaterialInstance* MeshDissiveM;
+	UPROPERTY()
+	UMaterialInstanceDynamic* MeshDissiveDM;
+	UPROPERTY(EditAnywhere, Category="Combat")
+	UMaterialInstance* WeaponMeshDissiveM;
+	UPROPERTY()
+	UMaterialInstanceDynamic* WeaponMeshDissiveDM;
+
+	
+	void Dissive();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartDissiveTimeline(UMaterialInstanceDynamic* DissiveDM);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartWeaponDissiveTimeline(UMaterialInstanceDynamic* DissiveDM);
 };
