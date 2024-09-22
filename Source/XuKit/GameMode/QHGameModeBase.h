@@ -31,15 +31,27 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	TArray<AEnemySpawnPoint*> EnemySpawnPoints;
+	UPROPERTY(EditAnywhere)
+	TArray<UClass*> ReadSpawnEnemy;
+	
 
-
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	float CurrentTime;
+	UPROPERTY(EditAnywhere)
+	float SuccessTime;
+	
+	UPROPERTY(EditAnywhere)
+	float SpawnRidus;
 
 	void InitSpawnPointData();
 	
-	UFUNCTION()
-	void UpdateSpawnEnemy();
+	void SpawnEnemy();
+
+	bool CheckHasAlivePlayer();
+	void GameLose();
+	void GameWin();
+
+
 };

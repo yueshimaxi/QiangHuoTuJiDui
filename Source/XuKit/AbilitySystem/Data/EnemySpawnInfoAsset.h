@@ -4,24 +4,33 @@
 #include "UObject/NoExportTypes.h"
 #include "EnemySpawnInfoAsset.generated.h"
 
-USTRUCT(Blueprintable,BlueprintType)
+UENUM()
+enum class EMyEnum:uint8
+{
+	monster,
+	miniBoss,
+	boss
+};
+
+USTRUCT(Blueprintable, BlueprintType)
 struct FEnemySpawnInfo
 {
 	GENERATED_BODY()
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float time;
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<class AEnemyCharacter> EnemyClass;
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 count;
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	bool spawned=false;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	EMyEnum enemyType;	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool spawned = false;
 };
 
 UCLASS()
 
-class UEnemySpawnInfoAsset:public  UDataAsset
+class UEnemySpawnInfoAsset : public UDataAsset
 {
 	GENERATED_BODY()
 
@@ -31,5 +40,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawnInfo")
 	float SuccessTime;
-	
 };

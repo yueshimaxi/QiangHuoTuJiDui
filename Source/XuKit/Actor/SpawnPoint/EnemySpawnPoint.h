@@ -22,5 +22,9 @@ public:
 
 
 
-	void SpawnEnemy(TSubclassOf<class AEnemyCharacter> EnemyClass);
+	bool SpawnEnemy(TSubclassOf<class AEnemyCharacter> EnemyClass);
+private:
+	bool IsOccupied(float SpawnRadius);
+
+	bool FindLocationToSpawnEnemy(FVector& location);
 };
