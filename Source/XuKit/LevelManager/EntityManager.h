@@ -4,6 +4,7 @@
 UCLASS()
 class UEntityManager : public UObject
 {
+	GENERATED_BODY()
 public:
 	static UEntityManager* Instance;
 	static UEntityManager* GetInstance();

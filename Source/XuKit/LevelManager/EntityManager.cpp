@@ -1,7 +1,7 @@
 #include "EntityManager.h"
 
 #include "XuKit/XuBPFuncLib.h"
-
+UEntityManager* UEntityManager::Instance = nullptr;
 UEntityManager* UEntityManager::GetInstance()
 {
 	if (Instance == nullptr)

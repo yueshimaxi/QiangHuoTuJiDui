@@ -4,6 +4,7 @@
 #include "XuKit/AbilitySystem/Data/EnemySpawnInfoAsset.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/Actor/SpawnPoint/EnemySpawnPoint.h"
 #include "XuKit/Character/EnemyCharacter.h"
 #include "XuKit/Character/PlayerCharacter.h"
@@ -19,12 +20,16 @@ void AQHGameModeBase::BeginPlay()
 void AQHGameModeBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	if (bGameEnd)
+	{
+		return;
+	}
 	CurrentTime += DeltaSeconds;
 	SpawnEnemy();
 
-	
+
 	//check TimeOut
-	if (CurrentTime > SuccessTime )
+	if (CurrentTime > SuccessTime)
 	{
 		GameWin();
 	}
@@ -33,7 +38,6 @@ void AQHGameModeBase::Tick(float DeltaSeconds)
 	{
 		GameLose();
 	}
-	
 }
 
 void AQHGameModeBase::InitSpawnPointData()
@@ -48,6 +52,7 @@ void AQHGameModeBase::InitSpawnPointData()
 	{
 		EnemySpawnInfoAsset->EnemySpawnInfos[i].spawned = false;
 	}
+	SuccessTime = EnemySpawnInfoAsset->SuccessTime;
 }
 
 void AQHGameModeBase::SpawnEnemy()
@@ -95,7 +100,7 @@ bool AQHGameModeBase::CheckHasAlivePlayer()
 	for (auto element : localPlayers)
 	{
 		APlayerCharacter* player = Cast<APlayerCharacter>(element);
-		if (!player->IsDead())
+		if (!ICombatInterface::Execute_IsDead(player))
 		{
 			return true;
 		}
@@ -105,8 +110,10 @@ bool AQHGameModeBase::CheckHasAlivePlayer()
 
 void AQHGameModeBase::GameLose()
 {
+	XuPRINT("GameLose");
 }
 
 void AQHGameModeBase::GameWin()
 {
+	XuPRINT("GameWin");
 }

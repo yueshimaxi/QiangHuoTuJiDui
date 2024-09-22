@@ -35,23 +35,22 @@ public:
 	TArray<AEnemySpawnPoint*> EnemySpawnPoints;
 	UPROPERTY(EditAnywhere)
 	TArray<UClass*> ReadSpawnEnemy;
-	
+
+	bool bGameEnd = false;
 
 	UPROPERTY(EditAnywhere)
 	float CurrentTime;
 	UPROPERTY(EditAnywhere)
 	float SuccessTime;
-	
+
 	UPROPERTY(EditAnywhere)
 	float SpawnRidus;
 
 	void InitSpawnPointData();
-	
+
 	void SpawnEnemy();
 
 	bool CheckHasAlivePlayer();
 	void GameLose();
 	void GameWin();
-
-
 };

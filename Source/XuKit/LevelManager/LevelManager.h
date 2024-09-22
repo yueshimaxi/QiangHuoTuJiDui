@@ -5,13 +5,15 @@
 UCLASS()
 class ULevelManager : public UEngineSubsystem
 {
+	GENERATED_BODY()
+
 public:
 	UPROPERTY()
 	UEntityManager* EntityManager;
 
 	void Init();
 
-	void 
+
 	void GameOver();
 	void GamePassed();
 
