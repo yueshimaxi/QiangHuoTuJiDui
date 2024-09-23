@@ -50,14 +50,17 @@ void UUIPlayerHUD::NativeConstruct()
 	UpdateServerTimeEventDelegate.BindDynamic(this, &UUIPlayerHUD::OnUpdateServerTimeEvent);
 	UXuBPFuncLib::GetEventManager(this)->RegistEvent(EXuEventType::UpdateServerTime, UpdateServerTimeEventID, UpdateServerTimeEventDelegate);
 	
-	XuPRINT("UUIPlayerHUD::NativeConstruct");
+}
+void UUIPlayerHUD::NativeDestruct()
+{
+	Super::NativeDestruct();
+	UXuBPFuncLib::GetEventManager(this)->RemoveEvent(EXuEventType::UpdateServerTime, UpdateServerTimeEventID);
 
-	
 }
 
 void UUIPlayerHUD::SetHUDAmmo(int ClipAmmoNum, int AllAmmoNum, FWeaponInfo local_weapon_info)
 {
-	XuPRINT("UUIPlayerHUD::SetHUDAmmo");
+	//XuPRINT("UUIPlayerHUD::SetHUDAmmo");
 	ClipAmmoNum_Text->SetText(FText::FromString(FString::FromInt(ClipAmmoNum)));
 	AllAmmoNum_Text->SetText(FText::FromString(FString::FromInt(AllAmmoNum)));
 	WeaponIcon_Image->SetBrushFromTexture(local_weapon_info.weapon_icon);

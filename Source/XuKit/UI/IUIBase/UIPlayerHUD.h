@@ -30,6 +30,7 @@ public:
 	UFUNCTION()
 	void OnUpdateServerTimeEvent(UEventData* event_data);
 	virtual void NativeConstruct() override;
+	virtual void NativeDestruct() override;
 private:
 	GENERATED_BODY()
 
@@ -114,3 +115,5 @@ public:
 	int UpdateServerTimeEventID;
 	
 };
+
+

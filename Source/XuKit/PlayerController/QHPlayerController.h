@@ -74,9 +74,9 @@ public:
 	void ShowDamageText(float damage, ACharacter* targetCharacter, bool bIsCriticalHit, bool bIsBlockedHit);	
 
 
-	UFUNCTION(NetMulticast,Reliable)
+	UFUNCTION(Client,Reliable)
 	void GameLose();
-	UFUNCTION(NetMulticast,Reliable)
+	UFUNCTION(Client,Reliable)
 	void GameWin();
 
 

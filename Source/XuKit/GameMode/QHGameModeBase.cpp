@@ -118,8 +118,21 @@ void AQHGameModeBase::GameLose()
 {
 	XuPRINT("GameLose");
 
-	AQHPlayerController* aqh_player_controller = Cast<AQHPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	aqh_player_controller->GameLose();
+	//通知所有的playercontroller game lose
+	//获取所有的playercontroller
+	if (UWorld* World = GEngine->GetWorldFromContextObject(GetWorld(), EGetWorldErrorMode::LogAndReturnNull))
+	{
+		for (FConstPlayerControllerIterator Iterator = World->GetPlayerControllerIterator(); Iterator; ++Iterator)
+		{
+			AQHPlayerController* aqh_player_controller = Cast<AQHPlayerController>(Iterator->Get());
+			if (aqh_player_controller)
+			{
+				aqh_player_controller->GameLose();
+			}
+		}
+	}
+
+	
 	bGameEnd = true;
 }
 

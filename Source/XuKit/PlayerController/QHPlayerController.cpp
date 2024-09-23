@@ -15,6 +15,9 @@
 #include "XuKit/Event/EventMgr.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
+#include "XuKit/UI/UIMgr.h"
+#include "XuKit/UI/IUIBase/UIGameLose.h"
+#include "XuKit/UI/IUIBase/UIGameWin.h"
 
 AQHPlayerController::AQHPlayerController()
 {
@@ -135,10 +138,13 @@ void AQHPlayerController::TraceMouseCuror()
 
 void AQHPlayerController::GameLose_Implementation()
 {
+	UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIGameLose>();
 }
 
 void AQHPlayerController::GameWin_Implementation()
 {
+	UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIGameWin>();
+
 }
 
 

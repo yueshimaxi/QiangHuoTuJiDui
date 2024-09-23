@@ -5,7 +5,9 @@
 
 #include "UIBaseInterface.h"
 #include "Blueprint/UserWidget.h"
+#include "IUIBase/UIGameLose.h"
 #include "IUIBase/UIGameSettingScreen.h"
+#include "IUIBase/UIGameWin.h"
 #include "IUIBase/UIMessageBox.h"
 #include "IUIBase/UIPlayerHUD.h"
 #include "IUIBase/UIStart.h"
@@ -22,6 +24,8 @@ void UUIMgr::Init()
 		{UUIStart::StaticClass(), GetUIPath(TEXT("UIStart_BP"))},
 		{UUIGameSettingScreen::StaticClass(), GetUIPath(TEXT("UIGameSettingScreen_BP"))},
 		{UUIPlayerHUD::StaticClass(), GetUIPath(TEXT("UIPlayerHUD_BP"))},
+		{UUIGameLose::StaticClass(), "/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/BP/UI/UIBaseInterface/GameEnd/UIGamLose_BP.UIGamLose_BP_C'"},
+		{UUIGameWin::StaticClass(), "/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/BP/UI/UIBaseInterface/GameEnd/UIGameWin_BP.UIGameWin_BP_C'"},
 
 	};
 	isInit = true;
