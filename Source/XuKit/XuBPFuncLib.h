@@ -61,5 +61,6 @@ public:
 
 	UFUNCTION(Blueprintable, BlueprintCallable,meta=(WorldContext="WorldContextObject"), Category = "XuBPFuncLib")
 	static UEventMgr* GetEventManager(UObject* WorldContextObject);
-	
+
+
 };

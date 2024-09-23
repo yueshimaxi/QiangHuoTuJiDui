@@ -27,6 +27,8 @@ public:
 	virtual EUILayer GetUILayer_Implementation() const override;
 	virtual EUIType GetUIType_Implementation() const override;
 	virtual void NativeOnInitialized() override;
+	UFUNCTION()
+	void OnUpdateServerTimeEvent(UEventData* event_data);
 	virtual void NativeConstruct() override;
 private:
 	GENERATED_BODY()
@@ -72,6 +74,11 @@ public:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
 	UTextBlock* TaskContent_Text;
 
+
+	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))
+	UTextBlock* TimeCountDown;
+	
+
 	void SetHUDAmmo(int ClipAmmoNum, int AllAmmoNum,FWeaponInfo local_weapon_info);
 
 	UPROPERTY(BlueprintReadWrite)
@@ -103,4 +110,7 @@ public:
 	FWidgetControllerSetDelegate widget_controller_set_delegate;
 
 	bool bInit=false;
+
+	int UpdateServerTimeEventID;
+	
 };

@@ -8,6 +8,10 @@
 #include "XuKit/Actor/SpawnPoint/EnemySpawnPoint.h"
 #include "XuKit/Character/EnemyCharacter.h"
 #include "XuKit/Character/PlayerCharacter.h"
+#include "XuKit/PlayerController/QHPlayerController.h"
+#include "XuKit/PlayerState/QHPlayerState.h"
+
+FTimerHandle UpdateTimeTimerHandle;
 
 void AQHGameModeBase::BeginPlay()
 {
@@ -15,6 +19,8 @@ void AQHGameModeBase::BeginPlay()
 
 
 	InitSpawnPointData();
+
+	GetWorld()->GetTimerManager().SetTimer(UpdateTimeTimerHandle, this, &AQHGameModeBase::SyncTimeToAllClient, 1.0f, true);
 }
 
 void AQHGameModeBase::Tick(float DeltaSeconds)
@@ -111,9 +117,29 @@ bool AQHGameModeBase::CheckHasAlivePlayer()
 void AQHGameModeBase::GameLose()
 {
 	XuPRINT("GameLose");
+
+	AQHPlayerController* aqh_player_controller = Cast<AQHPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	aqh_player_controller->GameLose();
+	bGameEnd = true;
 }
 
 void AQHGameModeBase::GameWin()
 {
 	XuPRINT("GameWin");
+
+	AQHPlayerController* aqh_player_controller = Cast<AQHPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	aqh_player_controller->GameWin();
+	bGameEnd = true;
+
+}
+
+void AQHGameModeBase::SyncTimeToAllClient()
+{
+	//sync time to all client
+
+	AQHPlayerState* aqh_player_state = Cast<AQHPlayerState>(UGameplayStatics::GetPlayerState(GetWorld(), 0));
+	if (aqh_player_state)
+	{
+		aqh_player_state->MulticastSyncTime(CurrentTime);
+	}
 }

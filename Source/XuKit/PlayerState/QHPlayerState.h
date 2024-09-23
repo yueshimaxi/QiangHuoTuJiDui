@@ -45,6 +45,7 @@ public:
 	TObjectPtr<ULevelUpInfoDataAsset> LevelUpInfoDataAsset;
 
 	
+	
 	UPROPERTY()
 	TMap<EAmmoType, int> ammo_map;
 
@@ -75,6 +76,10 @@ public:
 
 	UFUNCTION()
 	void OnRep_PlayerLevel(int oldValue);
+
+	float CurrentServerTime;
+	UFUNCTION(NetMulticast,Reliable)
+	void MulticastSyncTime(float time);
 };
 
 

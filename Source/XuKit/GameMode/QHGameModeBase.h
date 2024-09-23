@@ -53,4 +53,6 @@ public:
 	bool CheckHasAlivePlayer();
 	void GameLose();
 	void GameWin();
+
+	void SyncTimeToAllClient();
 };

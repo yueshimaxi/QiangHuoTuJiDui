@@ -7,9 +7,12 @@
 #include "EnhancedInputSubsystems.h"
 #include "XuCheatManager.h"
 #include "Net/UnrealNetwork.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/ActorComponent/DamageTextWidgetComponent.h"
 #include "XuKit/Character/PlayerCharacter.h"
+#include "XuKit/Event/EventDataDefine.h"
+#include "XuKit/Event/EventMgr.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 
@@ -127,6 +130,17 @@ void AQHPlayerController::TraceMouseCuror()
 	GetHitResultUnderCursor(ECC_Visibility, true, local_CurorHitResult);
 	ServerSetCurorHitResult(local_CurorHitResult);
 }
+
+
+
+void AQHPlayerController::GameLose_Implementation()
+{
+}
+
+void AQHPlayerController::GameWin_Implementation()
+{
+}
+
 
 void AQHPlayerController::ShowDamageText_Implementation(float damage, ACharacter* targetCharacter, bool bIsCriticalHit, bool bIsBlockedHit)
 {

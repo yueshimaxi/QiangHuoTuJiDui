@@ -5,6 +5,7 @@
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
+#include "XuKit/Event/EventDataDefine.h"
 #include "XuKit/Event/EventMgr.h"
 #include "XuKit/Interface/CombatInterface.h"
 #include "XuKit/Interface/PlayerInterface.h"
@@ -28,6 +29,14 @@ void UUIPlayerHUD::NativeOnInitialized()
 	XuPRINT("UUIPlayerHUD::NativeOnInitialized");
 }
 
+void UUIPlayerHUD::OnUpdateServerTimeEvent(UEventData* event_data)
+{
+	if(UUpdateSeverTimeEventData* update_server_time_event_data = Cast<UUpdateSeverTimeEventData>(event_data))
+	{
+		TimeCountDown->SetText(FText::FromString(FString::FromInt(update_server_time_event_data->serverTime)));
+	}
+}
+
 void UUIPlayerHUD::NativeConstruct()
 {
 
@@ -37,7 +46,13 @@ void UUIPlayerHUD::NativeConstruct()
 	UXuBPFuncLib::GetEventManager(GetWorld())->RegistEvent(EXuEventType::FreshHUD, freshhud_EventID, fresh_hud_delegate);
 	OnFreshHUDEvent(nullptr);
 
+	FXuEventDelegate UpdateServerTimeEventDelegate;
+	UpdateServerTimeEventDelegate.BindDynamic(this, &UUIPlayerHUD::OnUpdateServerTimeEvent);
+	UXuBPFuncLib::GetEventManager(this)->RegistEvent(EXuEventType::UpdateServerTime, UpdateServerTimeEventID, UpdateServerTimeEventDelegate);
+	
 	XuPRINT("UUIPlayerHUD::NativeConstruct");
+
+	
 }
 
 void UUIPlayerHUD::SetHUDAmmo(int ClipAmmoNum, int AllAmmoNum, FWeaponInfo local_weapon_info)

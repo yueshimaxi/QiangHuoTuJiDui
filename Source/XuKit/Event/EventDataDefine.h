@@ -88,3 +88,18 @@ public:
 };
 
 
+UCLASS()
+class UUpdateSeverTimeEventData : public UEventData
+{
+	GENERATED_BODY()
+
+public:
+	virtual EXuEventType GetEventType() override
+	{
+		return EXuEventType::UpdateServerTime;
+	}
+
+	float serverTime;
+};
+
+
