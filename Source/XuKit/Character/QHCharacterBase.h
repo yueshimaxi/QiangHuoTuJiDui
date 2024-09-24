@@ -67,19 +67,19 @@ public:
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> DefaultAttributeEffect);
 	virtual void InitDefaultAttributesToSelf() ;
 
-	UPROPERTY(EditAnywhere, Category="CharactorInfo")
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	ECharactorClass CharactorClass;
 
 
 	
 protected:
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "AInitInfo")
 	TArray<FTaggedMontage>	TaggedMontages;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "AInitInfo")
 	UNiagaraSystem*	BloomEffect;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "AInitInfo")
 	USoundBase* DeathSound;
 
 	virtual void Die() override;
