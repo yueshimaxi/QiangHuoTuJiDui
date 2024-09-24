@@ -8,6 +8,7 @@
 #include "XuKit/Actor/SpawnPoint/EnemySpawnPoint.h"
 #include "XuKit/Character/EnemyCharacter.h"
 #include "XuKit/Character/PlayerCharacter.h"
+#include "XuKit/GameState/QHGameState.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 
@@ -149,10 +150,10 @@ void AQHGameModeBase::GameWin()
 void AQHGameModeBase::SyncTimeToAllClient()
 {
 	//sync time to all client
-
-	AQHPlayerState* aqh_player_state = Cast<AQHPlayerState>(UGameplayStatics::GetPlayerState(GetWorld(), 0));
-	if (aqh_player_state)
+	AQHGameState* qh_game_state = Cast<AQHGameState>(UGameplayStatics::GetGameState(GetWorld()));
+	if (qh_game_state)
 	{
-		aqh_player_state->MulticastSyncTime(CurrentTime);
+		qh_game_state->MulticastSyncTime(CurrentTime);
 	}
+
 }

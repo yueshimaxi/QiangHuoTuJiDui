@@ -77,9 +77,7 @@ public:
 	UFUNCTION()
 	void OnRep_PlayerLevel(int oldValue);
 
-	float CurrentServerTime;
-	UFUNCTION(NetMulticast,Reliable)
-	void MulticastSyncTime(float time);
+
 };
 
 
