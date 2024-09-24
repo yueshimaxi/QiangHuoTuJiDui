@@ -129,6 +129,12 @@ void AQHCharacterBase::Die()
 	Die_Server();
 }
 
+bool AQHCharacterBase::IsDead()
+{
+	return isDead;
+
+}
+
 
 void AQHCharacterBase::Die_Server_Implementation()
 {
@@ -158,10 +164,6 @@ void AQHCharacterBase::VirDie()
 	UGameplayStatics::PlaySoundAtLocation(GetWorld(), DeathSound, GetActorLocation());
 }
 
-bool AQHCharacterBase::IsDead_Implementation()
-{
-	return isDead;
-}
 
 void AQHCharacterBase::Dissive()
 {

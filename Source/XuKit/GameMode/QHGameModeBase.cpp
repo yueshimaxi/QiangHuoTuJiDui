@@ -106,8 +106,9 @@ bool AQHGameModeBase::CheckHasAlivePlayer()
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerCharacter::StaticClass(), localPlayers);
 	for (auto element : localPlayers)
 	{
-		APlayerCharacter* player = Cast<APlayerCharacter>(element);
-		if (!ICombatInterface::Execute_IsDead(player))
+		ICombatInterface* combat_interface = Cast<ICombatInterface>(element);
+
+		if (!combat_interface->IsDead())
 		{
 			return true;
 		}

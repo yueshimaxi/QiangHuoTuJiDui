@@ -57,8 +57,7 @@ public:
 
 	virtual void Die();
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	bool IsDead();
+	virtual bool IsDead();
 
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)

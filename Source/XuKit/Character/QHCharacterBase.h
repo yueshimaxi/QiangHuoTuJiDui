@@ -83,7 +83,7 @@ protected:
 	USoundBase* DeathSound;
 
 	virtual void Die() override;
-	virtual bool IsDead_Implementation() override;
+	virtual bool IsDead() override;
 
 	UFUNCTION(Server,Reliable)
 	void Die_Server();

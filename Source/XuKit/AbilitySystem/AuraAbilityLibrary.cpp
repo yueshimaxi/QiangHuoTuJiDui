@@ -115,9 +115,8 @@ void UAuraAbilityLibrary::GetLiveActorOnSphere(UObject* WorldContextObject, cons
 		for (int32 Idx = 0; Idx < Overlaps.Num(); ++Idx)
 		{
 			AActor* Overlap = Overlaps[Idx].GetActor();
-			bool implementCombatInterface = Overlap->GetClass()->ImplementsInterface(UCombatInterface::StaticClass());
-
-			if (implementCombatInterface && !ICombatInterface::Execute_IsDead(Overlap))
+			ICombatInterface* combat_interface = Cast<ICombatInterface>(Overlap);
+			if (combat_interface && !combat_interface->IsDead())
 			{
 				OutActors.AddUnique(Overlap);
 			}

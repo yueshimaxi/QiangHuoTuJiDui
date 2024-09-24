@@ -8,3 +8,8 @@ void ICombatInterface::Die()
 {
 	
 }
+
+bool ICombatInterface::IsDead()
+{
+	return false;
+}
