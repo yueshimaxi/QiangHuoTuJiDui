@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "XuKit/QiangHuoTuJiDui.h"
+#include "XuKit/AbilitySystem/Ability/QHGameplayAbility.h"
 #include "Weapon.generated.h"
 
+class APlayerCharacter;
 class USphereComponent;
 class UWidgetComponent;
 
@@ -71,6 +74,30 @@ public:
 
 
 	virtual void OnRep_Owner() override;
+
+
+	UPROPERTY(EditAnywhere, Category = "AQHInitInfo")
+	TArray<TSubclassOf<UQHGameplayAbility>> Abilities;
+
+
+	UPROPERTY(BlueprintReadOnly, Category = "AQHInitInfo")
+	TArray<FGameplayAbilitySpecHandle> AbilitySpecHandles;
+	
+	UPROPERTY(BlueprintReadOnly, Replicated, Category = "AQHInitInfo")
+	APlayerCharacter* OwningCharacter;
+
+	// Called when the player equips this weapon
+	virtual void Equip();
+
+	// Called when the player unequips this weapon
+	virtual void UnEquip();
+	
+	virtual void AddAbilities();
+	virtual void RemoveAbilities();
+
+	virtual int32 GetAbilityLevel(EQHAbilityInputID AbilityID);
+
+	
 
 
 };

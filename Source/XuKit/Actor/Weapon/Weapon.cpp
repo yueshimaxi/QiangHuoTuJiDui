@@ -8,6 +8,7 @@
 #include "Net/UnrealNetwork.h"
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/XuKit.h"
+#include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
 #include "XuKit/Character/PlayerCharacter.h"
 
 // Sets default values
@@ -124,8 +125,73 @@ void AWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 }
 
 
-
 void AWeapon::OnRep_Owner()
 {
 	Super::OnRep_Owner();
+}
+
+void AWeapon::Equip()
+{
+}
+
+void AWeapon::UnEquip()
+{
+}
+
+void AWeapon::AddAbilities()
+{
+	if (!IsValid(OwningCharacter) || !OwningCharacter->GetAbilitySystemComponent())
+	{
+		return;
+	}
+
+	UQHAbilitySystemComponent* ASC = Cast<UQHAbilitySystemComponent>(OwningCharacter->GetAbilitySystemComponent());
+
+	if (!ASC)
+	{
+		return;
+	}
+
+	// Grant abilities, but only on the server	
+	if (GetLocalRole() != ROLE_Authority)
+	{
+		return;
+	}
+
+	for (TSubclassOf<UQHGameplayAbility>& Ability : Abilities)
+	{
+		AbilitySpecHandles.Add(ASC->GiveAbility(
+			FGameplayAbilitySpec(Ability, GetAbilityLevel(Ability.GetDefaultObject()->AbilityInputID), static_cast<int32>(Ability.GetDefaultObject()->AbilityInputID), this)));
+	}
+}
+
+void AWeapon::RemoveAbilities()
+{
+	if (!IsValid(OwningCharacter) || !OwningCharacter->GetAbilitySystemComponent())
+	{
+		return;
+	}
+
+	UQHAbilitySystemComponent* ASC = Cast<UQHAbilitySystemComponent>(OwningCharacter->GetAbilitySystemComponent());
+
+	if (!ASC)
+	{
+		return;
+	}
+
+	// Remove abilities, but only on the server	
+	if (GetLocalRole() != ROLE_Authority)
+	{
+		return;
+	}
+
+	for (FGameplayAbilitySpecHandle& SpecHandle : AbilitySpecHandles)
+	{
+		ASC->ClearAbility(SpecHandle);
+	}
+}
+
+int32 AWeapon::GetAbilityLevel(EQHAbilityInputID AbilityID)
+{
+	return 1;
 }

@@ -30,11 +30,13 @@ public:
 
 	virtual void InitAbilityActorInfo() override;
 	virtual void PossessedBy(AController* NewController) override;
+	
 
 	virtual AProjectionWeapon* get_cur_projection_weapon_Implementation() override;
 
 	virtual void PostInitializeComponents() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	void BindASCInput();
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void ReloadAmmo_Implementation() override;
 	virtual void OnRep_PlayerState() override;
@@ -85,6 +87,10 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UInputAction> input_action_reload;
 
+	UPROPERTY(EditAnywhere, Category = "AInitInfo")
+	TSubclassOf<UGameplayAbility> GA_Confirm;
+
+	bool bASCInputBound;
 
 
 	UPROPERTY(Replicated)

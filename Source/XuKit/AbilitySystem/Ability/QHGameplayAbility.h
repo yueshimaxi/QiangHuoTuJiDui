@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Abilities/GameplayAbility.h"
+#include "XuKit/QiangHuoTuJiDui.h"
 #include "QHGameplayAbility.generated.h"
 USTRUCT(BlueprintType)
 struct  FSwapWeaponDirGameplayAbilityTargetData : public FGameplayAbilityTargetData
@@ -47,6 +48,8 @@ class XUKIT_API UQHGameplayAbility : public UGameplayAbility
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Ability")
+	EQHAbilityInputID AbilityInputID = EQHAbilityInputID::None;
 	UPROPERTY(EditDefaultsOnly,Category = "AInitInfo")
 	FGameplayTag start_up_input_ability_tag;
 	

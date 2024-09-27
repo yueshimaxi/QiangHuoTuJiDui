@@ -8,7 +8,7 @@
 #include "WeaponInfoDataAsset.generated.h"
 
 UENUM()
-enum class EProjectileWeaponType
+enum class EProjectileWeaponType:uint8
 {
 	pistol,
 	AssaultRifle,
@@ -17,49 +17,48 @@ enum class EProjectileWeaponType
 	Rocket,
 };
 
-UENUM(Blueprintable,BlueprintType)
-enum class EAmmoType
+UENUM(Blueprintable, BlueprintType)
+enum class EAmmoType:uint8
 {
-	EAmmoType_Pistol,
-	EAmmoType_AssaultRifle,
-	EAmmoType_ShotGun,
-	EAmmoType_Rocket,
-	EAmmoType_Max,
+	EAmmoType_Pistol,        // 手枪弹药
+	EAmmoType_AssaultRifle,  // 突击步枪弹药
+	EAmmoType_ShotGun,       // 霰弹枪弹药
+	EAmmoType_Rocket,        // 火箭弹药
+	EAmmoType_LaserGun,      // 激光枪弹药
 };
 
 
-USTRUCT(Blueprintable,BlueprintType)
+USTRUCT(Blueprintable, BlueprintType)
 struct FWeaponInfo
-{	
+{
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EProjectileWeaponType weapon_type;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AWeapon> weapon_class;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString weapon_name;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString weapon_description;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float weapon_damage;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float weapon_fire_rate;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int weapon_clip_size;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EAmmoType Ammo_type;
-	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTexture2D* weapon_icon;
-	
 };
 
 /**
@@ -76,5 +75,4 @@ public:
 
 	UFUNCTION()
 	FWeaponInfo GetWeaponInfo(EProjectileWeaponType weapon_type);
-	
 };

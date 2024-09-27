@@ -8,7 +8,7 @@
 #include "QHPlayerState.generated.h"
 
 class ULevelUpInfoDataAsset;
-enum class EAmmoType;
+enum class EAmmoType:uint8;
 class UQHAttributeSet;
 class UQHAbilitySystemComponent;
 class UAttributeSet;

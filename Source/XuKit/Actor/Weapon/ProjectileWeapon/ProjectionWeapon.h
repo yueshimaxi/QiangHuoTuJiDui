@@ -7,8 +7,8 @@
 #include "XuKit/Actor/Weapon/Weapon.h"
 #include "ProjectionWeapon.generated.h"
 
-enum class EProjectileWeaponType;
-enum class EAmmoType;
+enum class EProjectileWeaponType:uint8;
+enum class EAmmoType:uint8;
 class ACasing;
 class AProjectile;
 /**

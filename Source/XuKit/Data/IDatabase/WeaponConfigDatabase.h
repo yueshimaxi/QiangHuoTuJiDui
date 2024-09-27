@@ -7,7 +7,7 @@
 #include "XuKit/Data/XuDataBase.h"
 #include "WeaponConfigDatabase.generated.h"
 
-enum class EProjectileWeaponType;
+enum class EProjectileWeaponType:uint8;
 struct FWeaponInfo;
 class UWeaponInfoDataAsset;
 /**

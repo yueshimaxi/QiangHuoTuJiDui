@@ -27,7 +27,6 @@ protected:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void InitAbilityActorInfo();
 	virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& socketTag) override;
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UAttributeSet* GetAttributeSet();
 
 	UPROPERTY(EditDefaultsOnly, Category="Combat")
@@ -39,6 +38,7 @@ protected:
 	virtual FTaggedMontage GetTaggedMontageByTag_Implementation(FGameplayTag tag) override;
 
 public:	
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	UPROPERTY(EditAnywhere,BlueprintReadOnly, Category = "AInitInfo")
 	USkeletalMeshComponent* WeaponMesh;
 

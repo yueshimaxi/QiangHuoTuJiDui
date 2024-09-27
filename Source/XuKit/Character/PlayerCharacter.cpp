@@ -11,6 +11,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
+#include "XuKit/QiangHuoTuJiDui.h"
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
@@ -25,6 +26,7 @@
 #include "XuKit/PlayerState/QHPlayerState.h"
 #include "XuKit/UI/UIMgr.h"
 #include "XuKit/UI/IUIBase/UIPlayerHUD.h"
+
 
 APlayerCharacter::APlayerCharacter()
 {
@@ -59,6 +61,8 @@ APlayerCharacter::APlayerCharacter()
 	level_up_niagara_component = CreateDefaultSubobject<UNiagaraComponent>(TEXT("level_up_niagara_component"));
 	level_up_niagara_component->SetupAttachment(RootComponent);
 	level_up_niagara_component->bAutoActivate = false;
+
+	bASCInputBound = false;
 }
 
 void APlayerCharacter::BeginPlay()
@@ -88,6 +92,8 @@ void APlayerCharacter::InitAbilityActorInfo()
 void APlayerCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
+	ENetRole role = GetLocalRole();
+	XuPRINT(FString::Printf(TEXT("role:%d"), role));
 	InitAbilityActorInfo();
 	AddCharactorAbilities();
 	InitDefaultAttributesToSelf();
@@ -126,6 +132,7 @@ void APlayerCharacter::PostInitializeComponents()
 	combat_component->owner_character = this;
 }
 
+
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -137,12 +144,27 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	input_component->BindAction(input_action_swapWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnSwapWeaponPress);
 
 	//攻击
-	input_component->BindAction(input_action_attack, ETriggerEvent::Triggered, this, &APlayerCharacter::OnAttackHold);
+	//input_component->BindAction(input_action_attack, ETriggerEvent::Triggered, this, &APlayerCharacter::OnAttackHold);
 
 	//换弹
-	input_component->BindAction(input_action_reload, ETriggerEvent::Started, this, &APlayerCharacter::OnReloadPress);
-}
+	//input_component->BindAction(input_action_reload, ETriggerEvent::Started, this, &APlayerCharacter::OnReloadPress);
 
+	BindASCInput();
+}
+void APlayerCharacter::BindASCInput()
+{
+	if (!bASCInputBound && IsValid(qh_ability_system_component) && IsValid(InputComponent))
+	{
+		qh_ability_system_component->BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(FString("ConfirmTarget"),
+			FString("CancelTarget"),
+			FTopLevelAssetPath(GetPathNameSafe(UClass::TryFindTypeSlow<UEnum>("EQHAbilityInputID"))),
+			static_cast<int32>(EQHAbilityInputID::Confirm), static_cast<int32>(EQHAbilityInputID::Cancel)));
+		
+		bASCInputBound = true;
+	}
+	// FGameplayAbilitySpec(GA_Confirm, 1, static_cast<int32>(EQHAbilityInputID::Confirm), this);
+	// qh_ability_system_component->GiveAbility(	FGameplayAbilitySpec(GA_Confirm, 1, static_cast<int32>(EQHAbilityInputID::Confirm), this));
+}
 void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);

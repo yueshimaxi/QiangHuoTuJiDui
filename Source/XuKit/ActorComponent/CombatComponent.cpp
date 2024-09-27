@@ -60,8 +60,10 @@ void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* proj
 	{
 		equipped_projection_weapon->SetOwner(owner_character);
 		projectile_weapon->SetWeaponState(EWeaponState::EWS_Backpack);
-	}
 
+	}
+	projectile_weapon->OwningCharacter=owner_character;
+	projectile_weapon->AddAbilities();
 	//包含丢枪切换新枪，和捡到新枪俩种情况
 	own_projection_weapons.AddUnique(projectile_weapon);
 }
@@ -77,6 +79,8 @@ void UCombatComponent::DropWeapon()
 
 void UCombatComponent::Server_DropWeapon_Implementation()
 {
+	equipped_projection_weapon->OwningCharacter=nullptr;
+	equipped_projection_weapon->RemoveAbilities();
 	equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Dropped);
 	equipped_projection_weapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
 	equipped_projection_weapon->SetOwner(nullptr);
@@ -92,6 +96,7 @@ void UCombatComponent::Server_DropWeapon_Implementation()
 	{
 		equipped_projection_weapon = nullptr;
 	}
+
 }
 
 
