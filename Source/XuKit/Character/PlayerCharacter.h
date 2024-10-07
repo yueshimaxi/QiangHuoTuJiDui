@@ -47,6 +47,8 @@ public:
 	virtual int FindLevelForXP_Implementation(int XP) override;
 	virtual int GetPlayerLevel_Implementation() override;
 	virtual void AddToLevel_Implementation(int AddLevel) override;
+	virtual  void Interact_Implementation() override;
+	virtual void DropWeapon_Implementation() override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)

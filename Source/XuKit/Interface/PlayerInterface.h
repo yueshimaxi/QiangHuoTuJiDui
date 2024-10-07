@@ -46,5 +46,10 @@ public:
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
 	void SwapWeapon(bool swapWeaponForward);
 
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	void Interact();
+
 	
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	void DropWeapon();
 };

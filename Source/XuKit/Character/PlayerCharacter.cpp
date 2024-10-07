@@ -139,8 +139,6 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	UQHEnhancedInputComponent* input_component = CastChecked<UQHEnhancedInputComponent>(InputComponent);
 
-	input_component->BindAction(input_action_equipWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnEquipWeaponPress);
-	input_component->BindAction(input_action_dropWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnDropWeaponPress);
 
 	BindASCInput();
 }
@@ -212,6 +210,16 @@ void APlayerCharacter::AddToLevel_Implementation(int AddLevel)
 {
 	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
 	return player_state->AddPlayerLevel(AddLevel);
+}
+
+void APlayerCharacter::Interact_Implementation()
+{
+	OnEquipWeaponPress();
+}
+
+void APlayerCharacter::DropWeapon_Implementation()
+{
+	OnDropWeaponPress();
 }
 
 void APlayerCharacter::InitDefaultProjectionWeapon()
