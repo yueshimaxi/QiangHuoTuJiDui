@@ -5,7 +5,8 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "QHAbilitySystemComponent.generated.h"
-DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags,const FGameplayTagContainer&);
+class UQHGameplayAbility;
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTags, const FGameplayTagContainer&);
 DECLARE_MULTICAST_DELEGATE_OneParam(AbilityGiven,UQHAbilitySystemComponent*);
 DECLARE_DELEGATE_OneParam(FForEachAbility,FGameplayAbilitySpec&);
 /**
@@ -25,7 +26,7 @@ public:
 	void ClientEffectApplied(UAbilitySystemComponent* abs, const FGameplayEffectSpec& effect_spec, FActiveGameplayEffectHandle active_effect_handle);
 
 	
-	void AddCharactorAbilities(TArray<TSubclassOf<UGameplayAbility>>& startUpAbilities);
+	void AddCharactorAbilities(TArray<TSubclassOf<UQHGameplayAbility>>& startUpAbilities);
 	void AddCharactorPassiveAbilities(TArray<TSubclassOf<UGameplayAbility>>& startUpPassiveAbilities);
 
 	

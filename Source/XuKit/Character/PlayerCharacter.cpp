@@ -141,13 +141,6 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	input_component->BindAction(input_action_equipWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnEquipWeaponPress);
 	input_component->BindAction(input_action_dropWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnDropWeaponPress);
-	input_component->BindAction(input_action_swapWeapon, ETriggerEvent::Started, this, &APlayerCharacter::OnSwapWeaponPress);
-
-	//攻击
-	//input_component->BindAction(input_action_attack, ETriggerEvent::Triggered, this, &APlayerCharacter::OnAttackHold);
-
-	//换弹
-	//input_component->BindAction(input_action_reload, ETriggerEvent::Started, this, &APlayerCharacter::OnReloadPress);
 
 	BindASCInput();
 }
@@ -162,8 +155,6 @@ void APlayerCharacter::BindASCInput()
 		
 		bASCInputBound = true;
 	}
-	// FGameplayAbilitySpec(GA_Confirm, 1, static_cast<int32>(EQHAbilityInputID::Confirm), this);
-	// qh_ability_system_component->GiveAbility(	FGameplayAbilitySpec(GA_Confirm, 1, static_cast<int32>(EQHAbilityInputID::Confirm), this));
 }
 void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {

@@ -49,6 +49,8 @@ public:
 	UFUNCTION(Server, Reliable)
 	void Server_EquipWeapon(AProjectionWeapon* projectile_weapon);
 
+	void AddToInventy(AWeapon* weapon);
+
 	void DropWeapon();
 	UFUNCTION(Server, Reliable)
 	void Server_DropWeapon();

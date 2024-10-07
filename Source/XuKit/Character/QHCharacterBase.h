@@ -49,7 +49,7 @@ public:
 	TObjectPtr<UAttributeSet> qh_attribute_set;
 
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
-	TArray<TSubclassOf<UGameplayAbility>> DefaultAbilities;
+	TArray<TSubclassOf<UQHGameplayAbility>> DefaultAbilities;
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TArray<TSubclassOf<UGameplayAbility>> StartUpPassiveAbilities;
 

@@ -68,6 +68,11 @@ void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* proj
 	own_projection_weapons.AddUnique(projectile_weapon);
 }
 
+void UCombatComponent::AddToInventy(AWeapon* weapon)
+{
+	
+}
+
 void UCombatComponent::DropWeapon()
 {
 	if (equipped_projection_weapon && own_projection_weapons.Num() > 1)

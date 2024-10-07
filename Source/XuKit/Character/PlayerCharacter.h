@@ -18,7 +18,7 @@ class UCameraComponent;
  * 
  */
 UCLASS()
-class XUKIT_API APlayerCharacter : public AQHCharacterBase,public IPlayerInterface
+class XUKIT_API APlayerCharacter : public AQHCharacterBase, public IPlayerInterface
 {
 	GENERATED_BODY()
 
@@ -30,7 +30,7 @@ public:
 
 	virtual void InitAbilityActorInfo() override;
 	virtual void PossessedBy(AController* NewController) override;
-	
+
 
 	virtual AProjectionWeapon* get_cur_projection_weapon_Implementation() override;
 
@@ -40,14 +40,13 @@ public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void ReloadAmmo_Implementation() override;
 	virtual void OnRep_PlayerState() override;
-	virtual  void SwapWeapon_Implementation(bool swapWeaponForward) override;
+	virtual void SwapWeapon_Implementation(bool swapWeaponForward) override;
 	virtual void AddXP_Implementation(int xp) override;
 	virtual int GetXP_Implementation() override;
 	virtual void LevelUp_Implementation() override;
 	virtual int FindLevelForXP_Implementation(int XP) override;
 	virtual int GetPlayerLevel_Implementation() override;
 	virtual void AddToLevel_Implementation(int AddLevel) override;
-
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -80,7 +79,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UInputAction> input_action_swapWeapon;
 
-	
+
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TObjectPtr<UInputAction> input_action_attack;
 
@@ -98,7 +97,7 @@ protected:
 
 public:
 	UCombatComponent* getCombatCom();
-	
+
 	void OnEquipWeaponPress();
 	void OnDropWeaponPress();
 	void OnSwapWeaponPress(const FInputActionValue& input_action_value);
@@ -113,11 +112,10 @@ public:
 
 	void FreshHUD();
 
-	bool SwapWeapon_forward=false;
+	bool SwapWeapon_forward = false;
 
-	
-	UFUNCTION(NetMulticast,Reliable)
+
+	UFUNCTION(NetMulticast, Reliable)
 	void MulticastLevelUpNiagara();
-
 
 };

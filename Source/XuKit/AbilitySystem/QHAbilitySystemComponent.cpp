@@ -19,13 +19,13 @@ void UQHAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySyste
 	OnEffectTags.Broadcast(effect_tags);
 }
 
-void UQHAbilitySystemComponent::AddCharactorAbilities(TArray<TSubclassOf<UGameplayAbility>>& startUpAbilities)
+void UQHAbilitySystemComponent::AddCharactorAbilities(TArray<TSubclassOf<UQHGameplayAbility>>& startUpAbilities)
 {
-	for (TSubclassOf<UGameplayAbility> ability : startUpAbilities)
+	for (TSubclassOf<UQHGameplayAbility> ability : startUpAbilities)
 	{
 		if (ability)
 		{
-			FGameplayAbilitySpec spec(ability, 1, INDEX_NONE, this);
+			FGameplayAbilitySpec spec(ability, 1, static_cast<int>(ability.GetDefaultObject()->AbilityInputID), this);
 			if (UQHGameplayAbility* qhAbility = Cast<UQHGameplayAbility>(spec.Ability))
 			{
 				spec.DynamicAbilityTags.AddTag(qhAbility->start_up_input_ability_tag);
