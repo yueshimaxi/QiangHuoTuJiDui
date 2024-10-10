@@ -14,6 +14,8 @@ class UInputAction;
 class UCombatComponent;
 class USpringArmComponent;
 class UCameraComponent;
+
+
 /**
  * 
  */
@@ -93,20 +95,16 @@ protected:
 
 	bool bASCInputBound;
 
-
 	UPROPERTY(Replicated)
-	AWeapon* overlaping_weapon;
+	AWeapon* overlaping_weapon; 
+
 
 public:
 	UCombatComponent* getCombatCom();
 
-	void OnEquipWeaponPress();
-	void OnDropWeaponPress();
-	void OnSwapWeaponPress(const FInputActionValue& input_action_value);
 	void Set_Overlap_Weapon(AWeapon* weapon);
 
-	void OnAttackHold();
-	void OnReloadPress();
+
 
 	virtual void InitDefaultAttributesToSelf() override;
 
@@ -119,5 +117,9 @@ public:
 
 	UFUNCTION(NetMulticast, Reliable)
 	void MulticastLevelUpNiagara();
+
+
+
+
 
 };

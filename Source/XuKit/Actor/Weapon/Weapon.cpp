@@ -38,8 +38,13 @@ void AWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 
-	area_component->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::OnOverlapBegin);
-	area_component->OnComponentEndOverlap.AddDynamic(this, &AWeapon::OnOverlapEnd);
+	
+
+	if (GetLocalRole()==ROLE_Authority)
+	{
+		area_component->OnComponentBeginOverlap.AddDynamic(this, &AWeapon::OnOverlapBegin);
+		area_component->OnComponentEndOverlap.AddDynamic(this, &AWeapon::OnOverlapEnd);
+	}
 }
 
 // Called every frame
@@ -81,16 +86,21 @@ void AWeapon::OnWeaponStateSet()
 		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		weapon_mesh_component->SetSimulatePhysics(true);
 		weapon_mesh_component->SetEnableGravity(true);
+		DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+
 		break;
 	case EWeaponState::EWS_Equiped:
 		area_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		AttachToComponent(OwningCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, OwningCharacter->WeaponAttackSocket);
+
 		break;
 	case EWeaponState::EWS_Backpack:
 		//隐藏自己
 		SetActorHiddenInGame(true);
 		area_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		AttachToComponent(OwningCharacter->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, OwningCharacter->WeaponAttackSocket);
 		break;
 	case EWeaponState::EWS_Dropped:
 
@@ -98,6 +108,8 @@ void AWeapon::OnWeaponStateSet()
 		weapon_mesh_component->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 		weapon_mesh_component->SetSimulatePhysics(true);
 		weapon_mesh_component->SetEnableGravity(true);
+		DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
+		OwningCharacter = nullptr;
 		break;
 	case EWeaponState::Max:
 		break;

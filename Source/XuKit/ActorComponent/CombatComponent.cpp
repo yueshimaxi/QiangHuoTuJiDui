@@ -25,83 +25,39 @@ void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(UCombatComponent, equipped_projection_weapon);
-	DOREPLIFETIME(UCombatComponent, own_projection_weapons);
+	DOREPLIFETIME(UCombatComponent, Inventory);
 }
 
-AProjectionWeapon* UCombatComponent::GetCurProjectionWeapon()
+AWeapon* UCombatComponent::GetCurProjectionWeapon()
 {
-	return equipped_projection_weapon;
+	return CurrentWeapon;
 }
 
-void UCombatComponent::OnRep_EquippedWeapon()
+void UCombatComponent::EquipWeapon(AWeapon* weapon)
 {
-}
-
-void UCombatComponent::EquipWeapon(AProjectionWeapon* weapon)
-{
-	Server_EquipWeapon(weapon);
-}
-
-void UCombatComponent::Server_EquipWeapon_Implementation(AProjectionWeapon* projectile_weapon)
-{
-	if (!owner_character || own_projection_weapons.Num() >= max_Projectile_Weapon_Num)
+	if (weapon)
 	{
-		return;
+		CurrentWeapon = weapon;
+		weapon->SetWeaponState(EWeaponState::EWS_Equiped);
 	}
-	if (equipped_projection_weapon == nullptr)
-	{
-		equipped_projection_weapon = projectile_weapon;
-		equipped_projection_weapon->SetOwner(owner_character);
-		equipped_projection_weapon->AttachToComponent(owner_character->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, owner_character->WeaponAttackSocket);
-		equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Equiped);
-	}
-	else
-	{
-		equipped_projection_weapon->SetOwner(owner_character);
-		projectile_weapon->SetWeaponState(EWeaponState::EWS_Backpack);
-
-	}
-	projectile_weapon->OwningCharacter=owner_character;
-	projectile_weapon->AddAbilities();
-	//包含丢枪切换新枪，和捡到新枪俩种情况
-	own_projection_weapons.AddUnique(projectile_weapon);
 }
 
-void UCombatComponent::AddToInventy(AWeapon* weapon)
+void UCombatComponent::UnEquipCurrentWeapon()
 {
-	
-}
-
-void UCombatComponent::DropWeapon()
-{
-	if (equipped_projection_weapon && own_projection_weapons.Num() > 1)
+	if (CurrentWeapon)
 	{
-		Server_DropWeapon();
+		CurrentWeapon->SetWeaponState(EWeaponState::EWS_Backpack);
+		CurrentWeapon = nullptr;
 	}
 }
 
 
-void UCombatComponent::Server_DropWeapon_Implementation()
+void UCombatComponent::DropWeapon(AWeapon* weapon)
 {
-	equipped_projection_weapon->OwningCharacter=nullptr;
-	equipped_projection_weapon->RemoveAbilities();
-	equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Dropped);
-	equipped_projection_weapon->DetachFromActor(FDetachmentTransformRules::KeepWorldTransform);
-	equipped_projection_weapon->SetOwner(nullptr);
-	own_projection_weapons.RemoveAt(0);
-	if (own_projection_weapons.Num() > 0)
+	if (weapon)
 	{
-		equipped_projection_weapon = own_projection_weapons[0];
-		equipped_projection_weapon->SetOwner(owner_character);
-		equipped_projection_weapon->SetWeaponState(EWeaponState::EWS_Equiped);
-		equipped_projection_weapon->AttachToComponent(owner_character->GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, owner_character->WeaponAttackSocket);
+		weapon->SetWeaponState(EWeaponState::EWS_Dropped);
 	}
-	else
-	{
-		equipped_projection_weapon = nullptr;
-	}
-
 }
 
 
@@ -112,30 +68,133 @@ void UCombatComponent::SwapWeapon(bool forward)
 
 void UCombatComponent::Server_SwapWeapon_Implementation(bool forward)
 {
-	if (own_projection_weapons.Num() > 1)
+	Multicast_SwapWeapon(forward);
+}
+
+void UCombatComponent::Multicast_SwapWeapon_Implementation(bool forward)
+{
+	if (Inventory.Weapons.Num() > 1)
 	{
-		AProjectionWeapon* temp = equipped_projection_weapon;
-		temp->SetWeaponState(EWeaponState::EWS_Backpack);
-		equipped_projection_weapon=nullptr;
 		if (forward)
 		{
-		
 			currentIndex += 1;
-			if (currentIndex >= own_projection_weapons.Num())
+			if (currentIndex >= Inventory.Weapons.Num())
 			{
 				currentIndex = 0;
 			}
-	
 		}
 		else
 		{
 			currentIndex -= 1;
 			if (currentIndex < 0)
 			{
-				currentIndex = own_projection_weapons.Num() - 1;
+				currentIndex = Inventory.Weapons.Num() - 1;
 			}
 		}
-		EquipWeapon(own_projection_weapons[currentIndex]);
 
+		UnEquipCurrentWeapon();
+		EquipWeapon(Inventory.Weapons[currentIndex]);
+	}
+}
+
+void UCombatComponent::AddWeaponToInventory(AWeapon* NewWeapon, bool bEquipWeapon)
+{
+	Server_AddWeaponToInventory(NewWeapon, bEquipWeapon);
+}
+
+void UCombatComponent::Server_AddWeaponToInventory_Implementation(AWeapon* NewWeapon, bool bEquipWeapon)
+{
+	Multicast_AddWeaponToInventory(NewWeapon, bEquipWeapon);
+}
+
+void UCombatComponent::Multicast_AddWeaponToInventory_Implementation(AWeapon* NewWeapon, bool bEquipWeapon)
+{
+	Inventory.Weapons.Add(NewWeapon);
+	NewWeapon->OwningCharacter = owner_character;
+	NewWeapon->SetOwner(owner_character);
+
+	NewWeapon->AddAbilities();
+
+	if (bEquipWeapon)
+	{
+		UnEquipCurrentWeapon();
+		EquipWeapon(NewWeapon);
+	}
+	else
+	{
+		NewWeapon->SetWeaponState(EWeaponState::EWS_Backpack);
+	}
+}
+
+void UCombatComponent::RemoveWeaponFromInventory(AWeapon* WeaponToRemove)
+{
+	Server_RemoveWeaponFromInventory(WeaponToRemove);
+}
+
+void UCombatComponent::Server_RemoveWeaponFromInventory_Implementation(AWeapon* WeaponToRemove)
+{
+	Multicast_RemoveWeaponFromInventory(WeaponToRemove);
+}
+
+void UCombatComponent::Multicast_RemoveWeaponFromInventory_Implementation(AWeapon* WeaponToRemove)
+{
+	if (DoesWeaponExistInInventory(WeaponToRemove))
+	{
+		DropWeapon(WeaponToRemove);
+		Inventory.Weapons.Remove(WeaponToRemove);
+		WeaponToRemove->RemoveAbilities();
+		WeaponToRemove->OwningCharacter = (nullptr);
+		WeaponToRemove->SetOwner(nullptr);
+		CurrentWeapon = nullptr;
+
+		if (WeaponToRemove == CurrentWeapon)
+		{
+			if (Inventory.Weapons.Num() > 0)
+			{
+				CurrentWeapon = Inventory.Weapons[0];
+				EquipWeapon(CurrentWeapon);
+			}
 		}
+	}
+}
+
+void UCombatComponent::RemoveAllWeaponsFromInventory()
+{
+	Server_RemoveAllWeaponsFromInventory();
+}
+
+void UCombatComponent::Server_RemoveAllWeaponsFromInventory_Implementation()
+{
+	Multicast_RemoveAllWeaponsFromInventory();
+}
+
+void UCombatComponent::Multicast_RemoveAllWeaponsFromInventory_Implementation()
+{
+	for (int32 i = Inventory.Weapons.Num() - 1; i >= 0; i--)
+	{
+		AWeapon* Weapon = Inventory.Weapons[i];
+		DropWeapon(Weapon);
+		Inventory.Weapons.Remove(Weapon);
+		Weapon->RemoveAbilities();
+		Weapon->OwningCharacter = (nullptr);
+		Weapon->SetOwner(nullptr);
+	}
+	CurrentWeapon = nullptr;
+}
+
+bool UCombatComponent::DoesWeaponExistInInventory(AWeapon* InWeapon)
+{
+	for (AWeapon* Weapon : Inventory.Weapons)
+	{
+		if (Weapon && InWeapon && Weapon->GetClass() == InWeapon->GetClass())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void UCombatComponent::OnRep_Inventory()
+{
 }

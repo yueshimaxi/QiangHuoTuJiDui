@@ -86,7 +86,6 @@ void APlayerCharacter::InitAbilityActorInfo()
 	qh_attribute_set = player_state->GetAttributeSet();
 	qh_ability_system_component->InitAbilityActorInfo(player_state, this);
 	Cast<UQHAbilitySystemComponent>(qh_ability_system_component)->AbilitySystemComponentInfoSet();
-
 }
 
 void APlayerCharacter::PossessedBy(AController* NewController)
@@ -110,10 +109,10 @@ void APlayerCharacter::OnRep_PlayerState()
 	InitAbilityActorInfo();
 	if (IsLocallyControlled())
 	{
-		AQHPlayerController* qhPC= Cast<AQHPlayerController>(GetController());
-		AQHPlayerState*	qhPS=qhPC->GetPlayerState<AQHPlayerState>();
-		AQHPlayerState* sencondPS=GetPlayerState<AQHPlayerState>();
-		if (qhPS==sencondPS)
+		AQHPlayerController* qhPC = Cast<AQHPlayerController>(GetController());
+		AQHPlayerState* qhPS = qhPC->GetPlayerState<AQHPlayerState>();
+		AQHPlayerState* sencondPS = GetPlayerState<AQHPlayerState>();
+		if (qhPS == sencondPS)
 		{
 			XuPRINT(TEXT("zzzz"));
 		}
@@ -123,7 +122,7 @@ void APlayerCharacter::OnRep_PlayerState()
 
 AProjectionWeapon* APlayerCharacter::get_cur_projection_weapon_Implementation()
 {
-	return combat_component->GetCurProjectionWeapon();
+	return Cast<AProjectionWeapon>(combat_component->GetCurProjectionWeapon());
 }
 
 void APlayerCharacter::PostInitializeComponents()
@@ -142,18 +141,20 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 	BindASCInput();
 }
+
 void APlayerCharacter::BindASCInput()
 {
 	if (!bASCInputBound && IsValid(qh_ability_system_component) && IsValid(InputComponent))
 	{
 		qh_ability_system_component->BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(FString("ConfirmTarget"),
-			FString("CancelTarget"),
-			FTopLevelAssetPath(GetPathNameSafe(UClass::TryFindTypeSlow<UEnum>("EQHAbilityInputID"))),
-			static_cast<int32>(EQHAbilityInputID::Confirm), static_cast<int32>(EQHAbilityInputID::Cancel)));
-		
+		                                                                                                              FString("CancelTarget"),
+		                                                                                                              FTopLevelAssetPath(GetPathNameSafe(UClass::TryFindTypeSlow<UEnum>("EQHAbilityInputID"))),
+		                                                                                                              static_cast<int32>(EQHAbilityInputID::Confirm), static_cast<int32>(EQHAbilityInputID::Cancel)));
+
 		bASCInputBound = true;
 	}
 }
+
 void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
@@ -214,19 +215,22 @@ void APlayerCharacter::AddToLevel_Implementation(int AddLevel)
 
 void APlayerCharacter::Interact_Implementation()
 {
-	OnEquipWeaponPress();
+	if (overlaping_weapon)
+	{
+		getCombatCom()->AddWeaponToInventory(overlaping_weapon, getCombatCom()->Inventory.Weapons.Num() == 0);
+	}
 }
 
 void APlayerCharacter::DropWeapon_Implementation()
 {
-	OnDropWeaponPress();
+	getCombatCom()->RemoveWeaponFromInventory(get_cur_projection_weapon());
 }
 
 void APlayerCharacter::InitDefaultProjectionWeapon()
 {
 	AProjectionWeapon* projection_weapon = GetWorld()->SpawnActor<AProjectionWeapon>(default_projection_weapon_class);
 	projection_weapon->InitData();
-	getCombatCom()->EquipWeapon(projection_weapon);
+	getCombatCom()->AddWeaponToInventory(projection_weapon, true);
 }
 
 void APlayerCharacter::SetPawnRotatorToMouseCursor()
@@ -241,64 +245,11 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 }
 
 
-void APlayerCharacter::OnEquipWeaponPress()
-{
-	if (overlaping_weapon)
-	{
-		if (AProjectionWeapon* projection_weapon = Cast<AProjectionWeapon>(overlaping_weapon))
-		{
-			getCombatCom()->EquipWeapon(projection_weapon);
-		}
-	}
-}
-
-void APlayerCharacter::OnDropWeaponPress()
-{
-	getCombatCom()->DropWeapon();
-}
-
-void APlayerCharacter::OnSwapWeaponPress(const FInputActionValue& input_action_value)
-{
-	//根据鼠标滚轮值切换武器，根据CombatComponent里的武器数组按顺序切换
-	const float inputValue = input_action_value.Get<float>();
-	XuPRINT(FString::Printf(TEXT("inputValue:%f"), inputValue));
-
-	if (getCombatCom()->own_projection_weapons.Num() > 1)
-	{
-		SwapWeapon_forward = inputValue > 0;
-		UQHAbilitySystemComponent* qh_ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
-		qh_ABS->AbilityInputTagPressed(QHGameplayTags::Get().SwapWeaponTag);
-	}
-}
-
 void APlayerCharacter::Set_Overlap_Weapon(AWeapon* weapon)
 {
 	overlaping_weapon = weapon;
 }
 
-
-void APlayerCharacter::OnAttackHold()
-{
-	//如果弹夹子弹大于零则激活攻击Ability，否则换弹Ability
-	if (AProjectionWeapon* projection_weapon = get_cur_projection_weapon_Implementation())
-	{
-		UQHAbilitySystemComponent* qh_ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
-		if (projection_weapon->GetCurAmmo() > 0)
-		{
-			qh_ABS->AbilityInputTagHeld(QHGameplayTags::Get().FireTag);
-		}
-		else
-		{
-			qh_ABS->AbilityInputTagHeld(QHGameplayTags::Get().ReloadTag);
-		}
-	}
-}
-
-void APlayerCharacter::OnReloadPress()
-{
-	UQHAbilitySystemComponent* qh_ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
-	qh_ABS->AbilityInputTagPressed(QHGameplayTags::Get().ReloadTag);
-}
 
 void APlayerCharacter::InitDefaultAttributesToSelf()
 {
@@ -320,8 +271,6 @@ void APlayerCharacter::FreshHUD()
 }
 
 
-
-
 UCombatComponent* APlayerCharacter::getCombatCom()
 {
 	return combat_component;
@@ -333,8 +282,8 @@ void APlayerCharacter::MulticastLevelUpNiagara_Implementation()
 	FVector camera_location = camera_component->GetComponentLocation();
 	FVector levelup_niagara_location = level_up_niagara_component->GetComponentLocation();
 
-	FRotator niagaraRotator =( camera_location-levelup_niagara_location).Rotation();
+	FRotator niagaraRotator = (camera_location - levelup_niagara_location).Rotation();
 	level_up_niagara_component->SetWorldRotation(niagaraRotator);
-	
+
 	level_up_niagara_component->Activate(true);
 }
