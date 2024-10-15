@@ -49,7 +49,7 @@ struct FWeaponInfo
 	float weapon_damage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float weapon_fire_rate;
+	float weapon_fire_delay;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int weapon_clip_size;

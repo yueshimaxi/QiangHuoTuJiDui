@@ -28,17 +28,17 @@ public:
 	UPROPERTY(EditAnywhere, meta = (AllowPrivateAccess = "true"), Category = "AInitInfo")
 	TSubclassOf<AProjectile> projectionClass;
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "AInitInfo")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AInitInfo")
 	TObjectPtr<UParticleSystem> MuzzleFlashEffect;
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite, Category = "AInitInfo")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AInitInfo")
 	TObjectPtr<USoundBase> FireSound;
 
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TSubclassOf<ACasing> casingClass;
 
 	//子弹生成位置
-	UFUNCTION(BlueprintCallable,BlueprintPure)
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	FVector GetProjectileSpawnLocation();
 
 	//弹壳生成位置
@@ -46,7 +46,6 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="AInitInfo", ReplicatedUsing=OnRep_Ammo)
 	int Ammo = 30;
-
 
 
 	void Fire();
@@ -70,10 +69,9 @@ public:
 	UPROPERTY(EditAnywhere, Category="AInitInfo")
 	EProjectileWeaponType weaponType;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AInitInfo")
 	FWeaponInfo weapon_info;
 
-	bool bInitData=false;
+	bool bInitData = false;
 	void InitData();
-	
 };

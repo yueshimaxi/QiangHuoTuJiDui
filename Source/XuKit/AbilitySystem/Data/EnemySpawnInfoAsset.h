@@ -40,4 +40,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawnInfo")
 	float SuccessTime;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EnemySpawnInfo")
+	bool bSpawnEnemy = true;
 };

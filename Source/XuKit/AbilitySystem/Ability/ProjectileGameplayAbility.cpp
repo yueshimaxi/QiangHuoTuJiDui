@@ -22,12 +22,12 @@ void UProjectileGameplayAbility::ApplyCooldown(const FGameplayAbilitySpecHandle 
 		if (!combat_interface)return;
 
 		AProjectionWeapon* projection_weapon = ICombatInterface::Execute_get_cur_projection_weapon(GetAvatarActorFromActorInfo());
-		if (!projection_weapon)return;
+		if (!projection_weapon)return;	
 
-		float Fire_rate = projection_weapon->weapon_info.weapon_fire_rate;
+		float Fire_delay = projection_weapon->weapon_info.weapon_fire_delay;
 
 		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(CooldownGameplayEffectClass, GetAbilityLevel());
-		SpecHandle.Data.Get()->SetSetByCallerMagnitude(cooldown_tag, Fire_rate);
+		SpecHandle.Data.Get()->SetSetByCallerMagnitude(cooldown_tag, Fire_delay);
 		ApplyGameplayEffectSpecToOwner(Handle, ActorInfo, ActivationInfo, SpecHandle);
 	}
 }

@@ -64,6 +64,10 @@ void AQHGameModeBase::InitSpawnPointData()
 
 void AQHGameModeBase::SpawnEnemy()
 {
+	if (!EnemySpawnInfoAsset->bSpawnEnemy)
+	{
+		return;
+	}
 	for (int i = 0; i < EnemySpawnInfoAsset->EnemySpawnInfos.Num(); ++i)
 	{
 		FEnemySpawnInfo& info = EnemySpawnInfoAsset->EnemySpawnInfos[i];
