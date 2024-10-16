@@ -30,21 +30,24 @@ bool UQHGameplayAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Han
 	// 	}
 	// }
 	//
-	// if (bSourceObjectMustEqualCurrentWeaponToActivate)
-	// {
-	// 	APlayerCharacter* Hero = Cast<APlayerCharacter>(ActorInfo->AvatarActor);
-	// 	UObject* weapon = ICombatInterface::Execute_get_cur_projection_weapon(Hero);
-	// 	if (Hero && weapon && weapon == GetSourceObject(Handle, ActorInfo))
-	// 	{
-	// 		return Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
-	// 	}
-	// 	else
-	// 	{
-	// 		return false;
-	// 	}
-	// }
-
-	bool bCanActivate = Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
+	bool bCanActivate=false;
+	if (bSourceObjectMustEqualCurrentWeaponToActivate)
+	{
+		APlayerCharacter* Hero = Cast<APlayerCharacter>(ActorInfo->AvatarActor);
+		UObject* weapon = ICombatInterface::Execute_get_cur_projection_weapon(Hero);
+		if (Hero && weapon && weapon == GetSourceObject(Handle, ActorInfo))
+		{
+			bCanActivate= Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
+		}
+		else
+		{
+			bCanActivate = false;
+		}
+	}
+	else
+	{
+		bCanActivate= Super::CanActivateAbility(Handle, ActorInfo, SourceTags, TargetTags, OptionalRelevantTags);
+	}
 	return bCanActivate;
 }
 

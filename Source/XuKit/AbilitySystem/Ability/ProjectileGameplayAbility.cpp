@@ -65,7 +65,6 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 	UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(effect_spec_handle, QHGameplayTags::Get().DamageTag, damageValue);
 
 	projectile->FinishSpawning(spawn_transform);
-
 	//生成弹壳
 	if (projection_weapon->casingClass)
 	{

@@ -25,6 +25,7 @@ public:
 	virtual void Activate() override;
 	UPROPERTY(BlueprintAssignable)
 	FTargetDataSignature ValidData;
+	virtual void OnDestroy(bool bInOwnerFinished) override;
 
 	void SendCurorData();
 

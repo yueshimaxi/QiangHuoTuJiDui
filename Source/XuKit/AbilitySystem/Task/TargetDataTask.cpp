@@ -30,6 +30,13 @@ void UTargetDataTask::Activate()
 	}
 }
 
+void UTargetDataTask::OnDestroy(bool bInOwnerFinished)
+{
+	
+	Super::OnDestroy(bInOwnerFinished);
+	
+}
+
 void UTargetDataTask::SendCurorData()
 {
 	FScopedPredictionWindow ScopedPrediction(AbilitySystemComponent.Get());
@@ -50,6 +57,7 @@ void UTargetDataTask::SendCurorData()
 	{
 		ValidData.Broadcast(AbilityTargetDataHandle);
 	}
+	EndTask();
 }
 
 
@@ -62,4 +70,5 @@ void UTargetDataTask::OnCurorDataReplicatedCallBack(const FGameplayAbilityTarget
 	{
 		ValidData.Broadcast(Data);
 	}
+	EndTask();
 }
