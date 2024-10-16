@@ -56,24 +56,25 @@ void AWeapon::Tick(float DeltaTime)
 void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AWeapon, weapon_state);
 }
 
-void AWeapon::SetWeaponState(EWeaponState state)
+void AWeapon::SetWeaponState(EWeaponState state,APlayerCharacter* character)
 {
-	ServerSetWeaponState(state);
+	ServerSetWeaponState(state,character);
 }
 
-void AWeapon::ServerSetWeaponState_Implementation(EWeaponState state)
+void AWeapon::ServerSetWeaponState_Implementation(EWeaponState state,APlayerCharacter* character)
 {
+	MulticastSetWeaponState(state,character);
+}
+
+
+void AWeapon::MulticastSetWeaponState_Implementation(EWeaponState state,APlayerCharacter* character)
+{
+
 	weapon_state = state;
-	OnWeaponStateSet();
-}
-
-
-void AWeapon::OnRep_WeaponState(EWeaponState old_state)
-{
-	OnWeaponStateSet();
+	SetOwningCharacter(character);
+	OnWeaponStateSet();	
 }
 
 void AWeapon::OnWeaponStateSet()
@@ -140,6 +141,12 @@ void AWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherAct
 void AWeapon::OnRep_Owner()
 {
 	Super::OnRep_Owner();
+}
+
+void AWeapon::SetOwningCharacter(APlayerCharacter* character)
+{
+	OwningCharacter = character;
+	SetOwner(character);
 }
 
 void AWeapon::Equip()

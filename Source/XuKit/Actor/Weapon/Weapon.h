@@ -51,16 +51,16 @@ public:
 	UPROPERTY(EditAnywhere)
 	UWidgetComponent* widget_component;
 
-	UPROPERTY(ReplicatedUsing=OnRep_WeaponState)
+	UPROPERTY()
 	EWeaponState weapon_state;
 
-	void SetWeaponState(EWeaponState state);
+	void SetWeaponState(EWeaponState state,APlayerCharacter* character);
 	UFUNCTION(Server,Reliable)
-	void ServerSetWeaponState(EWeaponState state);
-	
-	UFUNCTION()
-	void OnRep_WeaponState(EWeaponState old_state);
+	void ServerSetWeaponState(EWeaponState state,APlayerCharacter* character);
+	UFUNCTION(NetMulticast,Reliable)
+	void MulticastSetWeaponState(EWeaponState state,APlayerCharacter* character);
 
+	
 	virtual  void OnWeaponStateSet();
 
 	
@@ -75,6 +75,7 @@ public:
 
 	virtual void OnRep_Owner() override;
 
+	void SetOwningCharacter(APlayerCharacter* character);
 
 	UPROPERTY(EditAnywhere, Category = "AQHInitInfo")
 	TArray<TSubclassOf<UQHGameplayAbility>> Abilities;

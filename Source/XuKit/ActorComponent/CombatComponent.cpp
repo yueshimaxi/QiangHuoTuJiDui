@@ -38,7 +38,7 @@ void UCombatComponent::EquipWeapon(AWeapon* weapon)
 	if (weapon)
 	{
 		CurrentWeapon = weapon;
-		weapon->SetWeaponState(EWeaponState::EWS_Equiped);
+		weapon->SetWeaponState(EWeaponState::EWS_Equiped,owner_character);
 	}
 }
 
@@ -46,7 +46,7 @@ void UCombatComponent::UnEquipCurrentWeapon()
 {
 	if (CurrentWeapon)
 	{
-		CurrentWeapon->SetWeaponState(EWeaponState::EWS_Backpack);
+		CurrentWeapon->SetWeaponState(EWeaponState::EWS_Backpack,owner_character);
 		CurrentWeapon = nullptr;
 	}
 }
@@ -56,7 +56,7 @@ void UCombatComponent::DropWeapon(AWeapon* weapon)
 {
 	if (weapon)
 	{
-		weapon->SetWeaponState(EWeaponState::EWS_Dropped);
+		weapon->SetWeaponState(EWeaponState::EWS_Dropped,nullptr);
 	}
 }
 
@@ -110,10 +110,7 @@ void UCombatComponent::Server_AddWeaponToInventory_Implementation(AWeapon* NewWe
 void UCombatComponent::Multicast_AddWeaponToInventory_Implementation(AWeapon* NewWeapon, bool bEquipWeapon)
 {
 	Inventory.Weapons.Add(NewWeapon);
-	NewWeapon->OwningCharacter = owner_character;
-	NewWeapon->SetOwner(owner_character);
 
-	NewWeapon->AddAbilities();
 
 	if (bEquipWeapon)
 	{
@@ -122,8 +119,10 @@ void UCombatComponent::Multicast_AddWeaponToInventory_Implementation(AWeapon* Ne
 	}
 	else
 	{
-		NewWeapon->SetWeaponState(EWeaponState::EWS_Backpack);
+		NewWeapon->SetWeaponState(EWeaponState::EWS_Backpack, owner_character);
 	}
+	NewWeapon->AddAbilities();
+
 }
 
 void UCombatComponent::RemoveWeaponFromInventory(AWeapon* WeaponToRemove)
@@ -140,11 +139,9 @@ void UCombatComponent::Multicast_RemoveWeaponFromInventory_Implementation(AWeapo
 {
 	if (DoesWeaponExistInInventory(WeaponToRemove))
 	{
+		WeaponToRemove->RemoveAbilities();
 		DropWeapon(WeaponToRemove);
 		Inventory.Weapons.Remove(WeaponToRemove);
-		WeaponToRemove->RemoveAbilities();
-		WeaponToRemove->OwningCharacter = (nullptr);
-		WeaponToRemove->SetOwner(nullptr);
 		CurrentWeapon = nullptr;
 
 		if (WeaponToRemove == CurrentWeapon)
@@ -173,11 +170,9 @@ void UCombatComponent::Multicast_RemoveAllWeaponsFromInventory_Implementation()
 	for (int32 i = Inventory.Weapons.Num() - 1; i >= 0; i--)
 	{
 		AWeapon* Weapon = Inventory.Weapons[i];
+		Weapon->RemoveAbilities();
 		DropWeapon(Weapon);
 		Inventory.Weapons.Remove(Weapon);
-		Weapon->RemoveAbilities();
-		Weapon->OwningCharacter = (nullptr);
-		Weapon->SetOwner(nullptr);
 	}
 	CurrentWeapon = nullptr;
 }
