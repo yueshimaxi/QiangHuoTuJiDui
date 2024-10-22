@@ -2,8 +2,14 @@
 
 #include "AbilitySystemComponent.h"
 #include "XuKit/XuBPFuncLib.h"
-#include "XuKit/AbilitySystem/Ability/QHGameplayAbility.h"
 #include "XuKit/Character/PlayerCharacter.h"
+bool FSwapWeaponDirGameplayAbilityTargetData::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess)
+{
+	Ar << bSwapForward;
+
+	bOutSuccess = true;
+	return true;
+}
 
 
 USwapweaponDirTargetDataTask* USwapweaponDirTargetDataTask::CreateSwapweaponDirTargetDataTask(UGameplayAbility* OwningAbility)

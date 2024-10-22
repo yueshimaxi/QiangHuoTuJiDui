@@ -8,13 +8,6 @@
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/Character/PlayerCharacter.h"
 
-bool FSwapWeaponDirGameplayAbilityTargetData::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess)
-{
-	Ar << bSwapForward;
-
-	bOutSuccess = true;
-	return true;
-}
 
 
 

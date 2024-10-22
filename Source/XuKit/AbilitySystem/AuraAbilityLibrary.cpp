@@ -11,6 +11,7 @@
 #include "Ability/QHGameplayAbility.h"
 #include "Data/CharactorClassInfo.h"
 #include "Kismet/GameplayStatics.h"
+#include "Task/SwapweaponDirTargetDataTask.h"
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/GameMode/QHGameModeBase.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
