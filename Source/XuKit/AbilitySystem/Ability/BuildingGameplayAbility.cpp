@@ -13,3 +13,6 @@
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/Interface/CombatInterface.h"
 
+void UBuildingGameplayAbility::StartBuilding_Implementation()
+{
+}
