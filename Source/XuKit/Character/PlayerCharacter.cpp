@@ -223,7 +223,7 @@ void APlayerCharacter::Interact_Implementation()
 
 void APlayerCharacter::DropWeapon_Implementation()
 {
-	getCombatCom()->RemoveWeaponFromInventory(get_cur_projection_weapon());
+	getCombatCom()->RemoveWeaponFromInventory(Execute_get_cur_projection_weapon(this));
 }
 
 void APlayerCharacter::InitDefaultProjectionWeapon()
