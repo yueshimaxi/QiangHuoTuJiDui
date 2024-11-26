@@ -20,36 +20,36 @@ class XUKIT_API IPlayerInterface
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void AddXP(int xp);
 
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	int GetXP();
 
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void LevelUp();
 
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void AddToLevel(int AddLevel);
 
 
 	
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	int FindLevelForXP(int XP);
 
 
 	
 	
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void ReloadAmmo();
 	
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void SwapWeapon(bool swapWeaponForward);
 
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void Interact();
 
 	
-	UFUNCTION(BlueprintCallable,BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void DropWeapon();
 };
