@@ -1,6 +1,7 @@
 #include "CombatComponent.h"
 
 #include "Net/UnrealNetwork.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/Actor/Weapon/Weapon.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/Character/PlayerCharacter.h"
@@ -139,18 +140,19 @@ void UCombatComponent::Multicast_RemoveWeaponFromInventory_Implementation(AWeapo
 {
 	if (DoesWeaponExistInInventory(WeaponToRemove))
 	{
+		if (Inventory.Weapons.Num() <= 1)
+		{
+			XuPRINT(TEXT("你至少要有一把武器"));
+			return;
+		}
 		WeaponToRemove->RemoveAbilities();
 		DropWeapon(WeaponToRemove);
 		Inventory.Weapons.Remove(WeaponToRemove);
-		CurrentWeapon = nullptr;
 
 		if (WeaponToRemove == CurrentWeapon)
 		{
-			if (Inventory.Weapons.Num() > 0)
-			{
-				CurrentWeapon = Inventory.Weapons[0];
-				EquipWeapon(CurrentWeapon);
-			}
+			CurrentWeapon = Inventory.Weapons[0];
+			EquipWeapon(CurrentWeapon);
 		}
 	}
 }
