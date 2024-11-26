@@ -45,6 +45,9 @@ void UTargetDataTask::SendCurorData()
 	FHitResult curorHitResult;
 	player_controller->GetHitResultUnderCursor(ECC_Visibility, false, curorHitResult);
 
+	//DrawDebugSphere(GetWorld(), curorHitResult.Location, 30, 10, FColor::Red, false, 1);
+
+
 	FGameplayAbilityTargetDataHandle AbilityTargetDataHandle;
 	FGameplayAbilityTargetData_SingleTargetHit* hitData = new FGameplayAbilityTargetData_SingleTargetHit();
 	hitData->HitResult = curorHitResult;

@@ -32,7 +32,7 @@ void UProjectileGameplayAbility::ApplyCooldown(const FGameplayAbilitySpecHandle 
 	}
 }
 
-void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGameplayTag socketTag, bool overridePitch, float pitch)
+void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGameplayTag socketTag)
 {
 	//XuPRINT_ShowInScreen(TEXT("SpawnProjectile"));
 	if (!GetAvatarActorFromActorInfo()->HasAuthority())return;
@@ -45,7 +45,7 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 
 	FTransform spawn_transform;
 	FVector ammoLocation = projection_weapon->GetProjectileSpawnLocation();
-	FRotator ammoRotation = (targetLocation - ammoLocation).Rotation();
+	FRotator ammoRotation = (targetLocation - GetAvatarActorFromActorInfo()->GetActorLocation()).Rotation();
 	ammoRotation.Pitch = 0;
 	spawn_transform.SetLocation(ammoLocation);
 	spawn_transform.SetRotation(ammoRotation.Quaternion());
@@ -73,15 +73,42 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 		casing_transform.SetLocation(casingLocation);
 		casing_transform.SetRotation(ammoRotation.Quaternion());
 
-		ACasing* casing = GetWorld()->SpawnActor<ACasing>(projection_weapon->casingClass, casing_transform);
+		GetWorld()->SpawnActor<ACasing>(projection_weapon->casingClass, casing_transform);
 	}
 
-	//改在GC中调用
-	// //播放音效
-	// UGameplayStatics::PlaySoundAtLocation(GetWorld(), projection_weapon->FireSound, ammoLocation);
-	//
-	// //生成MuzzleFlashEffect
-	// UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), projection_weapon->MuzzleFlashEffect, ammoLocation, ammoRotation);
-
 	projection_weapon->Fire();
+}
+
+void UProjectileGameplayAbility::SpawnShotGunProjectile(FVector targetLocation, FGameplayTag socketTag, int num,int angleValue)
+{
+	if (!GetAvatarActorFromActorInfo()->HasAuthority())return;
+
+	ICombatInterface* combat_interface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
+	if (!combat_interface)return;
+
+	AProjectionWeapon* projection_weapon = ICombatInterface::Execute_get_cur_projection_weapon(GetAvatarActorFromActorInfo());
+	if (!projection_weapon)return;
+
+	//生成一个球型Debug
+	DrawDebugSphere(GetWorld(), targetLocation, 30, 30, FColor::Red, false, 1);
+	FVector newLocationDir = targetLocation - GetAvatarActorFromActorInfo()->GetActorLocation();
+	//从枪口生成num个子弹，每个子弹的方向是 newLocationDir的均匀（-30，30）角度偏移
+
+	for (int i = 0; i < num; ++i)
+	{
+		FVector newDir = newLocationDir;
+		float zz = angleValue*2/num *i-angleValue;
+		
+		newDir = newDir.RotateAngleAxis(zz, FVector(0, 0, 1));
+		FVector ammoLocation = projection_weapon->GetProjectileSpawnLocation();
+
+		DrawDebugLine(GetWorld(), ammoLocation, ammoLocation + newDir * 1000, FColor::Red, false, 1);
+		SpawnProjectile(ammoLocation + newDir * 1000, socketTag);
+		
+	}
+	
+	
+
+	
+	
 }
