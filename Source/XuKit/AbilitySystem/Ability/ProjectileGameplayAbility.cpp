@@ -107,7 +107,6 @@ void UProjectileGameplayAbility::SpawnShotGunProjectile(FVector targetLocation, 
 		
 	}
 	
-	
 
 	
 	
