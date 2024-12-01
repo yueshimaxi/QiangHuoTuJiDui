@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "QHCharacterBase.h"
+#include "DlgSystem/DlgDialogue.h"
 #include "XuKit/Interface/CombatInterface.h"
+#include "XuKit/Interface/IInteractionIterface.h"
 #include "XuKit/Interface/PlayerInterface.h"
 #include "PlayerCharacter.generated.h"
 
@@ -65,6 +67,10 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UNiagaraComponent* level_up_niagara_component;
 
+	
+	UPROPERTY(EditAnywhere)
+	USphereComponent* area_component;
+
 	void SetPawnRotatorToMouseCursor();
 
 
@@ -95,14 +101,11 @@ protected:
 
 	bool bASCInputBound;
 
-	UPROPERTY(Replicated)
-	AWeapon* overlaping_weapon; 
 
 
 public:
 	UCombatComponent* getCombatCom();
 
-	void Set_Overlap_Weapon(AWeapon* weapon);
 
 
 
@@ -119,7 +122,15 @@ public:
 	void MulticastLevelUpNiagara();
 
 
+	UPROPERTY()
+	TArray<IIInteractionIterface*> cur_interaction_interface_array;
+	UFUNCTION()
+	void OnInteractionShpereOverlapBegin(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_comp, int32 other_body_index, bool b_from_sweep, const FHitResult& sweep_result);
+	UFUNCTION()
+	void OnInteractionShpereOverlapEnd(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_comp, int32 other_body_index);
 
+	UFUNCTION(BlueprintNativeEvent)
+	void StartDialogue(UDlgDialogue* dialogueAsset);
 
 
 };

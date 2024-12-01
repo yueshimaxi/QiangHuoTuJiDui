@@ -58,6 +58,11 @@ void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
 
+EInteractionType AWeapon::GetInteractionType_Implementation()
+{
+	return  EInteractionType::Weapon;
+}
+
 void AWeapon::SetWeaponState(EWeaponState state,APlayerCharacter* character)
 {
 	ServerSetWeaponState(state,character);
@@ -121,20 +126,12 @@ void AWeapon::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 {
 	XuPRINT("overlap begin");
 
-	if (APlayerCharacter* player_character = Cast<APlayerCharacter>(OtherActor))
-	{
-		player_character->Set_Overlap_Weapon(this);
-	}
 }
 
 void AWeapon::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	XuPRINT("overlap end");
 
-	if (APlayerCharacter* player_character = Cast<APlayerCharacter>(OtherActor))
-	{
-		player_character->Set_Overlap_Weapon(nullptr);
-	}
 }
 
 

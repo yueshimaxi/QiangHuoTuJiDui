@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "XuKit/QiangHuoTuJiDui.h"
 #include "XuKit/AbilitySystem/Ability/QHGameplayAbility.h"
+#include "XuKit/Interface/IInteractionIterface.h"
 #include "Weapon.generated.h"
 
 class APlayerCharacter;
@@ -28,7 +29,7 @@ enum class EWeaponState
 
 
 UCLASS()
-class XUKIT_API AWeapon : public AActor
+class XUKIT_API AWeapon : public AActor,public IIInteractionIterface
 {
 	GENERATED_BODY()
 	
@@ -41,6 +42,8 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 
+public:
+	virtual EInteractionType GetInteractionType_Implementation() override;
 public:	
 	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* weapon_mesh_component;

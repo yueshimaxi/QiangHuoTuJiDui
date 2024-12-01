@@ -4,11 +4,14 @@
 #include "PlayerCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "ANPC.h"
 #include "EnhancedInputSubsystems.h"
 #include "NiagaraComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 #include "XuKit/QiangHuoTuJiDui.h"
@@ -22,6 +25,7 @@
 #include "XuKit/Event/EventMgr.h"
 #include "XuKit/HUD/QHHUD.h"
 #include "XuKit/Input/QHEnhancedInputComponent.h"
+#include "XuKit/Interface/IInteractionIterface.h"
 #include "XuKit/PlayerController/QHPlayerController.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 #include "XuKit/UI/UIMgr.h"
@@ -62,12 +66,20 @@ APlayerCharacter::APlayerCharacter()
 	level_up_niagara_component->SetupAttachment(RootComponent);
 	level_up_niagara_component->bAutoActivate = false;
 
+
+	area_component = CreateDefaultSubobject<USphereComponent>(TEXT("area_component"));
+	area_component->SetupAttachment(RootComponent);
+
+
 	bASCInputBound = false;
 }
 
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	area_component->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnInteractionShpereOverlapBegin);
+	area_component->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnInteractionShpereOverlapEnd);
 }
 
 void APlayerCharacter::Tick(float DeltaSeconds)
@@ -159,7 +171,6 @@ void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	DOREPLIFETIME(APlayerCharacter, overlaping_weapon);
 }
 
 void APlayerCharacter::ReloadAmmo_Implementation()
@@ -215,9 +226,53 @@ void APlayerCharacter::AddToLevel_Implementation(int AddLevel)
 
 void APlayerCharacter::Interact_Implementation()
 {
-	if (overlaping_weapon)
+	if (cur_interaction_interface_array.Num() <= 0)
 	{
-		getCombatCom()->AddWeaponToInventory(overlaping_weapon, getCombatCom()->Inventory.Weapons.Num() == 0);
+		return;
+	}
+	APlayerController* player_controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	FHitResult hit_result;
+	player_controller->GetHitResultUnderCursor(ECC_Visibility, false, hit_result);
+	AActor* curorActor = hit_result.GetActor();
+
+	//如果Interaction_array中有对象在鼠标下，那么优先交互这个对象，否则交互第一个Inter
+
+	IIInteractionIterface* interaction_interface = nullptr;
+	for (auto element : cur_interaction_interface_array)
+	{
+		AActor* actor = Cast<AActor>(element);
+		if (actor == curorActor)
+		{
+			interaction_interface = element;
+			break;
+		}
+	}
+	if (interaction_interface == nullptr)
+	{
+		interaction_interface = cur_interaction_interface_array[0];
+	}
+	AActor* Interaction_actor = Cast<AActor>(interaction_interface);
+	EInteractionType interactType = IIInteractionIterface::Execute_GetInteractionType(Interaction_actor);
+	switch (interactType)
+	{
+	case NPC:
+		if (ANPC* npc = Cast<ANPC>(Interaction_actor))
+		{
+			StartDialogue(npc->DialogueAsset);
+		}
+		break;
+	case Weapon:
+		if (AWeapon* weapon = Cast<AWeapon>(Interaction_actor))
+		{
+			getCombatCom()->AddWeaponToInventory(weapon, getCombatCom()->Inventory.Weapons.Num() == 0);
+		}
+
+		break;
+	case Door:
+		break;
+	case Prop:
+		break;
+	default: ;
 	}
 }
 
@@ -245,11 +300,6 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 }
 
 
-void APlayerCharacter::Set_Overlap_Weapon(AWeapon* weapon)
-{
-	overlaping_weapon = weapon;
-}
-
 
 void APlayerCharacter::InitDefaultAttributesToSelf()
 {
@@ -268,6 +318,27 @@ void APlayerCharacter::FreshHUD()
 {
 	UFreshHUDEventData* fresh_hud_event = NewObject<UFreshHUDEventData>();
 	UXuBPFuncLib::GetEventManager(GetWorld())->BroadcastEvent(EXuEventType::FreshHUD, fresh_hud_event);
+}
+
+void APlayerCharacter::OnInteractionShpereOverlapBegin(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_comp, int32 other_body_index, bool b_from_sweep, const FHitResult& sweep_result)
+{
+	if (IIInteractionIterface* interaction_interface = Cast<IIInteractionIterface>(other_actor))
+	{
+		cur_interaction_interface_array.Add(interaction_interface);
+	}
+}
+
+void APlayerCharacter::OnInteractionShpereOverlapEnd(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_comp, int32 other_body_index)
+{
+	if (IIInteractionIterface* interaction_interface = Cast<IIInteractionIterface>(other_actor))
+	{
+		cur_interaction_interface_array.Remove(interaction_interface);
+	}
+}
+
+void APlayerCharacter::StartDialogue_Implementation(UDlgDialogue* dialogueAsset)
+{
+	
 }
 
 

@@ -24,7 +24,8 @@ public class XuKit : ModuleRules
 			"GameplayTags",
 			"GameplayTasks",
 			"Navmesh",
-			"NavigationSystem"
+			"NavigationSystem",
+			"DlgSystem"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystem","OnlineSubsystemSteam", "Niagara" });
