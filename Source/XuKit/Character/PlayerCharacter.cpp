@@ -81,6 +81,10 @@ void APlayerCharacter::BeginPlay()
 
 	area_component->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnInteractionShpereOverlapBegin);
 	area_component->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnInteractionShpereOverlapEnd);
+
+
+	decal_ring = GetWorld()->SpawnActor<ADecalActor>(decal_ring_class);
+	decal_ring->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void APlayerCharacter::Tick(float DeltaSeconds)

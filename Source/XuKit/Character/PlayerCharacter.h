@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "QHCharacterBase.h"
 #include "DlgSystem/DlgDialogue.h"
+#include "Engine/DecalActor.h"
 #include "XuKit/Interface/CombatInterface.h"
 #include "XuKit/Interface/IInteractionIterface.h"
 #include "XuKit/Interface/PlayerInterface.h"
@@ -143,4 +144,10 @@ public:
 
 	UPROPERTY()
 	UUIInteraction* cur_uui_interaction;
+
+	UPROPERTY(EditAnywhere)
+	UClass* decal_ring_class;
+
+	UPROPERTY()
+	ADecalActor* decal_ring;
 };
