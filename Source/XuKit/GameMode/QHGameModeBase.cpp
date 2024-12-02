@@ -32,6 +32,7 @@ void AQHGameModeBase::Tick(float DeltaSeconds)
 		return;
 	}
 	CurrentTime += DeltaSeconds;
+	return;
 	SpawnEnemy();
 
 
