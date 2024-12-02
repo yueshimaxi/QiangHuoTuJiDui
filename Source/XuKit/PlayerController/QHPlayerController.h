@@ -35,6 +35,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> input_action_move;
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> ic_ESC;
 
 
 
@@ -79,6 +81,7 @@ public:
 	UFUNCTION(Client,Reliable)
 	void GameWin();
 
+	void OnESC();
 
 };
 

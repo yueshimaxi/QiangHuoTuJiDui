@@ -6,6 +6,7 @@
 #include "UIBaseInterface.h"
 #include "Blueprint/UserWidget.h"
 #include "IUIBase/UIGameLose.h"
+#include "IUIBase/UIGameMenu.h"
 #include "IUIBase/UIGameSettingScreen.h"
 #include "IUIBase/UIGameWin.h"
 #include "IUIBase/UIInteraction.h"
@@ -28,6 +29,7 @@ void UUIMgr::Init()
 		{UUIGameWin::StaticClass(), GetUIPath(TEXT("/GameEnd"),TEXT("UIGameWin_BP"))},
 		{UUIGameLose::StaticClass(), GetUIPath(TEXT("/GameEnd"),TEXT("UIGamLose_BP"))},
 		{UUIInteraction::StaticClass(), GetUIPath(TEXT("/Interaction"),TEXT("UIInteraction_BP"))},
+		{UUIGameMenu::StaticClass(), GetUIPath(TEXT("/GameMenu"),TEXT("UIGameMenu_BP"))},
 
 	};
 	isInit = true;

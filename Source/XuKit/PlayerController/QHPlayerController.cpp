@@ -17,12 +17,13 @@
 #include "XuKit/PlayerState/QHPlayerState.h"
 #include "XuKit/UI/UIMgr.h"
 #include "XuKit/UI/IUIBase/UIGameLose.h"
+#include "XuKit/UI/IUIBase/UIGameMenu.h"
+#include "XuKit/UI/IUIBase/UIGameSettingScreen.h"
 #include "XuKit/UI/IUIBase/UIGameWin.h"
 
 AQHPlayerController::AQHPlayerController()
 {
 	CheatClass = UXuCheatManager::StaticClass();
-
 }
 
 void AQHPlayerController::BeginPlay()
@@ -37,6 +38,7 @@ void AQHPlayerController::BeginPlay()
 	SetInputMode(input_mode_game_and_ui);
 }
 
+
 void AQHPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -45,7 +47,7 @@ void AQHPlayerController::SetupInputComponent()
 	input_local_player_subsystem->AddMappingContext(inputMap, 0);
 	UQHEnhancedInputComponent* input_component = CastChecked<UQHEnhancedInputComponent>(InputComponent);
 	input_component->BindAction(input_action_move, ETriggerEvent::Triggered, this, &AQHPlayerController::OnMove);
-
+	input_component->BindAction(ic_ESC, ETriggerEvent::Completed, this, &AQHPlayerController::OnESC);
 	//input_component->BindActions(inputConfigDataAsset, this, &AQHPlayerController::OnAbliityInputTagPressed, &AQHPlayerController::OnAbliityInputTagHeld, &AQHPlayerController::OnAbliityInputTagReleased);
 }
 
@@ -135,7 +137,6 @@ void AQHPlayerController::TraceMouseCuror()
 }
 
 
-
 void AQHPlayerController::GameLose_Implementation()
 {
 	UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIGameLose>();
@@ -144,19 +145,30 @@ void AQHPlayerController::GameLose_Implementation()
 void AQHPlayerController::GameWin_Implementation()
 {
 	UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIGameWin>();
-
 }
 
 
 void AQHPlayerController::ShowDamageText_Implementation(float damage, ACharacter* targetCharacter, bool bIsCriticalHit, bool bIsBlockedHit)
 {
 	if (DamageTextWidgetComponentClass && targetCharacter)
-	{  
+	{
 		UDamageTextWidgetComponent* damageTextWidgetComponent = NewObject<UDamageTextWidgetComponent>(targetCharacter, DamageTextWidgetComponentClass);
 		damageTextWidgetComponent->RegisterComponent();
 		damageTextWidgetComponent->AttachToComponent(targetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepWorldTransform);
 		damageTextWidgetComponent->SetRelativeLocation(FVector::Zero());
 		damageTextWidgetComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		damageTextWidgetComponent->SetDamageText(damage, bIsCriticalHit, bIsBlockedHit);
+	}
+}
+
+void AQHPlayerController::OnESC()
+{
+	if (UXuBPFuncLib::GetUIManager(this)->GetUI<UUIGameMenu>())
+	{
+		UXuBPFuncLib::GetUIManager(this)->HideUI<UUIGameMenu>();
+	}
+	else
+	{
+		UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIGameMenu>();
 	}
 }
