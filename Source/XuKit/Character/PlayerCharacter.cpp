@@ -322,8 +322,11 @@ void APlayerCharacter::UpdateInteractionUIMousePosition()
 		cur_interaction_actor = nullptr;
 		if (cur_uui_interaction)
 		{
-			cur_uui_interaction->SetVisibility(ESlateVisibility::Collapsed);
+			//cur_uui_interaction->PlayShowAnim(false);
+			UXuBPFuncLib::GetUIManager(this)->HideUI<UUIInteraction>();
+			cur_uui_interaction = nullptr;
 		}
+		last_interaction_actor = nullptr;
 		return;
 	}
 	APlayerController* player_controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
@@ -337,20 +340,16 @@ void APlayerCharacter::UpdateInteractionUIMousePosition()
 	{
 		if (element == curorActor)
 		{
-			cur_interaction_actor=element;
+			cur_interaction_actor = element;
 			break;
 		}
 	}
-	if (cur_interaction_actor == nullptr)
+	if (cur_interaction_actor == nullptr||!cur_interaction_interface_actor_array.Contains(cur_interaction_actor))
 	{
 		cur_interaction_actor = cur_interaction_interface_actor_array[0];
 	}
 
-	if (cur_uui_interaction)
-	{
-		cur_uui_interaction->SetVisibility(ESlateVisibility::Visible);
-	}
-	else
+	if (!cur_uui_interaction)
 	{
 		cur_uui_interaction = UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIInteraction>();
 	}
@@ -361,11 +360,19 @@ void APlayerCharacter::UpdateInteractionUIMousePosition()
 	if (player_controller->ProjectWorldLocationToScreen(location, mouse_location))
 	{
 		cur_uui_interaction->UpdateMousePosition(mouse_location);
+
+		if (last_interaction_actor != cur_interaction_actor)
+		{
+			cur_uui_interaction->PlayShowAnim(true);
+		}
 	}
 	else
 	{
-		cur_uui_interaction->SetVisibility(ESlateVisibility::Collapsed);
+		cur_uui_interaction->PlayShowAnim(false);
 	}
+
+
+	last_interaction_actor = cur_interaction_actor;
 }
 
 void APlayerCharacter::StartDialogue_Implementation(UDlgDialogue* dialogueAsset)

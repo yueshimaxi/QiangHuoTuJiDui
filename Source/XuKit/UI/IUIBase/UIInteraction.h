@@ -25,5 +25,11 @@ public:
 	virtual void NativeDestruct() override;
 	void UpdateMousePosition(FVector2D MousePosition);
 	void Interact();
+
+	UPROPERTY(Transient,meta=(BindWidgetAnim))
+	UWidgetAnimation* ShowAnimation;
+	UFUNCTION(BlueprintNativeEvent)
+	void PlayShowAnim(bool bShow);
 	
 };
+

@@ -3,6 +3,8 @@
 
 #include "UIInteraction.h"
 
+#include "Animation/WidgetAnimation.h"
+
 EUILayer UUIInteraction::GetUILayer_Implementation() const
 {
 	return EUILayer::Low;
@@ -37,4 +39,22 @@ void UUIInteraction::UpdateMousePosition(FVector2D MousePosition)
 
 void UUIInteraction::Interact()
 {
+}
+
+
+
+void UUIInteraction::PlayShowAnim_Implementation(bool bShow)
+{
+	if (ShowAnimation)
+	{
+		if (bShow)
+		{
+			PlayAnimationForward(ShowAnimation);
+		}
+		else
+		{
+			PlayAnimationReverse(ShowAnimation);
+
+		}
+	}
 }

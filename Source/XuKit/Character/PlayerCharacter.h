@@ -128,6 +128,8 @@ public:
 
 	UPROPERTY()
 	AActor* cur_interaction_actor;
+	UPROPERTY()
+	AActor* last_interaction_actor;
 	UFUNCTION()
 	void OnInteractionShpereOverlapBegin(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_comp, int32 other_body_index, bool b_from_sweep, const FHitResult& sweep_result);
 	UFUNCTION()
