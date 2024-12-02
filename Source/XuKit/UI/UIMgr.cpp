@@ -8,6 +8,7 @@
 #include "IUIBase/UIGameLose.h"
 #include "IUIBase/UIGameSettingScreen.h"
 #include "IUIBase/UIGameWin.h"
+#include "IUIBase/UIInteraction.h"
 #include "IUIBase/UIMessageBox.h"
 #include "IUIBase/UIPlayerHUD.h"
 #include "IUIBase/UIStart.h"
@@ -20,12 +21,13 @@ void UUIMgr::Init()
 	uiActiveDic.Empty();
 	UIStackList.Empty();
 	UIPathMap = {
-		{UUIMessageBox::StaticClass(), GetUIPath(TEXT("UIMessageBox_BP"))},
-		{UUIStart::StaticClass(), GetUIPath(TEXT("UIStart_BP"))},
-		{UUIGameSettingScreen::StaticClass(), GetUIPath(TEXT("UIGameSettingScreen_BP"))},
-		{UUIPlayerHUD::StaticClass(), GetUIPath(TEXT("UIPlayerHUD_BP"))},
-		{UUIGameLose::StaticClass(), "/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/BP/UI/UIBaseInterface/GameEnd/UIGamLose_BP.UIGamLose_BP_C'"},
-		{UUIGameWin::StaticClass(), "/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/BP/UI/UIBaseInterface/GameEnd/UIGameWin_BP.UIGameWin_BP_C'"},
+		{UUIMessageBox::StaticClass(), GetUIPath(TEXT(""),TEXT("UIMessageBox_BP"))},
+		{UUIStart::StaticClass(), GetUIPath(TEXT(""),TEXT("UIStart_BP"))},
+		{UUIGameSettingScreen::StaticClass(), GetUIPath(TEXT(""),TEXT("UIGameSettingScreen_BP"))},
+		{UUIPlayerHUD::StaticClass(), GetUIPath(TEXT(""),TEXT("UIPlayerHUD_BP"))},
+		{UUIGameWin::StaticClass(), GetUIPath(TEXT("/GameEnd"),TEXT("UIGameWin_BP"))},
+		{UUIGameLose::StaticClass(), GetUIPath(TEXT("/GameEnd"),TEXT("UIGamLose_BP"))},
+		{UUIInteraction::StaticClass(), GetUIPath(TEXT("/Interaction"),TEXT("UIInteraction_BP"))},
 
 	};
 	isInit = true;
@@ -49,17 +51,9 @@ UUserWidget* UUIMgr::ShowUIBP(TSubclassOf<UUserWidget> uiType)
 		XuPRINT(TEXT("uipathMap key not cunzai"));
 	}
 	UClass* uiclass = LoadClass<UUserWidget>(nullptr, *UIPathMap[U_TClassType]);
-	if (!uiclass)
-	{
-		XuPRINT("UIclass is NUll");
-	}
+	check(uiclass);
 	uiBase = CreateWidget<UUserWidget>(GetWorld(), uiclass);
-	XuPRINT("CreateWidget");
-
-	if (!uiBase)
-	{
-		XuPRINT("UIBase is NUll");
-	}
+	check(uiBase);
 	uiActiveList.Add(uiBase);
 
 	uiActiveDic.Add(U_TClassType, uiBase);
@@ -136,8 +130,9 @@ int UUIMgr::GetStackUINum()
 	return UIStackList.Num();
 }
 
-FString UUIMgr::GetUIPath(FString uiName)
+FString UUIMgr::GetUIPath(FString dir, FString uiName)
 {
-	FString uiPath = TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/BP/UI/UIBaseInterface/");
-	return FString::Printf(TEXT("%s%s.%s_C'"), *uiPath, *uiName, *uiName);
+	FString uiPath=FString::Format(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/BP/UI/UIBaseInterface{0}/{1}.{1}_C'"), {dir,uiName});
+	return uiPath;
 }
+

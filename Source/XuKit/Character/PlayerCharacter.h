@@ -8,6 +8,7 @@
 #include "XuKit/Interface/CombatInterface.h"
 #include "XuKit/Interface/IInteractionIterface.h"
 #include "XuKit/Interface/PlayerInterface.h"
+#include "XuKit/UI/IUIBase/UIInteraction.h"
 #include "PlayerCharacter.generated.h"
 
 struct FInputActionValue;
@@ -123,7 +124,10 @@ public:
 
 
 	UPROPERTY()
-	TArray<IIInteractionIterface*> cur_interaction_interface_array;
+	TArray<AActor*> cur_interaction_interface_actor_array;
+
+	UPROPERTY()
+	AActor* cur_interaction_actor;
 	UFUNCTION()
 	void OnInteractionShpereOverlapBegin(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_comp, int32 other_body_index, bool b_from_sweep, const FHitResult& sweep_result);
 	UFUNCTION()
@@ -133,4 +137,8 @@ public:
 	void StartDialogue(UDlgDialogue* dialogueAsset);
 
 
+	void UpdateInteractionUIMousePosition();
+
+	UPROPERTY()
+	UUIInteraction* cur_uui_interaction;
 };

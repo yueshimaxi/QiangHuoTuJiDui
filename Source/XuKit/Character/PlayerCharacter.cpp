@@ -29,6 +29,7 @@
 #include "XuKit/PlayerController/QHPlayerController.h"
 #include "XuKit/PlayerState/QHPlayerState.h"
 #include "XuKit/UI/UIMgr.h"
+#include "XuKit/UI/IUIBase/UIInteraction.h"
 #include "XuKit/UI/IUIBase/UIPlayerHUD.h"
 
 
@@ -88,6 +89,7 @@ void APlayerCharacter::Tick(float DeltaSeconds)
 
 
 	SetPawnRotatorToMouseCursor();
+	UpdateInteractionUIMousePosition();
 }
 
 
@@ -170,7 +172,6 @@ void APlayerCharacter::BindASCInput()
 void APlayerCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
 }
 
 void APlayerCharacter::ReloadAmmo_Implementation()
@@ -226,43 +227,22 @@ void APlayerCharacter::AddToLevel_Implementation(int AddLevel)
 
 void APlayerCharacter::Interact_Implementation()
 {
-	if (cur_interaction_interface_array.Num() <= 0)
+	if (cur_interaction_actor == nullptr)
 	{
 		return;
 	}
-	APlayerController* player_controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-	FHitResult hit_result;
-	player_controller->GetHitResultUnderCursor(ECC_Visibility, false, hit_result);
-	AActor* curorActor = hit_result.GetActor();
 
-	//如果Interaction_array中有对象在鼠标下，那么优先交互这个对象，否则交互第一个Inter
-
-	IIInteractionIterface* interaction_interface = nullptr;
-	for (auto element : cur_interaction_interface_array)
-	{
-		AActor* actor = Cast<AActor>(element);
-		if (actor == curorActor)
-		{
-			interaction_interface = element;
-			break;
-		}
-	}
-	if (interaction_interface == nullptr)
-	{
-		interaction_interface = cur_interaction_interface_array[0];
-	}
-	AActor* Interaction_actor = Cast<AActor>(interaction_interface);
-	EInteractionType interactType = IIInteractionIterface::Execute_GetInteractionType(Interaction_actor);
+	EInteractionType interactType = IIInteractionIterface::Execute_GetInteractionType(cur_interaction_actor);
 	switch (interactType)
 	{
 	case NPC:
-		if (ANPC* npc = Cast<ANPC>(Interaction_actor))
+		if (ANPC* npc = Cast<ANPC>(cur_interaction_actor))
 		{
 			StartDialogue(npc->DialogueAsset);
 		}
 		break;
 	case Weapon:
-		if (AWeapon* weapon = Cast<AWeapon>(Interaction_actor))
+		if (AWeapon* weapon = Cast<AWeapon>(cur_interaction_actor))
 		{
 			getCombatCom()->AddWeaponToInventory(weapon, getCombatCom()->Inventory.Weapons.Num() == 0);
 		}
@@ -300,7 +280,6 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 }
 
 
-
 void APlayerCharacter::InitDefaultAttributesToSelf()
 {
 	ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
@@ -324,7 +303,7 @@ void APlayerCharacter::OnInteractionShpereOverlapBegin(UPrimitiveComponent* over
 {
 	if (IIInteractionIterface* interaction_interface = Cast<IIInteractionIterface>(other_actor))
 	{
-		cur_interaction_interface_array.Add(interaction_interface);
+		cur_interaction_interface_actor_array.Add(other_actor);
 	}
 }
 
@@ -332,13 +311,65 @@ void APlayerCharacter::OnInteractionShpereOverlapEnd(UPrimitiveComponent* overla
 {
 	if (IIInteractionIterface* interaction_interface = Cast<IIInteractionIterface>(other_actor))
 	{
-		cur_interaction_interface_array.Remove(interaction_interface);
+		cur_interaction_interface_actor_array.Remove(other_actor);
+	}
+}
+
+void APlayerCharacter::UpdateInteractionUIMousePosition()
+{
+	if (cur_interaction_interface_actor_array.Num() <= 0)
+	{
+		cur_interaction_actor = nullptr;
+		if (cur_uui_interaction)
+		{
+			cur_uui_interaction->SetVisibility(ESlateVisibility::Collapsed);
+		}
+		return;
+	}
+	APlayerController* player_controller = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	FHitResult hit_result;
+	player_controller->GetHitResultUnderCursor(ECC_Visibility, false, hit_result);
+	AActor* curorActor = hit_result.GetActor();
+
+	//如果Interaction_array中有对象在鼠标下，那么优先交互这个对象，否则交互第一个Inter
+
+	for (auto element : cur_interaction_interface_actor_array)
+	{
+		if (element == curorActor)
+		{
+			cur_interaction_actor=element;
+			break;
+		}
+	}
+	if (cur_interaction_actor == nullptr)
+	{
+		cur_interaction_actor = cur_interaction_interface_actor_array[0];
+	}
+
+	if (cur_uui_interaction)
+	{
+		cur_uui_interaction->SetVisibility(ESlateVisibility::Visible);
+	}
+	else
+	{
+		cur_uui_interaction = UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIInteraction>();
+	}
+
+	FVector location = cur_interaction_actor->GetActorLocation();
+	FVector2D mouse_location;
+	//cur_interaction_actor空间坐标转换屏幕坐标
+	if (player_controller->ProjectWorldLocationToScreen(location, mouse_location))
+	{
+		cur_uui_interaction->UpdateMousePosition(mouse_location);
+	}
+	else
+	{
+		cur_uui_interaction->SetVisibility(ESlateVisibility::Collapsed);
 	}
 }
 
 void APlayerCharacter::StartDialogue_Implementation(UDlgDialogue* dialogueAsset)
 {
-	
 }
 
 

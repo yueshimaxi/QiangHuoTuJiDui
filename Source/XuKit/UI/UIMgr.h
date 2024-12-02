@@ -39,7 +39,7 @@ public:
 
 
 	int GetStackUINum();
-	FString GetUIPath(FString uiName);
+	FString GetUIPath( FString dir,FString uiName);
 	
 
 
