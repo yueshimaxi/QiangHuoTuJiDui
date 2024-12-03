@@ -125,9 +125,13 @@ void UUIMgr::HideUIBP(TSubclassOf<UUserWidget> uiType)
 		if (UIStackList[UIStackList.Num() - 1] == uIBase)
 		{
 			UIStackList.Remove(uIBase);
-			UUserWidget* NewUiBase = UIStackList[UIStackList.Num() - 1];
-			int32 layer = static_cast<int32>(Cast<UUIBase>(NewUiBase)->GetUILayer());
-			NewUiBase->AddToViewport(layer);
+			if (UIStackList.Num()>0)
+			{
+				UUserWidget* NewUiBase = UIStackList[UIStackList.Num() - 1];
+				int32 layer = static_cast<int32>(Cast<UUIBase>(NewUiBase)->GetUILayer());
+				NewUiBase->AddToViewport(layer);
+			}
+			
 		}
 		else
 		{
