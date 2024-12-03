@@ -3,12 +3,12 @@
 
 #include "UIGameMenu.h"
 
-EUILayer UUIGameMenu::GetUILayer_Implementation() const
+EUILayer UUIGameMenu::GetUILayer() const
 {
 	return EUILayer::Low;
 }
 
-EUIType UUIGameMenu::GetUIType_Implementation() const
+EUIType UUIGameMenu::GetUIType() const
 {
 	return EUIType::Stack;
 }

@@ -1,15 +1,17 @@
 #include "UIGameWin.h"
 
 
-EUILayer UUIGameWin::GetUILayer_Implementation() const
+EUILayer UUIGameWin::GetUILayer() const
 {
 	return EUILayer::Low;
 }
 
-EUIType UUIGameWin::GetUIType_Implementation() const
+EUIType UUIGameWin::GetUIType() const
 {
 	return EUIType::Normal;
 }
+
+
 
 void UUIGameWin::NativeOnInitialized()
 {

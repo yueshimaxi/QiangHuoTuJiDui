@@ -13,15 +13,16 @@
 #include "XuKit/PlayerState/QHPlayerState.h"
 
 
-EUILayer UUIPlayerHUD::GetUILayer_Implementation() const
+EUILayer UUIPlayerHUD::GetUILayer() const
 {
 	return EUILayer::Bottom;
 }
 
-EUIType UUIPlayerHUD::GetUIType_Implementation() const
+EUIType UUIPlayerHUD::GetUIType() const
 {
 	return EUIType::Normal;
 }
+
 
 void UUIPlayerHUD::NativeOnInitialized()
 {

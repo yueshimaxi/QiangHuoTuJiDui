@@ -10,6 +10,7 @@
 #include "Misc/AssertionMacros.h"
 #include "UObject/NameTypes.h"
 #include "UObject/UObjectGlobals.h"
+#include "XuKit/UI/UIBase.h"
 
 #include "GameSettingScreen.generated.h"
 
@@ -26,7 +27,7 @@ enum class EGameSettingChangeReason : uint8;
  * 
  */
 UCLASS(Abstract, meta = (Category = "Settings", DisableNativeTick))
-class GAMESETTINGS_API UGameSettingScreen : public UCommonActivatableWidget
+class GAMESETTINGS_API UGameSettingScreen : public UUIBase
 {
 	GENERATED_BODY()
 public:

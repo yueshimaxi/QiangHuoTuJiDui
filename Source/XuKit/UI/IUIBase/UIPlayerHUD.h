@@ -6,7 +6,7 @@
 #include "Components/TextBlock.h"
 #include "XuKit/AbilitySystem/AuraAbilityLibrary.h"
 #include "XuKit/Event/EventMgr.h"
-#include "XuKit/UI/UIBaseInterface.h"
+#include "XuKit/UI/UIBase.h"
 #include "UIPlayerHUD.generated.h"
 
 class UEventData;
@@ -21,11 +21,11 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWidgetControllerSetDelegate);
 
 
 UCLASS()
-class XUKIT_API UUIPlayerHUD : public UUserWidget,public  IUIBaseInterface
+class XUKIT_API UUIPlayerHUD : public UUIBase
 {
 public:
-	virtual EUILayer GetUILayer_Implementation() const override;
-	virtual EUIType GetUIType_Implementation() const override;
+	virtual EUILayer GetUILayer() const override;
+	virtual EUIType GetUIType() const override;
 	virtual void NativeOnInitialized() override;
 	UFUNCTION()
 	void OnUpdateServerTimeEvent(UEventData* event_data);

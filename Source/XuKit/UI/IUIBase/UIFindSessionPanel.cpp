@@ -7,15 +7,20 @@
 #include "XuKit/Event/EventDataDefine.h"
 #include "XuKit/UI/UIMgr.h"
 
-EUILayer UUIFindSessionPanel::GetUILayer_Implementation() const
+
+
+EUILayer UUIFindSessionPanel::GetUILayer() const
 {
 	return EUILayer::Low;
+
 }
 
-EUIType UUIFindSessionPanel::GetUIType_Implementation() const
+EUIType UUIFindSessionPanel::GetUIType() const
 {
 	return EUIType::Stack;
+
 }
+
 void UUIFindSessionPanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();

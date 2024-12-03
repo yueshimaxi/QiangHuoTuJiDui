@@ -1,7 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "XuKit/UI/UIBaseInterface.h"
 #include "UIEnemyHealthBar.generated.h"
 
 class AEnemyCharacter;

@@ -20,7 +20,7 @@ public class GameSettings : ModuleRules
 				"UMG",
 				"CommonInput",
 				"CommonUI",
-				"GameplayTags"
+				"GameplayTags", "XuKit"
 			}
 		);
 			

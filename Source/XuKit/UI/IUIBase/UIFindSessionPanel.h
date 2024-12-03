@@ -9,19 +9,19 @@
 #include "Components/Image.h"
 #include "Components/ListView.h"
 #include "XuKit/Event/EventMgr.h"
-#include "XuKit/UI/UIBaseInterface.h"
+#include "XuKit/UI/UIBase.h"
 #include "UIFindSessionPanel.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class XUKIT_API UUIFindSessionPanel : public UCommonUserWidget, public IUIBaseInterface
+class XUKIT_API UUIFindSessionPanel : public UUIBase
 {
 	GENERATED_BODY()
 public:
-	virtual EUILayer GetUILayer_Implementation() const override;
-	virtual EUIType GetUIType_Implementation() const override;
+	virtual EUILayer GetUILayer() const override;
+	virtual EUIType GetUIType() const override;
 public:
 	virtual void NativeOnInitialized() override;
 

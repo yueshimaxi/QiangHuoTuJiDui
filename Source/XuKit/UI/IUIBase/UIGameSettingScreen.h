@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Widgets/GameSettingScreen.h"
-#include "XuKit/UI/UIBaseInterface.h"
 #include "XuKit/UI/Base/LyraTabListWidgetBase.h"
 #include "UIGameSettingScreen.generated.h"
 
@@ -12,7 +11,7 @@
  * 
  */
 UCLASS()
-class XUKIT_API UUIGameSettingScreen : public UGameSettingScreen, public IUIBaseInterface
+class XUKIT_API UUIGameSettingScreen : public UGameSettingScreen
 {
 	GENERATED_BODY()
 
@@ -20,8 +19,8 @@ protected:
 	virtual UGameSettingRegistry* CreateRegistry() override;
 
 public:
-	virtual EUILayer GetUILayer_Implementation() const override;
-	virtual EUIType GetUIType_Implementation() const override;
+	virtual EUILayer GetUILayer() const override;
+	virtual EUIType GetUIType() const override;
 
 public:
 	UPROPERTY(BlueprintReadWrite, meta=(BindWidget))

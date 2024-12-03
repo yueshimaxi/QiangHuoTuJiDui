@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
-#include "XuKit/UI/UIBaseInterface.h"
+#include "XuKit/UI/UIBase.h"
 #include "UIMessageBox.generated.h"
 
 class USizeBox;
@@ -15,11 +14,11 @@ DECLARE_DELEGATE(FMyDelegate);
  * 
  */
 UCLASS()
-class XUKIT_API UUIMessageBox : public UUserWidget,public  IUIBaseInterface
+class XUKIT_API UUIMessageBox : public UUIBase
 {
 public:
-	virtual EUILayer GetUILayer_Implementation() const override;
-	virtual EUIType GetUIType_Implementation() const override;
+	virtual EUILayer GetUILayer() const override;
+	virtual EUIType GetUIType() const override;
 
 private:
 	GENERATED_BODY()

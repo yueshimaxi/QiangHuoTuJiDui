@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "UIMgr.generated.h"
@@ -24,9 +24,10 @@ public:
 	TArray<UUserWidget*> UIStackList;
 	UPROPERTY()
 	TMap<UClass*,FString>UIPathMap;
-	
+
+
 	UFUNCTION(Category = "UUIManager", BlueprintCallable,meta=(DeterminesOutputType="uiType"))
-	UUserWidget* ShowUIBP(TSubclassOf<UUserWidget> uiType);
+	UUserWidget* ShowUIBP(TSubclassOf<UUserWidget> uiType,bool bHideLast=true,bool ForceShow=false);
 
 	UFUNCTION(Category = "UUIManager", BlueprintCallable,meta=(DeterminesOutputType="uiType"))
 	UUserWidget* GetUIBP(TSubclassOf<UUserWidget> uiType);
@@ -39,15 +40,15 @@ public:
 
 
 	int GetStackUINum();
-	FString GetUIPath( FString dir,FString uiName);
+	FString GetUIPath( FString uiName,FString dir=TEXT(""));
 	
 
 
 	template <class T>
-	T* ShowUI()
+	T* ShowUI(bool bHideLast=true)
 	{
 		UClass* U_TClassType= T::StaticClass();
-		UUserWidget* uiBase=ShowUIBP(U_TClassType);
+		UUserWidget* uiBase=ShowUIBP(U_TClassType,bHideLast);
 		T* t = Cast<T>(uiBase);
 		return t;
 	}

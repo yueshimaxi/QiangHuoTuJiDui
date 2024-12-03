@@ -9,16 +9,17 @@
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/UI/UIMgr.h"
 
-EUILayer UUIMessageBox::GetUILayer_Implementation() const
+EUILayer UUIMessageBox::GetUILayer() const
 {
 	return EUILayer::Tips;
 	
 }
 
-EUIType UUIMessageBox::GetUIType_Implementation() const
+EUIType UUIMessageBox::GetUIType() const
 {
 	return EUIType::Normal;
 }
+
 
 void UUIMessageBox::InitOne(FString titleStr, FString contentStr,FString leftBtnStr, FMyDelegate leftBtnFunc)
 {

@@ -1,14 +1,15 @@
 #include "UIGameLose.h"
 
-EUILayer UUIGameLose::GetUILayer_Implementation() const
+EUILayer UUIGameLose::GetUILayer() const
 {
 	return EUILayer::Low;
 }
 
-EUIType UUIGameLose::GetUIType_Implementation() const
+EUIType UUIGameLose::GetUIType() const
 {
 	return EUIType::Normal;
 }
+
 
 void UUIGameLose::NativeOnInitialized()
 {

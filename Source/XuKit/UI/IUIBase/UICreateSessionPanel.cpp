@@ -7,15 +7,19 @@
 #include "XuKit/GameInstance/XuGI.h"
 #include "XuKit/UI/UIMgr.h"
 
-EUILayer UUICreateSessionPanel::GetUILayer_Implementation() const
+
+
+EUILayer UUICreateSessionPanel::GetUILayer() const
 {
 	return EUILayer::Low;
+
 }
 
-EUIType UUICreateSessionPanel::GetUIType_Implementation() const
+EUIType UUICreateSessionPanel::GetUIType() const
 {
 	return EUIType::Stack;
 }
+
 void UUICreateSessionPanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();

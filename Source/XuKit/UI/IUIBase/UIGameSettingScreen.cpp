@@ -19,12 +19,13 @@ UGameSettingRegistry* UUIGameSettingScreen::CreateRegistry()
 	return NewRegistry; 
 }
 
-EUILayer UUIGameSettingScreen::GetUILayer_Implementation() const
+
+EUILayer UUIGameSettingScreen::GetUILayer() const
 {
 	return EUILayer::Low;
 }
 
-EUIType UUIGameSettingScreen::GetUIType_Implementation() const
+EUIType UUIGameSettingScreen::GetUIType() const
 {
 	return EUIType::Stack;
 }

@@ -5,16 +5,17 @@
 
 #include "Animation/WidgetAnimation.h"
 
-EUILayer UUIInteraction::GetUILayer_Implementation() const
+EUILayer UUIInteraction::GetUILayer() const
 {
 	return EUILayer::Low;
 
 }
 
-EUIType UUIInteraction::GetUIType_Implementation() const
+EUIType UUIInteraction::GetUIType() const
 {
 	return EUIType::Normal;
 }
+
 
 void UUIInteraction::NativeOnInitialized()
 {

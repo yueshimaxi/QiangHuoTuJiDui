@@ -1,11 +1,12 @@
 #include "UIStart.h"
 
-EUILayer UUIStart::GetUILayer_Implementation() const
+EUILayer UUIStart::GetUILayer() const
 {
 	return EUILayer::Bottom;
 }
 
-EUIType UUIStart::GetUIType_Implementation() const
+EUIType UUIStart::GetUIType() const
 {
 	return EUIType::Normal;
 }
+

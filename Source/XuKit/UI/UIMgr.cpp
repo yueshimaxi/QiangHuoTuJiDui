@@ -1,9 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "UIMgr.h"
 
-#include "UIBaseInterface.h"
+#include "UIBase.h"
 #include "Blueprint/UserWidget.h"
 #include "IUIBase/UIGameLose.h"
 #include "IUIBase/UIGameMenu.h"
@@ -22,57 +22,67 @@ void UUIMgr::Init()
 	uiActiveDic.Empty();
 	UIStackList.Empty();
 	UIPathMap = {
-		{UUIMessageBox::StaticClass(), GetUIPath(TEXT(""),TEXT("UIMessageBox_BP"))},
-		{UUIStart::StaticClass(), GetUIPath(TEXT(""),TEXT("UIStart_BP"))},
-		{UUIGameSettingScreen::StaticClass(), GetUIPath(TEXT(""),TEXT("UIGameSettingScreen_BP"))},
-		{UUIPlayerHUD::StaticClass(), GetUIPath(TEXT(""),TEXT("UIPlayerHUD_BP"))},
-		{UUIGameWin::StaticClass(), GetUIPath(TEXT("/GameEnd"),TEXT("UIGameWin_BP"))},
-		{UUIGameLose::StaticClass(), GetUIPath(TEXT("/GameEnd"),TEXT("UIGamLose_BP"))},
-		{UUIInteraction::StaticClass(), GetUIPath(TEXT("/Interaction"),TEXT("UIInteraction_BP"))},
-		{UUIGameMenu::StaticClass(), GetUIPath(TEXT("/GameMenu"),TEXT("UIGameMenu_BP"))},
+		{UUIMessageBox::StaticClass(), GetUIPath(TEXT("W_UIMessageBox"))},
+		{UUIStart::StaticClass(), GetUIPath(TEXT("W_UIStart"))},
+		{UUIGameSettingScreen::StaticClass(), GetUIPath(TEXT("W_UIGameSettingScreen"))},
+		{UUIPlayerHUD::StaticClass(), GetUIPath(TEXT("W_UIPlayerHUD"))},
+		{UUIGameWin::StaticClass(), GetUIPath(TEXT("W_UIGameWin"),TEXT("/GameEnd"))},
+		{UUIGameLose::StaticClass(), GetUIPath(TEXT("W_UIGamLose"),TEXT("/GameEnd"))},
+		{UUIInteraction::StaticClass(), GetUIPath(TEXT("W_UIInteraction"),TEXT("/Interaction"))},
+		{UUIGameMenu::StaticClass(), GetUIPath(TEXT("W_UIGameMenu"),TEXT("/GameMenu"))},
 
 	};
 	isInit = true;
 }
 
 
-UUserWidget* UUIMgr::ShowUIBP(TSubclassOf<UUserWidget> uiType)
+UUserWidget* UUIMgr::ShowUIBP(TSubclassOf<UUserWidget> uiType, bool bHideLast, bool ForceShow)
 {
-	if (isInit == false)
-	{
-		Init();
-	}
 	UUserWidget* uiBase = nullptr;
 	UClass* U_TClassType = uiType.Get();
 	FString name = U_TClassType->GetName();
 	FString str = FString::Printf(TEXT("showui uiType is  %s "), *name);
 	XuPRINT(str);
 
-	if (!UIPathMap.Contains(U_TClassType))
-	{
-		XuPRINT(TEXT("uipathMap key not cunzai"));
-	}
+	ensureMsgf(UIPathMap.Contains(U_TClassType), TEXT("uipathMap key not cunzai"));
+
 	UClass* uiclass = LoadClass<UUserWidget>(nullptr, *UIPathMap[U_TClassType]);
-	check(uiclass);
+	ensureMsgf(uiclass, TEXT("UIclass is NUll"));
+
 	uiBase = CreateWidget<UUserWidget>(GetWorld(), uiclass);
+
+	if (!uiBase)
+	{
+		XuPRINT("UIBase is NUll");
+	}
 	check(uiBase);
 	uiActiveList.Add(uiBase);
 
 	uiActiveDic.Add(U_TClassType, uiBase);
-	if (IUIBaseInterface* iui_base_interface = Cast<IUIBaseInterface>(uiBase))
+	if (UUIBase* iui_base_interface = Cast<UUIBase>(uiBase))
 	{
-		if (iui_base_interface->GetUIType_Implementation() == EUIType::Stack)
+		if (iui_base_interface->GetUIType() == EUIType::Stack)
 		{
-			if (UIStackList.Num() > 0)
+			if (UIStackList.Num() > 0 && bHideLast)
 			{
 				UIStackList[UIStackList.Num() - 1]->RemoveFromParent();
 			}
 			UIStackList.Add(uiBase);
+			UXuBPFuncLib::GetEventManager(this)->BroadcastEvent(EXuEventType::OnUpdateStackUI);
 		}
-		int32 layer = static_cast<int32>(iui_base_interface->GetUILayer_Implementation());
+		int32 layer = static_cast<int32>(iui_base_interface->GetUILayer());
 
 		uiBase->AddToViewport(layer);
 
+		// if (IUITopInterface* iui_top_interface = Cast<IUITopInterface>(uiBase))
+		// {
+		// 	if (UUITop* ui_top = GetUI<UUITop>())
+		// 	{
+		// 		ui_top->btnBack->OnClicked.RemoveAll(ui_top);
+		// 		//绑定接口iui_top_interface的OnClickTopBackBtn方法
+		// 		ui_top->btnBack->OnClicked.AddDynamic(iui_top_interface, &IUITopInterface::OnClickTopBackBtn);
+		// 	}
+		// }
 		return uiBase;
 	}
 	return nullptr;
@@ -80,7 +90,7 @@ UUserWidget* UUIMgr::ShowUIBP(TSubclassOf<UUserWidget> uiType)
 
 UUserWidget* UUIMgr::GetUIBP(TSubclassOf<UUserWidget> uiType)
 {
-	UClass* U_TClassType  = uiType.Get();
+	UClass* U_TClassType = uiType.Get();
 	if (!uiActiveDic.Contains(U_TClassType))
 	{
 		return nullptr;
@@ -98,23 +108,43 @@ void UUIMgr::HideUIBP(TSubclassOf<UUserWidget> uiType)
 	}
 
 	UUserWidget* uIBase = uiActiveDic[U_TClassType];
-
-	if (IUIBaseInterface* iui_base_interface = Cast<IUIBaseInterface>(uIBase))
+	uIBase->RemoveFromParent();
+	UUIBase* iui_base_interface = Cast<UUIBase>(uIBase);
+	if (!iui_base_interface)
 	{
-		if (iui_base_interface->GetUIType_Implementation() == EUIType::Stack)
+		return;
+	}
+
+	if (iui_base_interface->GetUIType() == EUIType::Stack)
+	{
+		if (UIStackList.Num() <= 0)
+		{
+			return;
+		}
+
+		if (UIStackList[UIStackList.Num() - 1] == uIBase)
 		{
 			UIStackList.Remove(uIBase);
-			if (UIStackList.Num() > 0)
-			{
-				UUserWidget* NewUiBase = UIStackList[UIStackList.Num() - 1];
-				int32 layer = static_cast<int32>(Cast<IUIBaseInterface>(NewUiBase)->GetUILayer_Implementation());
-				NewUiBase->AddToViewport(layer);
-			}
+			UUserWidget* NewUiBase = UIStackList[UIStackList.Num() - 1];
+			int32 layer = static_cast<int32>(Cast<UUIBase>(NewUiBase)->GetUILayer());
+			NewUiBase->AddToViewport(layer);
+		}
+		else
+		{
+			UIStackList.Remove(uIBase);
 		}
 	}
 	uiActiveDic.Remove(U_TClassType);
 	uiActiveList.Remove(uIBase);
-	uIBase->RemoveFromParent();
+	UXuBPFuncLib::GetEventManager(this)->BroadcastEvent(EXuEventType::OnUpdateStackUI);
+	// if (IUITopInterface* iui_top_interface = Cast<IUITopInterface>(uIBase))
+	// {
+	// 	if (UUITop* ui_top = GetUI<UUITop>())
+	// 	{
+	// 		ui_top->btnBack->OnClicked.RemoveAll(this);
+	// 		ui_top->btnBack->OnClicked.AddDynamic(ui_top, &UUITop::OnclickBackBtn);
+	// 	}
+	// }
 }
 
 
@@ -132,9 +162,8 @@ int UUIMgr::GetStackUINum()
 	return UIStackList.Num();
 }
 
-FString UUIMgr::GetUIPath(FString dir, FString uiName)
+FString UUIMgr::GetUIPath(FString uiName, FString dir)
 {
-	FString uiPath=FString::Format(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/BP/UI/UIBaseInterface{0}/{1}.{1}_C'"), {dir,uiName});
+	FString uiPath = FString::Format(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/XuAsset/UI/UIBase{0}/{1}.{1}_C'"), {dir, uiName});
 	return uiPath;
 }
-

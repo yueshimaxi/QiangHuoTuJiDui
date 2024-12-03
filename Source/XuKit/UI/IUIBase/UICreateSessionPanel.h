@@ -7,19 +7,19 @@
 #include "Components/Button.h"
 #include "Components/CheckBox.h"
 #include "Components/EditableTextBox.h"
-#include "XuKit/UI/UIBaseInterface.h"
+#include "XuKit/UI/UIBase.h"
 #include "UICreateSessionPanel.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class XUKIT_API UUICreateSessionPanel :public UCommonUserWidget, public IUIBaseInterface
+class XUKIT_API UUICreateSessionPanel :public UUIBase
 {
 	GENERATED_BODY()
 public:
-	virtual EUILayer GetUILayer_Implementation() const override;
-	virtual EUIType GetUIType_Implementation() const override;
+	virtual EUILayer GetUILayer() const override;
+	virtual EUIType GetUIType() const override;
 public:
 	virtual void NativeOnInitialized() override;
 
