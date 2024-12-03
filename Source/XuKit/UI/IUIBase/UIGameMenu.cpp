@@ -3,6 +3,10 @@
 
 #include "UIGameMenu.h"
 
+#include "UIGameSettingScreen.h"
+#include "XuKit/XuBPFuncLib.h"
+#include "XuKit/UI/UIMgr.h"
+
 EUILayer UUIGameMenu::GetUILayer() const
 {
 	return EUILayer::Low;
@@ -16,14 +20,28 @@ EUIType UUIGameMenu::GetUIType() const
 void UUIGameMenu::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
+	btn_exit->OnClicked().AddUObject(this,&UUIGameMenu::OnClickBtnExit);
+	btn_setting->OnClicked().AddUObject(this,&UUIGameMenu::OnClickBtnSetting);
+	btn_cancel->OnClicked().AddUObject(this,&UUIGameMenu::OnClickBtnCancel);
 }
 
-void UUIGameMenu::NativeConstruct()
+void UUIGameMenu::OnShowed()
 {
-	Super::NativeConstruct();
+	Super::OnShowed();
+	
 }
 
-void UUIGameMenu::NativeDestruct()
+void UUIGameMenu::OnClickBtnExit()
 {
-	Super::NativeDestruct();
 }
+
+void UUIGameMenu::OnClickBtnSetting()
+{
+	UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIGameSettingScreen>();
+}
+
+void UUIGameMenu::OnClickBtnCancel()
+{
+	UXuBPFuncLib::GetUIManager(this)->HideUI<UUIGameMenu>();
+}
+
