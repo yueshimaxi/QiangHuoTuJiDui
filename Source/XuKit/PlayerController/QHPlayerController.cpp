@@ -18,6 +18,7 @@
 #include "XuKit/UI/UIMgr.h"
 #include "XuKit/UI/IUIBase/UIGameLose.h"
 #include "XuKit/UI/IUIBase/UIGameMenu.h"
+#include "XuKit/UI/IUIBase/UIGameOverridePanel.h"
 #include "XuKit/UI/IUIBase/UIGameSettingScreen.h"
 #include "XuKit/UI/IUIBase/UIGameWin.h"
 
@@ -39,6 +40,7 @@ void AQHPlayerController::BeginPlay()
 }
 
 
+
 void AQHPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -48,6 +50,7 @@ void AQHPlayerController::SetupInputComponent()
 	UQHEnhancedInputComponent* input_component = CastChecked<UQHEnhancedInputComponent>(InputComponent);
 	input_component->BindAction(input_action_move, ETriggerEvent::Triggered, this, &AQHPlayerController::OnMove);
 	input_component->BindAction(ic_ESC, ETriggerEvent::Completed, this, &AQHPlayerController::OnESC);
+	input_component->BindAction(ic_Tab, ETriggerEvent::Completed, this, &AQHPlayerController::OnTab);
 	//input_component->BindActions(inputConfigDataAsset, this, &AQHPlayerController::OnAbliityInputTagPressed, &AQHPlayerController::OnAbliityInputTagHeld, &AQHPlayerController::OnAbliityInputTagReleased);
 }
 
@@ -170,5 +173,17 @@ void AQHPlayerController::OnESC()
 	else
 	{
 		UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIGameMenu>();
+	}
+}
+
+void AQHPlayerController::OnTab()
+{
+	if (UXuBPFuncLib::GetUIManager(this)->GetUI<UUIGameOverridePanel>())
+	{
+		UXuBPFuncLib::GetUIManager(this)->HideUI<UUIGameOverridePanel>();
+	}
+	else
+	{
+		UXuBPFuncLib::GetUIManager(this)->ShowUI<UUIGameOverridePanel>();
 	}
 }

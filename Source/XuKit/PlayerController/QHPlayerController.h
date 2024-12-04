@@ -37,6 +37,8 @@ private:
 	TObjectPtr<UInputAction> input_action_move;
 	UPROPERTY(EditAnywhere, Category="Input")
 	TObjectPtr<UInputAction> ic_ESC;
+	UPROPERTY(EditAnywhere, Category="Input")
+	TObjectPtr<UInputAction> ic_Tab;
 
 
 
@@ -82,6 +84,7 @@ public:
 	void GameWin();
 
 	void OnESC();
+	void OnTab();
 
 };
 

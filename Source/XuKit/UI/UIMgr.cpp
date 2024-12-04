@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "IUIBase/UIGameLose.h"
 #include "IUIBase/UIGameMenu.h"
+#include "IUIBase/UIGameOverridePanel.h"
 #include "IUIBase/UIGameSettingScreen.h"
 #include "IUIBase/UIGameWin.h"
 #include "IUIBase/UIInteraction.h"
@@ -30,6 +31,7 @@ void UUIMgr::Init()
 		{UUIGameLose::StaticClass(), GetUIPath(TEXT("W_UIGamLose"),TEXT("/GameEnd"))},
 		{UUIInteraction::StaticClass(), GetUIPath(TEXT("W_UIInteraction"),TEXT("/Interaction"))},
 		{UUIGameMenu::StaticClass(), GetUIPath(TEXT("W_UIGameMenu"),TEXT("/GameMenu"))},
+		{UUIGameOverridePanel::StaticClass(), GetUIPath(TEXT("W_UIGameOverridePanel"),TEXT("/GameOverridePanel"))},
 
 	};
 	isInit = true;
