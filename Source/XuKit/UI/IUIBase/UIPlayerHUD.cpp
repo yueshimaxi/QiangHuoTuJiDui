@@ -113,8 +113,8 @@ void UUIPlayerHUD::OnFreshHUDEvent(UEventData* event_data)
 		AProjectionWeapon* weapon = icombatInterface->Execute_get_cur_projection_weapon(widget_controller_params.qh_PlayerController->GetPawn());
 		if (weapon)
 		{
-			int allBackpackAmmo = widget_controller_params.qh_PlayerState->GetAmmoNum(weapon->weapon_info.Ammo_type);
-			SetHUDAmmo(weapon->Ammo, allBackpackAmmo, weapon->weapon_info);
+			int allBackpackAmmo = weapon->GetCurReserveAmmo();
+			SetHUDAmmo(weapon->GetPrimaryClipAmmo(), allBackpackAmmo, weapon->weapon_info);
 		}
 		curMaxHealth = widget_controller_params.qh_AttributeSet->GetMaxHealth();
 		curHealth = widget_controller_params.qh_AttributeSet->GetHealth();

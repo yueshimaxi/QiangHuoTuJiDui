@@ -3,11 +3,11 @@
 
 #include "WeaponInfoDataAsset.h"
 
-FWeaponInfo UWeaponInfoDataAsset::GetWeaponInfo(EProjectileWeaponType weapon_type)
+FWeaponInfo UWeaponInfoDataAsset::GetWeaponInfo(FGameplayTag weapontag)
 {
 	for (FWeaponInfo weapon_info : weapon_info_array)
 	{
-		if (weapon_info.weapon_type == weapon_type)
+		if (weapon_info.WeaponTag .MatchesTagExact(weapontag))
 		{
 			return weapon_info;
 		}

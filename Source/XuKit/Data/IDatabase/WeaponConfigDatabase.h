@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UObject/NoExportTypes.h"
 #include "XuKit/Data/XuDataBase.h"
 #include "WeaponConfigDatabase.generated.h"
 
-enum class EProjectileWeaponType:uint8;
 struct FWeaponInfo;
 class UWeaponInfoDataAsset;
 /**
@@ -29,5 +29,5 @@ public:
 	UWeaponInfoDataAsset* weaponInfoDataAsset;
 
 	UFUNCTION()
-	FWeaponInfo GetWeaponInfo(EProjectileWeaponType weapon_Type);
+	FWeaponInfo GetWeaponInfo(FGameplayTag weaponTag);
 };

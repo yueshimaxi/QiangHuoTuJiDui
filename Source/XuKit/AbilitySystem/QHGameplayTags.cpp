@@ -38,4 +38,11 @@ void QHGameplayTags::InitGameplayTags()
 	gameplayTags.Montage_Attack2Tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack2"),TEXT("Montage Attack2"));
 	gameplayTags.Montage_Attack3Tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack3"),TEXT("Montage Attack3"));
 	gameplayTags.Montage_Attack4Tag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Montage.Attack4"),TEXT("Montage Attack4"));
+
+	gameplayTags.Weapon_Projectile_Pistol = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Projectile.Pistol"),TEXT("Weapon Projectile Pistol"));
+	gameplayTags.Weapon_Projectile_Rifle = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Projectile.Rifle"),TEXT("Weapon Projectile Rifle"));
+	gameplayTags.Weapon_Explode_Shotgun = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Explode.Shotgun"),TEXT("Weapon Explode Shotgun"));
+	gameplayTags.Weapon_Explode_Rocket = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Explode.Sniper"),TEXT("Weapon Explode Sniper"));
+	gameplayTags.Weapon_Plasma_LaserGun = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Plasma.LaserGun"),TEXT("Weapon Plasma LaserGun"));
+	gameplayTags.Weapon_Hero_BlackGatling = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Hero.Grenade"),TEXT("Weapon Hero Grenade"));
 }

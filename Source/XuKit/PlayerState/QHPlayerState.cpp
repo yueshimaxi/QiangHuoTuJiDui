@@ -7,6 +7,7 @@
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
+#include "XuKit/AbilitySystem/QHGameplayTags.h"
 #include "XuKit/AbilitySystem/Data/WeaponInfoDataAsset.h"
 #include "XuKit/Event/EventDataDefine.h"
 
@@ -18,8 +19,6 @@ AQHPlayerState::AQHPlayerState()
 	qh_ability_system_component->SetIsReplicated(true);
 	qh_ability_system_component->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 	qh_attribute_set = CreateDefaultSubobject<UQHAttributeSet>(TEXT("qh_attributeSet"));
-	AddAmmoNum(EAmmoType::EAmmoType_Pistol, 30);
-	AddAmmoNum(EAmmoType::EAmmoType_AssaultRifle, 100);
 
 	bReplicates = true;
 }
@@ -41,52 +40,6 @@ UAttributeSet* AQHPlayerState::GetAttributeSet()
 
 
 
-void AQHPlayerState::SpendAmmo(EAmmoType ammo_type)
-{
-	if (ammo_map.Contains(ammo_type))
-	{
-		int ammoNum = ammo_map[ammo_type];
-		if (ammoNum > 0)
-		{
-			ammoNum -= 1;
-		}
-		else
-		{
-			//todo: show no ammo
-		}
-	}
-	else
-	{
-		ammo_map.Add(ammo_type, 0);
-		//todo: show no ammo
-	}
-}
-
-int AQHPlayerState::GetAmmoNum(EAmmoType ammo_type)
-{
-	if (ammo_map.Contains(ammo_type))
-	{
-		return ammo_map[ammo_type];
-	}
-	else
-	{
-		ammo_map.Add(ammo_type, 0);
-		return 0;
-	}
-}
-
-void AQHPlayerState::AddAmmoNum(EAmmoType ammo_type, int num)
-{
-	if (ammo_map.Contains(ammo_type))
-	{
-		//最小为0
-		ammo_map[ammo_type] = FMath::Max(ammo_map[ammo_type] + num, 0);
-	}
-	else
-	{
-		ammo_map.Add(ammo_type, num);
-	}
-}
 
 
 void AQHPlayerState::SetXP(int xp)

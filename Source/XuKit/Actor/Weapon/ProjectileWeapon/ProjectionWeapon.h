@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -14,6 +14,8 @@ class AProjectile;
 /**
  * 
  */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FWeaponAmmoChangedDelegate, int32, OldValue, int32, NewValue);
+
 UCLASS()
 class XUKIT_API AProjectionWeapon : public AWeapon
 {
@@ -44,34 +46,60 @@ public:
 	//弹壳生成位置
 	FVector GetCasingSpawnLocation();
 
-	UPROPERTY(EditAnywhere, Category="AInitInfo", ReplicatedUsing=OnRep_Ammo)
-	int Ammo = 30;
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, ReplicatedUsing = OnRep_PrimaryClipAmmo, Category = "AInitInfo")
+	int32 PrimaryClipAmmo;
 
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, ReplicatedUsing = OnRep_MaxPrimaryClipAmmo, Category = "AInitInfo")
+	int32 MaxPrimaryClipAmmo;
 
-	void Fire();
-
-
-	void SpendAmmo();
 
 	UFUNCTION()
-	void OnRep_Ammo();
+	virtual void OnRep_PrimaryClipAmmo(int32 OldPrimaryClipAmmo);
 
+	UFUNCTION()
+	virtual void OnRep_MaxPrimaryClipAmmo(int32 OldMaxPrimaryClipAmmo);
+
+
+	
+	UFUNCTION(BlueprintCallable, Category = "AInitInfo")
+	virtual int32 GetPrimaryClipAmmo() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AInitInfo")
+	virtual int32 GetMaxPrimaryClipAmmo() const;
+
+
+	UFUNCTION(BlueprintCallable, Category = "AInitInfo")
+	virtual void SetPrimaryClipAmmo(int32 NewPrimaryClipAmmo);
+
+	UFUNCTION(BlueprintCallable, Category = "AInitInfo")
+	virtual void SetMaxPrimaryClipAmmo(int32 NewMaxPrimaryClipAmmo);
+
+
+	
+	UPROPERTY(BlueprintAssignable, Category = "AInitInfo")
+	FWeaponAmmoChangedDelegate OnPrimaryClipAmmoChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "AInitInfo")
+	FWeaponAmmoChangedDelegate OnMaxPrimaryClipAmmoChanged;
+	
 	void SetHUDAmmo();
-
-	bool isEmptyAmmo();
-
 
 	//换弹夹
 	void ReloadAmmo();
 
-	int GetCurAmmo();
-
-	UPROPERTY(EditAnywhere, Category="AInitInfo")
-	EProjectileWeaponType weaponType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AInitInfo")
-	FWeaponInfo weapon_info;
 
 	bool bInitData = false;
 	void InitData();
+
+	
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "AInitInfo")
+	FGameplayTag WeaponTag;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AInitInfo")
+	FWeaponInfo weapon_info;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AInitInfo")
+	TSubclassOf<UGameplayEffect> GE_ReloadAmmo;
+
+	int GetCurReserveAmmo();
 };

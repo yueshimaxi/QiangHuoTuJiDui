@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/PlayerState.h"
 #include "QHPlayerState.generated.h"
 
 class ULevelUpInfoDataAsset;
-enum class EAmmoType:uint8;
 class UQHAttributeSet;
 class UQHAbilitySystemComponent;
 class UAttributeSet;
@@ -46,14 +46,6 @@ public:
 
 	
 	
-	UPROPERTY()
-	TMap<EAmmoType, int> ammo_map;
-
-	void SpendAmmo(EAmmoType ammo_type);
-
-	int GetAmmoNum(EAmmoType ammo_type);
-
-	void AddAmmoNum(EAmmoType ammo_type, int num);
 
 
 	FPlayerStateChangeDelegate on_xp_change_delegate;

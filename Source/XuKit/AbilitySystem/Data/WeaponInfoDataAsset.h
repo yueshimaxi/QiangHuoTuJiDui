@@ -7,26 +7,6 @@
 #include "XuKit/Actor/Weapon/Weapon.h"
 #include "WeaponInfoDataAsset.generated.h"
 
-UENUM()
-enum class EProjectileWeaponType:uint8
-{
-	pistol,
-	AssaultRifle,
-	shotGun,
-	SMG,
-	Rocket,
-};
-
-UENUM(Blueprintable, BlueprintType)
-enum class EAmmoType:uint8
-{
-	EAmmoType_Pistol,        // 手枪弹药
-	EAmmoType_AssaultRifle,  // 突击步枪弹药
-	EAmmoType_ShotGun,       // 霰弹枪弹药
-	EAmmoType_Rocket,        // 火箭弹药
-	EAmmoType_LaserGun,      // 激光枪弹药
-};
-
 
 USTRUCT(Blueprintable, BlueprintType)
 struct FWeaponInfo
@@ -34,7 +14,9 @@ struct FWeaponInfo
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EProjectileWeaponType weapon_type;
+	FGameplayTag WeaponTag;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FGameplayTag WeaponAmmoTag;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<AWeapon> weapon_class;
@@ -54,8 +36,6 @@ struct FWeaponInfo
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int weapon_clip_size;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	EAmmoType Ammo_type;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTexture2D* weapon_icon;
@@ -74,5 +54,5 @@ public:
 	TArray<FWeaponInfo> weapon_info_array;
 
 	UFUNCTION()
-	FWeaponInfo GetWeaponInfo(EProjectileWeaponType weapon_type);
+	FWeaponInfo GetWeaponInfo(FGameplayTag weapontag);
 };

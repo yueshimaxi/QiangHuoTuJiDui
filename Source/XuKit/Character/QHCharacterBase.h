@@ -6,6 +6,7 @@
 #include "AbilitySystemInterface.h"
 #include "NiagaraSystem.h"
 #include "GameFramework/Character.h"
+#include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/Interface/CombatInterface.h"
 #include "QHCharacterBase.generated.h"
 
@@ -46,7 +47,7 @@ public:
 	TObjectPtr<UAbilitySystemComponent> qh_ability_system_component;
 
 	UPROPERTY(EditAnywhere)
-	TObjectPtr<UAttributeSet> qh_attribute_set;
+	TObjectPtr<UQHAttributeSet> qh_attribute_set;
 
 	UPROPERTY(EditAnywhere, Category = "AInitInfo")
 	TArray<TSubclassOf<UQHGameplayAbility>> DefaultAbilities;

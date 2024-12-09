@@ -63,6 +63,15 @@ public:
 	FGameplayTag Montage_Attack3Tag;
 	FGameplayTag Montage_Attack4Tag;
 
+	FGameplayTag Weapon_Projectile_Rifle;
+	FGameplayTag Weapon_Projectile_Pistol;
+	FGameplayTag Weapon_Explode_Shotgun;
+	FGameplayTag Weapon_Explode_Rocket;
+	FGameplayTag Weapon_Plasma_LaserGun;
+	FGameplayTag Weapon_Hero_BlackGatling;
+
+	
+
 	
 private:
 	static QHGameplayTags gameplayTags;

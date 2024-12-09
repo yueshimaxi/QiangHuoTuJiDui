@@ -17,6 +17,7 @@
 
 UQHAttributeSet::UQHAttributeSet()
 {
+
 }
 
 void UQHAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -30,6 +31,8 @@ void UQHAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutL
 	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, MaxPisalReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, RifleReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, MaxRifleReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, ShotgunReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UQHAttributeSet, MaxShotgunReserveAmmo, ELifetimeCondition::COND_None, ELifetimeRepNotifyCondition::REPNOTIFY_Always);
 	
 }
 
@@ -200,8 +203,54 @@ void UQHAttributeSet::OnRep_MaxRifleReserveAmmo(const FGameplayAttributeData& ol
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, MaxRifleReserveAmmo, oldData);
 }
 
+void UQHAttributeSet::OnRep_ShotgunReserveAmmo(const FGameplayAttributeData& oldData) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, ShotgunReserveAmmo, oldData);
+}
+
+void UQHAttributeSet::OnRep_MaxShotgunReserveAmmo(const FGameplayAttributeData& oldData) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, MaxShotgunReserveAmmo, oldData);
+}
+
 void UQHAttributeSet::OnRep_Gold(const FGameplayAttributeData& oldData) const
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UQHAttributeSet, Gold, oldData);
+}
+
+FGameplayAttribute UQHAttributeSet::GetReserveAmmoAttributeFromTag(FGameplayTag& PrimaryAmmoTag)
+{
+	if (PrimaryAmmoTag.MatchesTagExact(QHGameplayTags::Get().Weapon_Projectile_Rifle))
+	{
+		return GetRifleReserveAmmoAttribute();
+	}
+	else if (PrimaryAmmoTag.MatchesTagExact(QHGameplayTags::Get().Weapon_Projectile_Pistol))
+	{
+		return GetPisalReserveAmmoAttribute();
+	}
+	else if (PrimaryAmmoTag.MatchesTagExact(QHGameplayTags::Get().Weapon_Explode_Shotgun))
+	{
+		return GetShotgunReserveAmmoAttribute();
+	}
+	
+
+	return FGameplayAttribute();
+}
+
+FGameplayAttribute UQHAttributeSet::GetMaxReserveAmmoAttributeFromTag(FGameplayTag& PrimaryAmmoTag)
+{
+	if (PrimaryAmmoTag.MatchesTagExact(QHGameplayTags::Get().Weapon_Projectile_Rifle))
+	{
+		return GetMaxRifleReserveAmmoAttribute();
+	}
+	else if (PrimaryAmmoTag.MatchesTagExact(QHGameplayTags::Get().Weapon_Projectile_Pistol))
+	{
+		return GetMaxPisalReserveAmmoAttribute();
+	}
+	else if (PrimaryAmmoTag.MatchesTagExact(QHGameplayTags::Get().Weapon_Explode_Shotgun))
+	{
+		return GetMaxShotgunReserveAmmoAttribute();
+	}
+	return FGameplayAttribute();
 }
 

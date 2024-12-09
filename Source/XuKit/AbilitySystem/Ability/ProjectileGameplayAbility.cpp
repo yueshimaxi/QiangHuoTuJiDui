@@ -76,7 +76,6 @@ void UProjectileGameplayAbility::SpawnProjectile(FVector targetLocation, FGamepl
 		GetWorld()->SpawnActor<ACasing>(projection_weapon->casingClass, casing_transform);
 	}
 
-	projection_weapon->Fire();
 }
 
 void UProjectileGameplayAbility::SpawnShotGunProjectile(FVector targetLocation, FGameplayTag socketTag, int num,int angleValue)

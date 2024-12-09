@@ -35,7 +35,7 @@ void UWeaponConfigDatabase::ClearData()
 	Super::ClearData();
 }
 
-FWeaponInfo UWeaponConfigDatabase::GetWeaponInfo(EProjectileWeaponType weapon_Type)
+FWeaponInfo UWeaponConfigDatabase::GetWeaponInfo(FGameplayTag weaponTag)
 {
-	return weaponInfoDataAsset->GetWeaponInfo(weapon_Type);
+	return weaponInfoDataAsset->GetWeaponInfo(weaponTag);
 }

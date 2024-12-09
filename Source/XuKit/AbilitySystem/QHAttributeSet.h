@@ -98,16 +98,16 @@ public:
 	// FGameplayAttributeData MaxRocketReserveAmmo;
 	// ATTRIBUTE_ACCESSORS(UQHAttributeSet, MaxRocketReserveAmmo)
 	//
-	//
-	// UPROPERTY(BlueprintReadOnly, Category = "Ammo", ReplicatedUsing = OnRep_ShotgunReserveAmmo)
-	// FGameplayAttributeData ShotgunReserveAmmo;
-	// ATTRIBUTE_ACCESSORS(UQHAttributeSet, ShotgunReserveAmmo)
-	//
-	//
-	//
-	// UPROPERTY(BlueprintReadOnly, Category = "Ammo", ReplicatedUsing = OnRep_MaxShotgunReserveAmmo)
-	// FGameplayAttributeData MaxShotgunReserveAmmo;
-	// ATTRIBUTE_ACCESSORS(UQHAttributeSet, MaxShotgunReserveAmmo)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Ammo", ReplicatedUsing = OnRep_ShotgunReserveAmmo)
+	FGameplayAttributeData ShotgunReserveAmmo;
+	ATTRIBUTE_ACCESSORS(UQHAttributeSet, ShotgunReserveAmmo)
+	
+	
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Ammo", ReplicatedUsing = OnRep_MaxShotgunReserveAmmo)
+	FGameplayAttributeData MaxShotgunReserveAmmo;
+	ATTRIBUTE_ACCESSORS(UQHAttributeSet, MaxShotgunReserveAmmo)
 	
 
 
@@ -141,11 +141,17 @@ public:
 	// UFUNCTION()
 	// void OnRep_RocketReserveAmmo(const FGameplayAttributeData& oldData) const;
 	// UFUNCTION()
-	// void OnRep_MaxRocketReserveAmmo(const FGameplayAttributeData& oldData) const;
-	// UFUNCTION()
-	// void OnRep_ShotgunReserveAmmo(const FGameplayAttributeData& oldData) const;
-	// UFUNCTION()
-	// void OnRep_MaxShotgunReserveAmmo(const FGameplayAttributeData& oldData) const;
+	//void OnRep_MaxRocketReserveAmmo(const FGameplayAttributeData& oldData) const;
+	UFUNCTION()
+	void OnRep_ShotgunReserveAmmo(const FGameplayAttributeData& oldData) const;
+	UFUNCTION()
+	void OnRep_MaxShotgunReserveAmmo(const FGameplayAttributeData& oldData) const;
 	UFUNCTION()
 	void OnRep_Gold(const FGameplayAttributeData& oldData) const;
+
+
+	//通过gameplaytag获取对应的属性
+	static FGameplayAttribute GetReserveAmmoAttributeFromTag(FGameplayTag& PrimaryAmmoTag);
+
+	static FGameplayAttribute GetMaxReserveAmmoAttributeFromTag(FGameplayTag& PrimaryAmmoTag);
 };
