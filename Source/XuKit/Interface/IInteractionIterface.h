@@ -13,6 +13,7 @@ enum EInteractionType :uint8
 	Weapon,
 	Door,
 	Prop,//道具
+	Ammo
 };
 // This class does not need to be modified.
 UINTERFACE()

@@ -9,12 +9,11 @@
 struct QHGameplayTags
 {
 public:
-
 	QHGameplayTags()
 	{
 		InitGameplayTags();
 	}
-	
+
 	static QHGameplayTags& Get() { return gameplayTags; };
 
 	void InitGameplayTags();
@@ -23,9 +22,9 @@ public:
 	FGameplayTag MaxHealthTag;
 
 	//input tags
-	FGameplayTag  InputTag_MouseLeftTag;
-	FGameplayTag  InputTag_MouseRightTag;
-	FGameplayTag  InputTag_key_R_tag;
+	FGameplayTag InputTag_MouseLeftTag;
+	FGameplayTag InputTag_MouseRightTag;
+	FGameplayTag InputTag_key_R_tag;
 
 	//ability tags
 	FGameplayTag DamageTag;
@@ -45,10 +44,9 @@ public:
 
 	//meta data tags
 	FGameplayTag Attributes_Meta_IncomingXPTag;
-	
+
 	FGameplayTag HitReactTag;
 
-	
 
 	//cooldown tags
 	FGameplayTag Cooldown_FireTag;
@@ -70,9 +68,9 @@ public:
 	FGameplayTag Weapon_Plasma_LaserGun;
 	FGameplayTag Weapon_Hero_BlackGatling;
 
-	
+	static TArray<FGameplayTag> GetTagsWithPrefix(FGameplayTag Prefix);
 
-	
 private:
 	static QHGameplayTags gameplayTags;
+
 };

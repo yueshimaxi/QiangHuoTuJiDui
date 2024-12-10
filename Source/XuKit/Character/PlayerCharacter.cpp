@@ -19,6 +19,7 @@
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
 #include "XuKit/AbilitySystem/QHGameplayTags.h"
 #include "XuKit/AbilitySystem/Data/LevelUpInfoDataAsset.h"
+#include "..\Actor\AmmoBag\AmmoBag.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/Event/EventDataDefine.h"
@@ -261,6 +262,12 @@ void APlayerCharacter::Interact_Implementation()
 	case Door:
 		break;
 	case Prop:
+		break;
+	case Ammo:
+		if (AAmmoBag* ammo_bag = Cast<AAmmoBag>(cur_interaction_actor))
+		{
+			ammo_bag->ReplenishAmmo(this);
+		}
 		break;
 	default: ;
 	}

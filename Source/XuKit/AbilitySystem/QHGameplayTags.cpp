@@ -46,3 +46,14 @@ void QHGameplayTags::InitGameplayTags()
 	gameplayTags.Weapon_Plasma_LaserGun = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Plasma.LaserGun"),TEXT("Weapon Plasma LaserGun"));
 	gameplayTags.Weapon_Hero_BlackGatling = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Hero.Grenade"),TEXT("Weapon Hero Grenade"));
 }
+
+TArray<FGameplayTag> QHGameplayTags::GetTagsWithPrefix(FGameplayTag Prefix)
+{
+	TArray<FGameplayTag> MatchingTags;
+	const UGameplayTagsManager& TagsManager = UGameplayTagsManager::Get();
+
+	FGameplayTagContainer tag_container=TagsManager.RequestGameplayTagChildren(Prefix);
+	tag_container.GetGameplayTagArray(MatchingTags);
+	return MatchingTags;
+}
+
