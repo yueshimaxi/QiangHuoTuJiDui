@@ -3,7 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "Components/TextBlock.h"
+#include "Components/WidgetSwitcher.h"
 #include "XuKit/UI/UIBase.h"
+#include "XuKit/UI/Base/XuTileView.h"
 #include "UIGameOverridePanel.generated.h"
 
 /**
@@ -17,4 +21,25 @@ public:
 	
 	virtual EUILayer GetUILayer() const override;
 	virtual EUIType GetUIType() const override;
+
+	virtual void OnShowed() override;
+	
+	UPROPERTY(meta=(BindWidget))
+	UWidgetSwitcher* WidgetSwitcher_OverrideMenu;
+	
+	UPROPERTY(meta=(BindWidget))
+	UXuTileView* TileView_TopOverrideMenu;
+
+	
+	
+	UPROPERTY(meta=(BindWidget))
+	UXuTileView* TileView_WeaponList;
+
+	UPROPERTY(meta=(BindWidget))
+	UTextBlock* text_WeaponInfo;
+
+	UPROPERTY(EditAnywhere,Category="AInitInfo")
+	TMap<FGameplayTag,UTexture2D*> WeaponIconMap;
+	void InitTopMenu();
+	void InitWeaponPanel();
 };

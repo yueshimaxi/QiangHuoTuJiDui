@@ -52,16 +52,6 @@ protected:
 	//virtual void OnItemScrolledIntoViewInternal(UObject* Item, UUserWidget& EntryWidget) override;
 
 public:
-	UPROPERTY(BlueprintAssignable, Category = Events, meta = (DisplayName = "Xu On Item Is Inited"))
-	FXuBPOnItemInitDynamic BP_Xu_OnItemInited;
-	UPROPERTY(BlueprintAssignable, Category = Events, meta = (DisplayName = "Xu On Item Is Hovered Changed"))
-	FXuBPOnItemIsHoveredChangedDynamic BP_Xu_OnItemIsHoveredChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = Events, meta = (DisplayName = "Xu On Item Selection Changed"))
-	FXuBPOnItemSelectedChangedDynamic BP_Xu_OnItemSelectionChanged;
-
-	UPROPERTY(BlueprintAssignable, Category = Events, meta = (DisplayName = "Xu On Item Clicked"))
-	FXuBPOnItemClickedDynamic BP_Xu_OnItemClicked;
 
 
 	// UPROPERTY(BlueprintAssignable, Category = Events, meta = (DisplayName = "On Item Double Clicked"))
@@ -69,12 +59,11 @@ public:
 
 	FXuOnItemInit Xu_OnItemInited;
 	FXuOnItemIsHoveredChanged Xu_OnItemIsHoveredChanged;
-	FXuOnItemSelectedChanged Xu_OnItemSelectedChanged;
 	FXuOnItemClicked Xu_OnItemClicked;
 
 
 	int xuSelectIndex=0;
 
 	//FXuOnItemInit、FXuOnItemIsHoveredChanged、FXuOnItemSelectedChanged、FXuOnItemClicked
-	void InitScrollView(int num, FXuOnItemInit _OnItemInited = nullptr, FXuOnItemSelectedChanged _OnItemSelectedChanged = nullptr, FXuOnItemIsHoveredChanged _OnItemIsHoveredChanged = nullptr, FXuOnItemClicked _OnItemClicked = nullptr);
+	void InitScrollView(int num, FXuOnItemInit _OnItemInited = nullptr, FXuOnItemIsHoveredChanged _OnItemIsHoveredChanged = nullptr, FXuOnItemClicked _OnItemClicked = nullptr,int selectIndex=0);
 };
