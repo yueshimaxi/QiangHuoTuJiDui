@@ -34,12 +34,26 @@ AWeapon* UCombatComponent::GetCurProjectionWeapon()
 	return CurrentWeapon;
 }
 
+void UCombatComponent::Server_EquipWeapon_Implementation(AWeapon* weapon)
+{
+	Multicast_EquipWeapon(weapon);
+}
+
+void UCombatComponent::Multicast_EquipWeapon_Implementation(AWeapon* weapon)
+{
+	EquipWeapon(weapon);
+}
+
 void UCombatComponent::EquipWeapon(AWeapon* weapon)
 {
+	if (CurrentWeapon&& weapon && CurrentWeapon != weapon )
+	{
+		UnEquipCurrentWeapon();
+	}
 	if (weapon)
 	{
 		CurrentWeapon = weapon;
-		weapon->SetWeaponState(EWeaponState::EWS_Equiped,owner_character);
+		weapon->SetWeaponState(EWeaponState::EWS_Equiped, owner_character);
 	}
 }
 
@@ -47,7 +61,7 @@ void UCombatComponent::UnEquipCurrentWeapon()
 {
 	if (CurrentWeapon)
 	{
-		CurrentWeapon->SetWeaponState(EWeaponState::EWS_Backpack,owner_character);
+		CurrentWeapon->SetWeaponState(EWeaponState::EWS_Backpack, owner_character);
 		CurrentWeapon = nullptr;
 	}
 }
@@ -57,7 +71,7 @@ void UCombatComponent::DropWeapon(AWeapon* weapon)
 {
 	if (weapon)
 	{
-		weapon->SetWeaponState(EWeaponState::EWS_Dropped,nullptr);
+		weapon->SetWeaponState(EWeaponState::EWS_Dropped, nullptr);
 	}
 }
 
@@ -93,7 +107,7 @@ void UCombatComponent::Multicast_SwapWeapon_Implementation(bool forward)
 			}
 		}
 
-		UnEquipCurrentWeapon();
+		
 		EquipWeapon(Inventory.Weapons[currentIndex]);
 	}
 }
@@ -115,7 +129,7 @@ void UCombatComponent::Multicast_AddWeaponToInventory_Implementation(AWeapon* Ne
 
 	if (bEquipWeapon)
 	{
-		UnEquipCurrentWeapon();
+		
 		EquipWeapon(NewWeapon);
 	}
 	else
@@ -123,7 +137,6 @@ void UCombatComponent::Multicast_AddWeaponToInventory_Implementation(AWeapon* Ne
 		NewWeapon->SetWeaponState(EWeaponState::EWS_Backpack, owner_character);
 	}
 	NewWeapon->AddAbilities();
-
 }
 
 void UCombatComponent::RemoveWeaponFromInventory(AWeapon* WeaponToRemove)

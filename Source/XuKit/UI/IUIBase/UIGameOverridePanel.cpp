@@ -58,8 +58,12 @@ void UUIGameOverridePanel::InitWeaponPanel()
 		if (index + 1 > Weapons.Num())
 		{
 			WidgetSwitcher_Enable->SetActiveWidgetIndex(1);
+			item->SetVisibility(ESlateVisibility::HitTestInvisible);
 			return;
 		}
+		
+		item->SetVisibility(ESlateVisibility::Visible);
+	
 		AProjectionWeapon* weapon = Cast<AProjectionWeapon>(Weapons[index]);
 		FWeaponInfo weaponInfo = weapon->weapon_info;
 		WidgetSwitcher_Enable->SetActiveWidgetIndex(0);
@@ -74,6 +78,13 @@ void UUIGameOverridePanel::InitWeaponPanel()
 		if (WeaponIconMap.Contains(weaponInfo.WeaponAmmoTag))
 		{
 			Image_AmmoType->SetBrushFromTexture(WeaponIconMap[weaponInfo.WeaponAmmoTag]);
+		}
+
+		if (isSelected)
+		{
+			text_WeaponName->SetText(FText::FromString(weaponInfo.weapon_name));
+			text_WeaponInfo->SetText(FText::FromString(weaponInfo.weapon_description));
+			player_character->getCombatCom()->Server_EquipWeapon(weapon);
 		}
 	}));
 }

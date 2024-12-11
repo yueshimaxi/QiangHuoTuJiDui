@@ -36,6 +36,9 @@ public:
 	UXuTileView* TileView_WeaponList;
 
 	UPROPERTY(meta=(BindWidget))
+	UTextBlock* text_WeaponName;
+
+	UPROPERTY(meta=(BindWidget))
 	UTextBlock* text_WeaponInfo;
 
 	UPROPERTY(EditAnywhere,Category="AInitInfo")

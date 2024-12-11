@@ -56,6 +56,11 @@ public:
 	AWeapon* GetCurProjectionWeapon();
 
 
+	UFUNCTION(Server, Reliable)
+	void Server_EquipWeapon(AWeapon* weapon);
+	UFUNCTION(NetMulticast, Reliable)
+	void Multicast_EquipWeapon(AWeapon* weapon);
+	
 	void EquipWeapon(AWeapon* weapon);
 
 

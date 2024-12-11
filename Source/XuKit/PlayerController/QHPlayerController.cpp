@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "XuCheatManager.h"
+#include "Framework/Application/NavigationConfig.h"
 #include "Net/UnrealNetwork.h"
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
@@ -37,6 +38,10 @@ void AQHPlayerController::BeginPlay()
 	input_mode_game_and_ui.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	input_mode_game_and_ui.SetHideCursorDuringCapture(false);
 	SetInputMode(input_mode_game_and_ui);
+
+	TSharedRef<FNavigationConfig> navigation = MakeShared<FNavigationConfig>();
+	navigation->bTabNavigation=false;
+	FSlateApplication::Get().SetNavigationConfig(navigation);
 }
 
 
