@@ -208,3 +208,12 @@ bool UCombatComponent::DoesWeaponExistInInventory(AWeapon* InWeapon)
 void UCombatComponent::OnRep_Inventory()
 {
 }
+
+AWeapon* UCombatComponent::GetWeaponByIndex(int index)
+{
+	if (Inventory.Weapons.IsValidIndex(index))
+	{
+		return Inventory.Weapons[index];
+	}
+	return nullptr;
+}

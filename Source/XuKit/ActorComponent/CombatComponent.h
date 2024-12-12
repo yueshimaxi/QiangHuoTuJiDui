@@ -110,4 +110,7 @@ public:
 	FGSHeroInventory Inventory;
 	UFUNCTION()
 	void OnRep_Inventory();
+
+	UFUNCTION(BlueprintCallable)
+	AWeapon*  GetWeaponByIndex(int index);
 };

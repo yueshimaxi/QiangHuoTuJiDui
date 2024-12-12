@@ -30,5 +30,10 @@ enum class EQHAbilityInputID : uint8
 	// 11 Interact
 	Interact			UMETA(DisplayName = "Interact"),
 	// 12 DropWeapon
-	DropWeapon			UMETA(DisplayName = "Drop Weapon")
+	DropWeapon			UMETA(DisplayName = "Drop Weapon"),
+	Equip0Weapon	UMETA(DisplayName = "Equip 0 Weapon"),
+	Equip1Weapon	UMETA(DisplayName = "Equip 1 Weapon"),
+	Equip2Weapon	UMETA(DisplayName = "Equip 2 Weapon"),
+	Equip3Weapon	UMETA(DisplayName = "Equip 3 Weapon"),
+	
 };

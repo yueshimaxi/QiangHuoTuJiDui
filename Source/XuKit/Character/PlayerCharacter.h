@@ -55,6 +55,7 @@ public:
 	virtual void AddToLevel_Implementation(int AddLevel) override;
 	virtual  void Interact_Implementation() override;
 	virtual void DropWeapon_Implementation() override;
+	virtual void EquipWeapon_Implementation(AWeapon* weapon) override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -106,9 +107,9 @@ protected:
 
 
 public:
+	UFUNCTION(BlueprintCallable)
 	UCombatComponent* getCombatCom();
-
-
+	
 
 
 	virtual void InitDefaultAttributesToSelf() override;

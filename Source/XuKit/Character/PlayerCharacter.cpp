@@ -278,6 +278,11 @@ void APlayerCharacter::DropWeapon_Implementation()
 	getCombatCom()->RemoveWeaponFromInventory(Execute_get_cur_projection_weapon(this));
 }
 
+void APlayerCharacter::EquipWeapon_Implementation(AWeapon* weapon)
+{
+	getCombatCom()->Server_EquipWeapon(weapon);
+}
+
 void APlayerCharacter::InitDefaultProjectionWeapon()
 {
 	AProjectionWeapon* projection_weapon = GetWorld()->SpawnActor<AProjectionWeapon>(default_projection_weapon_class);

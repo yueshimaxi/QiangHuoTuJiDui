@@ -52,4 +52,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void DropWeapon();
+
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
+	void EquipWeapon(class AWeapon* weapon);
 };

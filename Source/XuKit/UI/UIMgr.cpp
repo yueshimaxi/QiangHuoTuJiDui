@@ -23,15 +23,15 @@ void UUIMgr::Init()
 	uiActiveDic.Empty();
 	UIStackList.Empty();
 	UIPathMap = {
-		{UUIMessageBox::StaticClass(), GetUIPath(TEXT("W_UIMessageBox"))},
-		{UUIStart::StaticClass(), GetUIPath(TEXT("W_UIStart"))},
-		{UUIGameSettingScreen::StaticClass(), GetUIPath(TEXT("W_UIGameSettingScreen"))},
-		{UUIPlayerHUD::StaticClass(), GetUIPath(TEXT("W_UIPlayerHUD"))},
-		{UUIGameWin::StaticClass(), GetUIPath(TEXT("W_UIGameWin"),TEXT("/GameEnd"))},
-		{UUIGameLose::StaticClass(), GetUIPath(TEXT("W_UIGamLose"),TEXT("/GameEnd"))},
-		{UUIInteraction::StaticClass(), GetUIPath(TEXT("W_UIInteraction"),TEXT("/Interaction"))},
-		{UUIGameMenu::StaticClass(), GetUIPath(TEXT("W_UIGameMenu"),TEXT("/GameMenu"))},
-		{UUIGameOverridePanel::StaticClass(), GetUIPath(TEXT("W_UIGameOverridePanel"),TEXT("/GameOverridePanel"))},
+		{UUIMessageBox::StaticClass(), GetUIPath(TEXT("W_UIMessageBox"),TEXT("UIMessageBox"))},
+		{UUIStart::StaticClass(), GetUIPath(TEXT("W_UIStart"),TEXT("UIStart"))},
+		{UUIGameSettingScreen::StaticClass(), GetUIPath(TEXT("W_UIGameSettingScreen"),TEXT("UIGameSettingScreen"))},
+		{UUIPlayerHUD::StaticClass(), GetUIPath(TEXT("W_UIPlayerHUD"),TEXT("/UIPlayerHUD"))},
+		{UUIGameWin::StaticClass(), GetUIPath(TEXT("W_UIGameWin"),TEXT("/UIGameEnd"))},
+		{UUIGameLose::StaticClass(), GetUIPath(TEXT("W_UIGamLose"),TEXT("/UIGameEnd"))},
+		{UUIInteraction::StaticClass(), GetUIPath(TEXT("W_UIInteraction"),TEXT("/UIInteraction"))},
+		{UUIGameMenu::StaticClass(), GetUIPath(TEXT("W_UIGameMenu"),TEXT("/UIGameMenu"))},
+		{UUIGameOverridePanel::StaticClass(), GetUIPath(TEXT("W_UIGameOverridePanel"),TEXT("/UIGameOverridePanel"))},
 
 	};
 	isInit = true;

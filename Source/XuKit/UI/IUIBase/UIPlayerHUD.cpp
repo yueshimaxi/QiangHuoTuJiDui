@@ -15,7 +15,7 @@
 
 EUILayer UUIPlayerHUD::GetUILayer() const
 {
-	return EUILayer::Bottom;
+	return EUILayer::Low;
 }
 
 EUIType UUIPlayerHUD::GetUIType() const
