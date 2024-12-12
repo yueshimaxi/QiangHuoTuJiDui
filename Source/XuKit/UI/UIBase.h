@@ -75,4 +75,6 @@ public:
 	
 	UFUNCTION()
 	virtual void OnShowed();
+	UFUNCTION()
+	virtual void OnHide();
 };

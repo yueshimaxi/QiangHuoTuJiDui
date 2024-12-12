@@ -42,6 +42,17 @@ void UUIMgr::Init()
 
 UUserWidget* UUIMgr::ShowUIBP(TSubclassOf<UUserWidget> uiType, bool bHideLast, bool ForceShow)
 {
+	if (uiActiveDic.Contains(uiType))
+	{
+		if (ForceShow) //如果强制显示,如果此类已经有了，关闭之前的
+		{
+			HideUIBP(uiType);
+		}else
+		{
+			return nullptr;
+		}
+	}
+
 	UUserWidget* uiBase = nullptr;
 	UClass* U_TClassType = uiType.Get();
 	FString name = U_TClassType->GetName();
@@ -69,6 +80,7 @@ UUserWidget* UUIMgr::ShowUIBP(TSubclassOf<UUserWidget> uiType, bool bHideLast, b
 		{
 			if (UIStackList.Num() > 0 && bHideLast)
 			{
+				Cast<UUIBase>(UIStackList[UIStackList.Num() - 1])->OnHide();
 				UIStackList[UIStackList.Num() - 1]->RemoveFromParent();
 			}
 			UIStackList.Add(uiBase);
@@ -112,13 +124,14 @@ void UUIMgr::HideUIBP(TSubclassOf<UUserWidget> uiType)
 	}
 
 	UUserWidget* uIBase = uiActiveDic[U_TClassType];
+
 	uIBase->RemoveFromParent();
 	UUIBase* iui_base_interface = Cast<UUIBase>(uIBase);
 	if (!iui_base_interface)
 	{
 		return;
 	}
-
+	iui_base_interface->OnHide();
 	if (iui_base_interface->GetUIType() == EUIType::Stack)
 	{
 		if (UIStackList.Num() <= 0)
@@ -129,13 +142,12 @@ void UUIMgr::HideUIBP(TSubclassOf<UUserWidget> uiType)
 		if (UIStackList[UIStackList.Num() - 1] == uIBase)
 		{
 			UIStackList.Remove(uIBase);
-			if (UIStackList.Num()>0)
+			if (UIStackList.Num() > 0)
 			{
 				UUserWidget* NewUiBase = UIStackList[UIStackList.Num() - 1];
 				int32 layer = static_cast<int32>(Cast<UUIBase>(NewUiBase)->GetUILayer());
 				NewUiBase->AddToViewport(layer);
 			}
-			
 		}
 		else
 		{

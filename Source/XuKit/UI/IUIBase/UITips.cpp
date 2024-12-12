@@ -24,6 +24,11 @@ void UUITips::OnShowed()
 	
 }
 
+void UUITips::OnHide()
+{
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+}
+
 void UUITips::SetTipsText(FString tips)
 {
 	Text_Tips->SetText(FText::FromString(tips));

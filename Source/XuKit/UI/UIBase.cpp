@@ -50,4 +50,8 @@ void UUIBase::OnShowed()
 {
 }
 
+void UUIBase::OnHide()
+{
+}
+
 

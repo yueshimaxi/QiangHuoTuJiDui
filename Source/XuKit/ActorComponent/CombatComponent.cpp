@@ -123,7 +123,7 @@ void UCombatComponent::AddWeaponToInventory(AWeapon* NewWeapon, bool bEquipWeapo
 		AProjectionWeapon* NewProjectionWeapon = Cast<AProjectionWeapon>(NewWeapon);
 		if (ProjectionWeapon && NewProjectionWeapon && ProjectionWeapon->weapon_info.WeaponTag == NewProjectionWeapon->weapon_info.WeaponTag)
 		{
-			UUITips* uiTips=UXuBPFuncLib::GetUIManager(this)->ShowUI<UUITips>();
+			UUITips* uiTips=UXuBPFuncLib::GetUIManager(this)->ShowUI<UUITips>(false, true);
 			uiTips->SetTipsText(TEXT("你已经有这类武器了"));
 			return;
 		}

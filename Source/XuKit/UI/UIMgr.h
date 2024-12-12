@@ -45,10 +45,10 @@ public:
 
 
 	template <class T>
-	T* ShowUI(bool bHideLast=true)
+	T* ShowUI(bool bHideLast=true,bool ForceShow=false)
 	{
 		UClass* U_TClassType= T::StaticClass();
-		UUserWidget* uiBase=ShowUIBP(U_TClassType,bHideLast);
+		UUserWidget* uiBase=ShowUIBP(U_TClassType,bHideLast,ForceShow);
 		T* t = Cast<T>(uiBase);
 		return t;
 	}

@@ -22,6 +22,7 @@ private:
 
 public:
 	virtual void OnShowed() override;
+	virtual void OnHide() override;
 
 	UPROPERTY(meta=(BindWidget))
 	UTextBlock* Text_Tips;
