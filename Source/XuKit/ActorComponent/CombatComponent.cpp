@@ -5,6 +5,8 @@
 #include "XuKit/Actor/Weapon/Weapon.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/Character/PlayerCharacter.h"
+#include "XuKit/UI/UIMgr.h"
+#include "XuKit/UI/IUIBase/UITips.h"
 
 UCombatComponent::UCombatComponent()
 {
@@ -114,6 +116,18 @@ void UCombatComponent::Multicast_SwapWeapon_Implementation(bool forward)
 
 void UCombatComponent::AddWeaponToInventory(AWeapon* NewWeapon, bool bEquipWeapon)
 {
+	//如果有武器weaponTag相同的武器，就不添加
+	for (AWeapon* Weapon : Inventory.Weapons)
+	{
+		AProjectionWeapon* ProjectionWeapon = Cast<AProjectionWeapon>(Weapon);
+		AProjectionWeapon* NewProjectionWeapon = Cast<AProjectionWeapon>(NewWeapon);
+		if (ProjectionWeapon && NewProjectionWeapon && ProjectionWeapon->weapon_info.WeaponTag == NewProjectionWeapon->weapon_info.WeaponTag)
+		{
+			UUITips* uiTips=UXuBPFuncLib::GetUIManager(this)->ShowUI<UUITips>();
+			uiTips->SetTipsText(TEXT("你已经有这类武器了"));
+			return;
+		}
+	}
 	Server_AddWeaponToInventory(NewWeapon, bEquipWeapon);
 }
 

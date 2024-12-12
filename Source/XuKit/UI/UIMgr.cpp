@@ -14,6 +14,7 @@
 #include "IUIBase/UIMessageBox.h"
 #include "IUIBase/UIPlayerHUD.h"
 #include "IUIBase/UIStart.h"
+#include "IUIBase/UITips.h"
 #include "XuKit/XuBPFuncLib.h"
 
 
@@ -32,6 +33,7 @@ void UUIMgr::Init()
 		{UUIInteraction::StaticClass(), GetUIPath(TEXT("W_UIInteraction"),TEXT("/UIInteraction"))},
 		{UUIGameMenu::StaticClass(), GetUIPath(TEXT("W_UIGameMenu"),TEXT("/UIGameMenu"))},
 		{UUIGameOverridePanel::StaticClass(), GetUIPath(TEXT("W_UIGameOverridePanel"),TEXT("/UIGameOverridePanel"))},
+		{UUITips::StaticClass(), GetUIPath(TEXT("W_UITips"),TEXT("/UITips"))},
 
 	};
 	isInit = true;
