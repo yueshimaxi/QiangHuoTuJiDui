@@ -4,9 +4,11 @@
 #include "UIGameOverridePanel.h"
 
 #include "Components/Image.h"
+#include "XuKit/XuBPFuncLib.h"
 #include "XuKit/Actor/Weapon/ProjectileWeapon/ProjectionWeapon.h"
 #include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/Character/PlayerCharacter.h"
+#include "XuKit/UI/UIMgr.h"
 #include "XuKit/UI/Base/XuCheckBox.h"
 
 EUILayer UUIGameOverridePanel::GetUILayer() const
@@ -25,6 +27,11 @@ void UUIGameOverridePanel::OnShowed()
 
 	InitTopMenu();
 	InitWeaponPanel();
+
+	Btn_Exit->OnClicked().AddLambda([&]()
+	{
+		UXuBPFuncLib::GetUIManager(this)->HideUI<UUIGameOverridePanel>();
+	});
 }
 
 void UUIGameOverridePanel::InitTopMenu()
