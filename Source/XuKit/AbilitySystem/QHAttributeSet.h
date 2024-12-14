@@ -126,6 +126,18 @@ public:
 	FGameplayAttributeData Gold;
 	ATTRIBUTE_ACCESSORS(UQHAttributeSet, Gold)
 
+	//launch
+	UPROPERTY(BlueprintReadOnly, Category = "Launch")
+	FGameplayAttributeData Launch;
+	ATTRIBUTE_ACCESSORS(UQHAttributeSet, Launch)
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Launch")
+	FGameplayAttributeData MaxLaunch;
+	ATTRIBUTE_ACCESSORS(UQHAttributeSet, MaxLaunch)
+
+	
+	
+
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& oldData) const;
 	UFUNCTION()

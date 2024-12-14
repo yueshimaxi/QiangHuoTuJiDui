@@ -27,7 +27,9 @@ void QHGameplayTags::InitGameplayTags()
 	gameplayTags.ReloadTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Reload"),TEXT("Reload"));
 	gameplayTags.SwapWeaponTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.SwapWeapon"),TEXT("Swap Weapon"));
 	gameplayTags.Abilities_AttackTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Attack"),TEXT("Attack"));
-
+	gameplayTags.LaunchTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Launch"),TEXT("Launch"));
+	gameplayTags.InteractTag = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Ability.Interact"),TEXT("Interact"));
+	
 	gameplayTags.Cooldown_FireTag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Fire"),TEXT("Fire Cooldown"));
 	gameplayTags.Cooldown_ReloadTag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Cooldown.Reload"),TEXT("Reload Cooldown"));
 

@@ -25,7 +25,6 @@ public:
 	FGameplayTag InputTag_MouseLeftTag;
 	FGameplayTag InputTag_MouseRightTag;
 	FGameplayTag InputTag_key_R_tag;
-	FGameplayTag InputTag_Launch;
 
 	//ability tags
 	FGameplayTag DamageTag;
@@ -41,6 +40,8 @@ public:
 	FGameplayTag ReloadTag;
 	FGameplayTag SwapWeaponTag;
 	FGameplayTag Abilities_AttackTag;
+	FGameplayTag LaunchTag;
+	FGameplayTag InteractTag;
 
 
 	//meta data tags

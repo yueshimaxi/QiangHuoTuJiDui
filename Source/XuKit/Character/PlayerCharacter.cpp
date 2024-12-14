@@ -103,12 +103,12 @@ void APlayerCharacter::InitAbilityActorInfo()
 	AQHPlayerState* player_state = GetPlayerState<AQHPlayerState>();
 	qh_ability_system_component = player_state->GetAbilitySystemComponent();
 	qh_attribute_set = Cast<UQHAttributeSet>(player_state->GetAttributeSet());
-	qh_attribute_set->SetPisalReserveAmmo(90);
-	qh_attribute_set->SetMaxPisalReserveAmmo(90);
-	qh_attribute_set->SetRifleReserveAmmo(360);
-	qh_attribute_set->SetMaxRifleReserveAmmo(360);
-	qh_attribute_set->SetShotgunReserveAmmo(45);
-	qh_attribute_set->SetMaxShotgunReserveAmmo(45);
+	// qh_attribute_set->SetPisalReserveAmmo(90);
+	// qh_attribute_set->SetMaxPisalReserveAmmo(90);
+	// qh_attribute_set->SetRifleReserveAmmo(360);
+	// qh_attribute_set->SetMaxRifleReserveAmmo(360);
+	// qh_attribute_set->SetShotgunReserveAmmo(45);
+	// qh_attribute_set->SetMaxShotgunReserveAmmo(45);
 	qh_ability_system_component->InitAbilityActorInfo(player_state, this);
 	Cast<UQHAbilitySystemComponent>(qh_ability_system_component)->AbilitySystemComponentInfoSet();
 }
