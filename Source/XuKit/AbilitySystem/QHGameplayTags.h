@@ -25,6 +25,7 @@ public:
 	FGameplayTag InputTag_MouseLeftTag;
 	FGameplayTag InputTag_MouseRightTag;
 	FGameplayTag InputTag_key_R_tag;
+	FGameplayTag InputTag_Launch;
 
 	//ability tags
 	FGameplayTag DamageTag;

@@ -56,6 +56,7 @@ public:
 	virtual  void Interact_Implementation() override;
 	virtual void DropWeapon_Implementation() override;
 	virtual void EquipWeapon_Implementation(AWeapon* weapon) override;
+	virtual void Dash_Implementation() override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -83,24 +84,7 @@ protected:
 
 	void InitDefaultProjectionWeapon();
 
-	UPROPERTY(EditAnywhere, Category = "AInitInfo")
-	TObjectPtr<UInputAction> input_action_equipWeapon;
-
-	UPROPERTY(EditAnywhere, Category = "AInitInfo")
-	TObjectPtr<UInputAction> input_action_dropWeapon;
-
-	UPROPERTY(EditAnywhere, Category = "AInitInfo")
-	TObjectPtr<UInputAction> input_action_swapWeapon;
-
-
-	UPROPERTY(EditAnywhere, Category = "AInitInfo")
-	TObjectPtr<UInputAction> input_action_attack;
-
-	UPROPERTY(EditAnywhere, Category = "AInitInfo")
-	TObjectPtr<UInputAction> input_action_reload;
-
-	UPROPERTY(EditAnywhere, Category = "AInitInfo")
-	TSubclassOf<UGameplayAbility> GA_Confirm;
+	
 
 	bool bASCInputBound;
 
@@ -151,4 +135,8 @@ public:
 
 	UPROPERTY()
 	ADecalActor* decal_ring;
+
+	UPROPERTY(EditAnywhere)
+	int DashStrength;
+	
 };

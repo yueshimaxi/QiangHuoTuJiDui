@@ -55,4 +55,7 @@ public:
 
 	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
 	void EquipWeapon(class AWeapon* weapon);
+	
+	UFUNCTION(BlueprintCallable,BlueprintNativeEvent,Category="Player")
+	void Dash();
 };

@@ -6,34 +6,35 @@ UENUM(BlueprintType)
 enum class EQHAbilityInputID : uint8
 {
 	// 0 None
-	None				UMETA(DisplayName = "None"),
+	None UMETA(DisplayName = "None"),
 	// 1 Confirm
-	Confirm				UMETA(DisplayName = "Confirm"),
+	Confirm UMETA(DisplayName = "Confirm"),
 	// 2 Cancel
-	Cancel				UMETA(DisplayName = "Cancel"),
+	Cancel UMETA(DisplayName = "Cancel"),
 	// 3 Sprint
-	Sprint				UMETA(DisplayName = "Sprint"),
+	Sprint UMETA(DisplayName = "Sprint"),
 	// 4 Jump
-	Jump				UMETA(DisplayName = "Jump"),
+	Jump UMETA(DisplayName = "Jump"),
 	// 5 PrimaryFire
-	PrimaryFire			UMETA(DisplayName = "Primary Fire"),
+	PrimaryFire UMETA(DisplayName = "Primary Fire"),
 	// 6 SecondaryFire
-	SecondaryFire		UMETA(DisplayName = "Secondary Fire"),
+	SecondaryFire UMETA(DisplayName = "Secondary Fire"),
 	// 7 Alternate Fire
-	AlternateFire		UMETA(DisplayName = "Alternate Fire"),
+	AlternateFire UMETA(DisplayName = "Alternate Fire"),
 	// 8 Reload
-	Reload				UMETA(DisplayName = "Reload"),
+	Reload UMETA(DisplayName = "Reload"),
 	// 9 NextWeapon
-	NextWeapon			UMETA(DisplayName = "Next Weapon"), 
+	NextWeapon UMETA(DisplayName = "Next Weapon"),
 	// 10 PrevWeapon
-	PrevWeapon			UMETA(DisplayName = "Previous Weapon"),
+	PrevWeapon UMETA(DisplayName = "Previous Weapon"),
 	// 11 Interact
-	Interact			UMETA(DisplayName = "Interact"),
+	Interact UMETA(DisplayName = "Interact"),
 	// 12 DropWeapon
-	DropWeapon			UMETA(DisplayName = "Drop Weapon"),
-	Equip0Weapon	UMETA(DisplayName = "Equip 0 Weapon"),
-	Equip1Weapon	UMETA(DisplayName = "Equip 1 Weapon"),
-	Equip2Weapon	UMETA(DisplayName = "Equip 2 Weapon"),
-	Equip3Weapon	UMETA(DisplayName = "Equip 3 Weapon"),
-	
+	DropWeapon UMETA(DisplayName = "Drop Weapon"),
+	Equip0Weapon UMETA(DisplayName = "Equip 0 Weapon"),
+	Equip1Weapon UMETA(DisplayName = "Equip 1 Weapon"),
+	Equip2Weapon UMETA(DisplayName = "Equip 2 Weapon"),
+	Equip3Weapon UMETA(DisplayName = "Equip 3 Weapon"),
+
+	Launch UMETA(DisplayName = "Launch"),
 };

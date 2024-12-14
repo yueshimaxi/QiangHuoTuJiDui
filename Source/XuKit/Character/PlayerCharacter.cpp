@@ -171,10 +171,8 @@ void APlayerCharacter::BindASCInput()
 {
 	if (!bASCInputBound && IsValid(qh_ability_system_component) && IsValid(InputComponent))
 	{
-		qh_ability_system_component->BindAbilityActivationToInputComponent(InputComponent, FGameplayAbilityInputBinds(FString("ConfirmTarget"),
-		                                                                                                              FString("CancelTarget"),
-		                                                                                                              FTopLevelAssetPath(GetPathNameSafe(UClass::TryFindTypeSlow<UEnum>("EQHAbilityInputID"))),
-		                                                                                                              static_cast<int32>(EQHAbilityInputID::Confirm), static_cast<int32>(EQHAbilityInputID::Cancel)));
+		FGameplayAbilityInputBinds input_binds("ConfirmTarget", "CancelTarget", "EQHAbilityInputID", static_cast<int32>(EQHAbilityInputID::Confirm), static_cast<int32>(EQHAbilityInputID::Cancel));
+		qh_ability_system_component->BindAbilityActivationToInputComponent(InputComponent,input_binds);
 
 		bASCInputBound = true;
 	}
@@ -281,6 +279,17 @@ void APlayerCharacter::DropWeapon_Implementation()
 void APlayerCharacter::EquipWeapon_Implementation(AWeapon* weapon)
 {
 	getCombatCom()->Server_EquipWeapon(weapon);
+}
+
+void APlayerCharacter::Dash_Implementation()
+{
+	FVector DashDirection = GetLastMovementInputVector().GetSafeNormal();
+	if (DashDirection.IsNearlyZero())
+	{
+		return;
+	}
+
+	LaunchCharacter(DashDirection * DashStrength, false, false);
 }
 
 void APlayerCharacter::InitDefaultProjectionWeapon()

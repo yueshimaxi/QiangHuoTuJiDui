@@ -93,6 +93,7 @@ void AQHPlayerController::OnMove(const FInputActionValue& input_action_value)
 		pawn->AddMovementInput(forwardDir, moveValue.X);
 		pawn->AddMovementInput(rightDir, moveValue.Y);
 	}
+	
 }
 
 void AQHPlayerController::OnAbliityInputTagPressed(FGameplayTag inputActionTag)
