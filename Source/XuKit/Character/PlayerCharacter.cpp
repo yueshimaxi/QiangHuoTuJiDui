@@ -311,10 +311,6 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 }
 
 
-void APlayerCharacter::InitDefaultAttributesToSelf()
-{
-	ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
-}
 
 void APlayerCharacter::AddCharactorAbilities()
 {

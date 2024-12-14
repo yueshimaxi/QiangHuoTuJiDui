@@ -64,7 +64,7 @@ public:
 	FName TailAttackSocket;
 
 	UPROPERTY(EditAnywhere, Category=" AInitInfo")
-	TSubclassOf<UGameplayEffect> DefaultPrimaryAttributeEffect;
+	TArray<TSubclassOf<UGameplayEffect>> DefaultPrimaryAttributeEffects;
 	void ApplyEffectToSelf(TSubclassOf<UGameplayEffect> DefaultAttributeEffect);
 	virtual void InitDefaultAttributesToSelf() ;
 

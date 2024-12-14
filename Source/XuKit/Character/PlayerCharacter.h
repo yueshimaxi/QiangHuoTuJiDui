@@ -96,7 +96,6 @@ public:
 	
 
 
-	virtual void InitDefaultAttributesToSelf() override;
 
 	virtual void AddCharactorAbilities() override;
 

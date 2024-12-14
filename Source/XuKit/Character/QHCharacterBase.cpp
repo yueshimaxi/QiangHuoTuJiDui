@@ -121,7 +121,10 @@ void AQHCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> DefaultAtt
 
 void AQHCharacterBase::InitDefaultAttributesToSelf()
 {
-	ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
+	for (TSubclassOf<UGameplayEffect> DefaultPrimaryAttributeEffect : DefaultPrimaryAttributeEffects)
+	{
+		ApplyEffectToSelf(DefaultPrimaryAttributeEffect);
+	}
 }
 
 void AQHCharacterBase::Die()

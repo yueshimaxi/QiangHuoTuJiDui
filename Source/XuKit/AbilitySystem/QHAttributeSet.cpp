@@ -55,6 +55,13 @@ void UQHAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallback
 	}
 
 
+	if (Data.EvaluatedData.Attribute == GetLaunchAttribute())
+	{
+		SetLaunch(FMath::Clamp(GetLaunch(), 0.f, GetMaxLaunch()));
+		XuPRINT(FString::Printf(TEXT("changeLaunch on %s : Launch:%f"),*EffectProperties.TargetAvaterActor->GetName(), GetLaunch()));
+	}
+
+
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
 		float newHealth = FMath::Max<float>(0, GetHealth() - GetIncomingDamage());

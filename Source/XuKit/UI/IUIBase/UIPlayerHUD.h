@@ -88,6 +88,12 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	float curHealth;
 
+	UPROPERTY(BlueprintReadWrite)
+	float curMaxLaunch;
+
+	UPROPERTY(BlueprintReadWrite)
+	float curLaunch;
+
 	UFUNCTION(BlueprintCallable)
 	void SetHealth(float NewValue);
 
@@ -95,6 +101,14 @@ public:
 	void SetMaxHealth(float NewValue);
 
 	void SetHealthProgress();
+
+	UFUNCTION(BlueprintCallable)
+	void SetLaunch(float NewValue);
+
+	UFUNCTION(BlueprintCallable)
+	void SetMaxLaunch(float NewValue);
+
+	void SetLaunchProgress();
 
 
 	UPROPERTY(BlueprintReadWrite)

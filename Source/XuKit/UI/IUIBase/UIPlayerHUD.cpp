@@ -91,6 +91,30 @@ void UUIPlayerHUD::SetHealthProgress()
 	}
 }
 
+void UUIPlayerHUD::SetLaunch(float NewValue)
+{
+	curLaunch = NewValue;
+	SetLaunchProgress();
+}
+
+void UUIPlayerHUD::SetMaxLaunch(float NewValue)
+{
+	curMaxLaunch = NewValue;
+	SetLaunchProgress();
+}
+
+void UUIPlayerHUD::SetLaunchProgress()
+{
+	if (curMaxLaunch == 0)
+	{
+		Rush_progress_bar->SetPercent(0);
+	}
+	else
+	{
+		Rush_progress_bar->SetPercent(curLaunch / curMaxLaunch);
+	}
+}
+
 
 void UUIPlayerHUD::OnFreshHUDEvent(UEventData* event_data)
 {
@@ -116,8 +140,12 @@ void UUIPlayerHUD::OnFreshHUDEvent(UEventData* event_data)
 			int allBackpackAmmo = weapon->GetCurReserveAmmo();
 			SetHUDAmmo(weapon->GetPrimaryClipAmmo(), allBackpackAmmo, weapon->weapon_info);
 		}
-		curMaxHealth = widget_controller_params.qh_AttributeSet->GetMaxHealth();
-		curHealth = widget_controller_params.qh_AttributeSet->GetHealth();
-		SetHealthProgress();
+		// curMaxHealth = widget_controller_params.qh_AttributeSet->GetMaxHealth();
+		// curHealth = widget_controller_params.qh_AttributeSet->GetHealth();
+		// SetHealthProgress();
+		SetHealth(widget_controller_params.qh_AttributeSet->GetHealth());
+		SetMaxHealth(widget_controller_params.qh_AttributeSet->GetMaxHealth());
+		SetLaunch(widget_controller_params.qh_AttributeSet->GetLaunch());
+		SetMaxLaunch(widget_controller_params.qh_AttributeSet->GetMaxLaunch());
 	}
 }
