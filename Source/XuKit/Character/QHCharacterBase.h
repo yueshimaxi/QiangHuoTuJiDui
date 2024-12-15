@@ -7,6 +7,7 @@
 #include "NiagaraSystem.h"
 #include "GameFramework/Character.h"
 #include "XuKit/AbilitySystem/QHAttributeSet.h"
+#include "XuKit/AbilitySystem/Ability/QHGameplayAbility.h"
 #include "XuKit/Interface/CombatInterface.h"
 #include "QHCharacterBase.generated.h"
 

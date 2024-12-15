@@ -70,6 +70,20 @@ public:
 	FGameplayTag Weapon_Plasma_LaserGun;
 	FGameplayTag Weapon_Hero_BlackGatling;
 
+	//	NPC,
+	//Weapon,
+	//Door,
+	//Prop,//道具
+	//Ammo
+	FGameplayTag Interact_NPC;
+	FGameplayTag Interact_Weapon;
+	FGameplayTag Interact_Door;
+	FGameplayTag Interact_Prop_Ammo;
+	FGameplayTag Interact_Prop_HPBag;
+	
+	
+	
+
 	static TArray<FGameplayTag> GetTagsWithPrefix(FGameplayTag Prefix);
 
 private:

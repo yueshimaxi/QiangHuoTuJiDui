@@ -3,6 +3,8 @@
 
 #include "Prop.h"
 
+#include "XuKit/AbilitySystem/QHGameplayTags.h"
+
 
 // Sets default values
 AProp::AProp()
@@ -24,8 +26,8 @@ void AProp::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-EInteractionType AProp::GetInteractionType_Implementation()
+FGameplayTag AProp::GetInteractionType_Implementation()
 {
-	return EInteractionType::Prop;
+	return 	FGameplayTag::RequestGameplayTag(FName("Interact_Prop"));
 }
 

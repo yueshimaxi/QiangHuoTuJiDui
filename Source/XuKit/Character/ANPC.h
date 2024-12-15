@@ -6,6 +6,7 @@
 #include "QHCharacterBase.h"
 #include "DlgSystem/DlgDialogue.h"
 #include "GameFramework/Character.h"
+#include "XuKit/Interface/IInteractionIterface.h"
 #include "Anpc.generated.h"
 
 UCLASS()
@@ -19,7 +20,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NPC")
 	UDlgDialogue* DialogueAsset;
 
-	virtual EInteractionType GetInteractionType_Implementation() override;
+	virtual FGameplayTag GetInteractionType_Implementation() override;
+
+	virtual void Interaction_Implementation(APlayerCharacter* playerCharacter) override;
 
 
 };

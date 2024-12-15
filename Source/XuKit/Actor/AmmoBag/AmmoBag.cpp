@@ -28,10 +28,16 @@ void AAmmoBag::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-EInteractionType AAmmoBag::GetInteractionType_Implementation()
+FGameplayTag AAmmoBag::GetInteractionType_Implementation()
 {
-	return EInteractionType::Ammo;
+	return QHGameplayTags::Get().Interact_Prop_Ammo;
 }
+
+void AAmmoBag::Interaction_Implementation(APlayerCharacter* playerCharacter)
+{
+	ReplenishAmmo(playerCharacter);
+}
+
 
 void AAmmoBag::ReplenishAmmo(APlayerCharacter* player_character)
 {

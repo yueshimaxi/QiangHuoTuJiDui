@@ -47,6 +47,13 @@ void QHGameplayTags::InitGameplayTags()
 	gameplayTags.Weapon_Explode_Rocket = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Explode.Sniper"),TEXT("Weapon Explode Sniper"));
 	gameplayTags.Weapon_Plasma_LaserGun = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Plasma.LaserGun"),TEXT("Weapon Plasma LaserGun"));
 	gameplayTags.Weapon_Hero_BlackGatling = UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Weapon.Hero.Grenade"),TEXT("Weapon Hero Grenade"));
+
+	gameplayTags.Interact_NPC= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Interact.NPC"),TEXT("Interact NPC"));
+	gameplayTags.Interact_Weapon= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Interact.Weapon"),TEXT("Interact Weapon"));
+	gameplayTags.Interact_Door= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Interact.Door"),TEXT("Interact Door"));
+	gameplayTags.Interact_Prop_Ammo= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Interact.Prop.Ammo"),TEXT("Interact Prop Ammo"));
+	gameplayTags.Interact_Prop_HPBag= UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Interact.Prop.HPBag"),TEXT("Interact Prop HPBag"));
+	
 }
 
 TArray<FGameplayTag> QHGameplayTags::GetTagsWithPrefix(FGameplayTag Prefix)

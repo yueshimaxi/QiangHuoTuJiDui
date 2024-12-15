@@ -31,7 +31,9 @@ public:
 	UPROPERTY(EditAnywhere,Category="AInitInfo")
 	FGameplayTag AmmoTag;
 
-	virtual EInteractionType GetInteractionType_Implementation() override;
+	virtual FGameplayTag GetInteractionType_Implementation() override;
+
+	virtual void Interaction_Implementation(APlayerCharacter* playerCharacter) override;
 
 	//补充弹药
 	void ReplenishAmmo(APlayerCharacter* player_character);

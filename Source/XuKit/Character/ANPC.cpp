@@ -3,12 +3,20 @@
 
 #include "ANPC.h"
 
+#include "XuKit/AbilitySystem/QHGameplayTags.h"
+
 
 ANPC::ANPC()
 {
 }
 
-EInteractionType ANPC::GetInteractionType_Implementation()
+FGameplayTag ANPC::GetInteractionType_Implementation()
 {
-	return EInteractionType::NPC;
+	return QHGameplayTags::Get().Interact_NPC;
 }
+
+void ANPC::Interaction_Implementation(APlayerCharacter* playerCharacter)
+{
+	playerCharacter->StartDialogue(DialogueAsset);
+}
+

@@ -6,7 +6,6 @@
 #include "GameplayTagContainer.h"
 #include "UObject/Interface.h"
 #include "XuKit/AbilitySystem/Data/CharactorClassInfo.h"
-#include "XuKit/Actor/Weapon/Weapon.h"
 #include "CombatInterface.generated.h"
 
 class AProjectionWeapon;

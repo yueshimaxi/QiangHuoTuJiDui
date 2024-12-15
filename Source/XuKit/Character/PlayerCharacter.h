@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "QHCharacterBase.h"
+#include "Components/SphereComponent.h"
 #include "DlgSystem/DlgDialogue.h"
 #include "Engine/DecalActor.h"
 #include "XuKit/Interface/CombatInterface.h"
-#include "XuKit/Interface/IInteractionIterface.h"
 #include "XuKit/Interface/PlayerInterface.h"
 #include "XuKit/UI/IUIBase/UIInteraction.h"
 #include "PlayerCharacter.generated.h"
@@ -137,5 +137,8 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	int DashStrength;
+
+	UFUNCTION()
+	void PickWeapon(AWeapon* weapon);
 	
 };

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "XuKit/Character/PlayerCharacter.h"
 #include "IInteractionIterface.generated.h"
 
 UENUM(Blueprintable,BlueprintType)
@@ -32,5 +33,8 @@ class XUKIT_API IIInteractionIterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
-	EInteractionType GetInteractionType();
+	FGameplayTag GetInteractionType();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	void Interaction(APlayerCharacter* playerCharacter);	
 };

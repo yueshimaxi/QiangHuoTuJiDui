@@ -42,8 +42,10 @@ protected:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 
+	
 public:
-	virtual EInteractionType GetInteractionType_Implementation() override;
+	virtual FGameplayTag GetInteractionType_Implementation() override;
+	virtual void Interaction_Implementation(APlayerCharacter* playerCharacter) override;
 public:	
 	UPROPERTY(EditAnywhere)
 	USkeletalMeshComponent* weapon_mesh_component;

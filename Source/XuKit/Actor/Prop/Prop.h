@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "GameFramework/Actor.h"
 #include "XuKit/Interface/IInteractionIterface.h"
 #include "Prop.generated.h"
@@ -24,5 +25,5 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	virtual EInteractionType GetInteractionType_Implementation() override;
+	virtual FGameplayTag GetInteractionType_Implementation() override;
 };

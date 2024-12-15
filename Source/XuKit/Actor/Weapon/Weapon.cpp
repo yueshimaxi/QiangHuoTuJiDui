@@ -9,6 +9,8 @@
 #include "XuKit/XuBPFuncLib.h"
 #include "XuKit/XuKit.h"
 #include "XuKit/AbilitySystem/QHAbilitySystemComponent.h"
+#include "XuKit/AbilitySystem/QHGameplayTags.h"
+#include "XuKit/ActorComponent/CombatComponent.h"
 #include "XuKit/Character/PlayerCharacter.h"
 
 // Sets default values
@@ -58,10 +60,16 @@ void AWeapon::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeP
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 }
 
-EInteractionType AWeapon::GetInteractionType_Implementation()
+FGameplayTag AWeapon::GetInteractionType_Implementation()
 {
-	return  EInteractionType::Weapon;
+	return QHGameplayTags::Get().Interact_Weapon;
 }
+
+void AWeapon::Interaction_Implementation(APlayerCharacter* playerCharacter)
+{
+	playerCharacter->PickWeapon(this);
+}
+
 
 void AWeapon::SetWeaponState(EWeaponState state,APlayerCharacter* character)
 {

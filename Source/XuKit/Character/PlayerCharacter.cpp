@@ -172,7 +172,7 @@ void APlayerCharacter::BindASCInput()
 	if (!bASCInputBound && IsValid(qh_ability_system_component) && IsValid(InputComponent))
 	{
 		FGameplayAbilityInputBinds input_binds("ConfirmTarget", "CancelTarget", "EQHAbilityInputID", static_cast<int32>(EQHAbilityInputID::Confirm), static_cast<int32>(EQHAbilityInputID::Cancel));
-		qh_ability_system_component->BindAbilityActivationToInputComponent(InputComponent,input_binds);
+		qh_ability_system_component->BindAbilityActivationToInputComponent(InputComponent, input_binds);
 
 		bASCInputBound = true;
 	}
@@ -241,34 +241,10 @@ void APlayerCharacter::Interact_Implementation()
 		return;
 	}
 
-	EInteractionType interactType = IIInteractionIterface::Execute_GetInteractionType(cur_interaction_actor);
-	switch (interactType)
-	{
-	case NPC:
-		if (ANPC* npc = Cast<ANPC>(cur_interaction_actor))
-		{
-			StartDialogue(npc->DialogueAsset);
-		}
-		break;
-	case Weapon:
-		if (AWeapon* weapon = Cast<AWeapon>(cur_interaction_actor))
-		{
-			getCombatCom()->AddWeaponToInventory(weapon, getCombatCom()->Inventory.Weapons.Num() == 0);
-		}
+	//FGameplayTag interactType = IIInteractionIterface::Execute_GetInteractionType(cur_interaction_actor);
+	IIInteractionIterface::Execute_Interaction(cur_interaction_actor, this);
 
-		break;
-	case Door:
-		break;
-	case Prop:
-		break;
-	case Ammo:
-		if (AAmmoBag* ammo_bag = Cast<AAmmoBag>(cur_interaction_actor))
-		{
-			ammo_bag->ReplenishAmmo(this);
-		}
-		break;
-	default: ;
-	}
+
 }
 
 void APlayerCharacter::DropWeapon_Implementation()
@@ -311,7 +287,6 @@ void APlayerCharacter::SetPawnRotatorToMouseCursor()
 }
 
 
-
 void APlayerCharacter::AddCharactorAbilities()
 {
 	UQHAbilitySystemComponent* ABS = Cast<UQHAbilitySystemComponent>(qh_ability_system_component);
@@ -328,7 +303,7 @@ void APlayerCharacter::FreshHUD()
 
 void APlayerCharacter::OnInteractionShpereOverlapBegin(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_comp, int32 other_body_index, bool b_from_sweep, const FHitResult& sweep_result)
 {
-	if (IIInteractionIterface* interaction_interface = Cast<IIInteractionIterface>(other_actor))
+	if (other_actor->Implements<UIInteractionIterface>())
 	{
 		cur_interaction_interface_actor_array.Add(other_actor);
 	}
@@ -336,7 +311,7 @@ void APlayerCharacter::OnInteractionShpereOverlapBegin(UPrimitiveComponent* over
 
 void APlayerCharacter::OnInteractionShpereOverlapEnd(UPrimitiveComponent* overlapped_component, AActor* other_actor, UPrimitiveComponent* other_comp, int32 other_body_index)
 {
-	if (IIInteractionIterface* interaction_interface = Cast<IIInteractionIterface>(other_actor))
+	if (other_actor->Implements<UIInteractionIterface>())
 	{
 		cur_interaction_interface_actor_array.Remove(other_actor);
 	}
@@ -400,6 +375,12 @@ void APlayerCharacter::UpdateInteractionUIMousePosition()
 
 
 	last_interaction_actor = cur_interaction_actor;
+}
+
+void APlayerCharacter::PickWeapon(AWeapon* weapon)
+{
+	getCombatCom()->AddWeaponToInventory(weapon, getCombatCom()->Inventory.Weapons.Num() == 0);
+
 }
 
 void APlayerCharacter::StartDialogue_Implementation(UDlgDialogue* dialogueAsset)
